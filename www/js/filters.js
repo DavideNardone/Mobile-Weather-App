@@ -9,6 +9,13 @@ angular.module('ionic.weather.filters', ['ionic.weather.services'])
   };
 })
 
+
+.filter('int', function() {
+    return function(v) {
+      return parseInt(v) || '';
+    };
+  })
+
 // Silly Wunderground uses a different name for f/c in the hourly forecast
 .filter('tempEnglish', function(Settings) {
   return function(input) {
@@ -23,4 +30,12 @@ angular.module('ionic.weather.filters', ['ionic.weather.services'])
   return function(input) {
     return parseInt(input);
   }
-});
+})
+
+  .filter('int', function() {
+    return function(v) {
+      return parseInt(v) || '';
+    };
+  });
+;
+
