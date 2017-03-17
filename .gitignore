@@ -8,3 +8,5 @@ plugins/
 *.sw*
 platforms/^.*
 .idea
+
+config.xml
