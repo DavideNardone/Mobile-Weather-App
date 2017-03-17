@@ -1,4 +1,11 @@
-angular.module('ionic.weather', ['ionic', 'ionic.weather.services', 'ionic.weather.filters', 'ionic.weather.directives'])
+angular.module('ionic.weather', [
+  'ionic',
+  'ionic.weather.services',
+  'ionic.weather.filters',
+  'ionic.weather.directives',
+  'ionic.weather.controllers',
+  'ionic-sidemenu'
+])
 
 .constant('WUNDERGROUND_API_KEY', '1cc2d3de40fa5af0')
 
@@ -17,21 +24,67 @@ angular.module('ionic.weather', ['ionic', 'ionic.weather.services', 'ionic.weath
     $stateProvider
 
     //INTRO
-      .state('tab', {
-        url: "/tab",
-        templateUrl: "templates/tabs.html",
-        abstract: true
+    //   .state('tab', {
+    //     url: "/tab",
+    //     templateUrl: "templates/tabs.html",
+    //     abstract: true
+    //   })
+    //
+    //   .state('home', {
+    //     url: '/home',
+    //     templateUrl: "templates/home.html",
+    //     controller: 'WeatherCtrl'
+    //   })
+
+      .state('app', {
+        url: '/app',
+        abstract: true,
+        templateUrl: 'templates/menu.html',
+        controller: 'AppCtrl'
       })
 
-      .state('home', {
-        url: '/home',
-        templateUrl: "templates/home.html",
-        controller: 'WeatherCtrl'
+      .state('app.search', {
+        url: '/search',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/search.html',
+            controller: 'SearchCtrl'
+          }
+        }
+      })
+
+      .state('app.browse', {
+        url: '/browse',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/browse.html',
+            controller: 'BrowseCtrl'
+          }
+        }
+      })
+      .state('app.playlists', {
+        url: '/playlists',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/home.html',
+            controller: 'WeatherCtrl'
+          }
+        }
+      })
+
+      .state('app.single', {
+        url: '/playlists/:playlistId',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/playlist.html',
+            controller: 'PlaylistCtrl'
+          }
+        }
       })
 
 
     ;
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/home');
+    $urlRouterProvider.otherwise('/app/playlists');
   });

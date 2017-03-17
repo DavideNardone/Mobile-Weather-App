@@ -1,7 +1,7 @@
 {
-  "name": "ionic-weather2",
-  "version": "1.1.1",
-  "description": "ionic-weather2: An Ionic project",
+  "name": "ionic-weather",
+  "version": "1.0.0",
+  "description": "ionic-weather: An Ionic project",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^2.0.4",
@@ -20,7 +20,8 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
-    "ionic-plugin-keyboard"
+    "ionic-plugin-keyboard",
+    "cordova-plugin-geolocation"
   ],
   "cordovaPlatforms": [
     "ios",
