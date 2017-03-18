@@ -1,13 +1,19 @@
 <html>
   <head>
+    <!-- Sets initial viewport load and disables zooming  -->
     <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta http-equiv="Content-Security-Policy" content="
+                      connect-src * 'unsafe-eval';
+                      object-src 'self';
+                      style-src * 'unsafe-inline';
+                      img-src *">
     <title>Weather</title>
 
-    <!-- Sets initial viewport load and disables zooming  -->
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="lib/css/ionic.css">
 
+    <link rel="stylesheet" href="lib/css/ionic.css">
     <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/ionic.app.css">
 
     <script src="http://maps.google.com/maps/api/js?key=AIzaSyAqZIF5tn4GvNZX7qw5XNDVTLFTkmfNyQU&sensor=true"></script>
 
@@ -32,51 +38,7 @@
     <!--<script src="cordova.js"></script>-->
   </head>
 
-  <body ng-app="ionic.weather" class="platform-ios platform-cordova platform-webview">
+  <body ng-app="ionic.weather">
   <ion-nav-view></ion-nav-view>
-  <!--<body ng-controller="WeatherCtrl">-->
-
-      <!--<background-cycler class="bg-fade"></background-cycler>-->
-
-      <!--<ion-header-bar id="header" class="bar bar-header bar-clear">-->
-        <!--<h1 class="title">-->
-          <!--<span class="city"><i id="city-nav-icon" class="icon ion-navigate"></i> {{currentLocationString}}</span><br>-->
-          <!--<current-time localtz="current.local_tz_short"></current-time>-->
-        <!--</h1>-->
-        <!--<button ng-click="showSettings()" class="button button-icon"><i class="icon ion-gear-a"></i></button>-->
-      <!--</ion-header-bar>-->
-
-      <!--<ion-content scroll-event-interval="20" scroll-effects scrollbar-y="false" class="no-header">-->
-        <!--<ion-refresher on-refresh="refreshData()"></ion-refresher>-->
-        <!--<div id="main-content">-->
-          <!--<current-weather></current-weather>-->
-          <!--<forecast></forecast>-->
-        <!--</div>-->
-      <!--</ion-content>-->
-
-
-
-    <!--<script id="settings.html" type="text/ng-template">-->
-      <!--<div id="settings-modal" class="modal" ng-controller="SettingsCtrl">-->
-        <!--<ion-header-bar class="bar bar-header bar-dark">-->
-          <!--<h1 class="title">Settings</h1>-->
-          <!--<button class="button button-clear" ng-click="closeSettings()">Close</button>-->
-        <!--</ion-header-bar>-->
-        <!--<ion-content has-header="true">-->
-          <!--<div class="padding">-->
-            <!--<div class="list">-->
-              <!--<label class="item item-input">-->
-                <!--<span class="input-label">Units</span>-->
-
-                <!--<ion-radio-buttons ng-model="settings.tempUnits">-->
-                  <!--<button class="button button-positive button-radio" ng-value="'f'">&deg;F</button>-->
-                  <!--<button class="button button-positive button-radio" ng-value="'c'">&deg;C</button>-->
-                <!--</ion-radio-buttons>-->
-              <!--</label>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</ion-content>-->
-      <!--</div>-->
-    <!--</script>-->
   </body>
 </html>

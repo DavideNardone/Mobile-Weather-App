@@ -13,6 +13,23 @@ angular.module('ionic.weather', [
 
 .constant('FLICKR_API_KEY', '504fd7414f6275eb5b657ddbfba80a2c')
 
+  .run(function($ionicPlatform) {
+    $ionicPlatform.ready(function() {
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if (window.cordova && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        cordova.plugins.Keyboard.disableScroll(true);
+
+      }
+      if (window.StatusBar) {
+        // org.apache.cordova.statusbar required
+        StatusBar.styleDefault();
+      }
+    });
+  })
+
+
   .config(function($stateProvider, $urlRouterProvider) {
 
     // $ionicConfigProvider.tabs.position('bottom');
@@ -40,7 +57,7 @@ angular.module('ionic.weather', [
         url: '/app',
         abstract: true,
         templateUrl: 'templates/menu.html',
-        controller: 'AppCtrl'
+        controller: 'sideMenuCtrl'
       })
 
       .state('app.search', {
@@ -62,8 +79,8 @@ angular.module('ionic.weather', [
           }
         }
       })
-      .state('app.playlists', {
-        url: '/playlists',
+      .state('app.home', {
+        url: '/home',
         views: {
           'menuContent': {
             templateUrl: 'templates/home.html',
@@ -86,5 +103,5 @@ angular.module('ionic.weather', [
     ;
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/playlists');
+    $urlRouterProvider.otherwise('/app/home');
   });

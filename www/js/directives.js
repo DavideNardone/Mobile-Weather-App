@@ -66,7 +66,8 @@ angular.module('ionic.weather.directives', [])
       return function($scope, $element, $attr) {
 
         $rootScope.$on('settings.changed', function(settings) {
-          var units = Settings.get('tempUnits');
+          var units = Settings.getTempUnits();
+          console.log("CIAOOO");
 
           if($scope.forecast) {
 

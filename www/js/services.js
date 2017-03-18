@@ -100,7 +100,7 @@ var forecastioWeather = ['$q', '$resource', '$http', 'FORECASTIO_KEY', function(
 angular.module('ionic.weather.services', ['ngResource'])
 
 .constant('DEFAULT_SETTINGS', {
-  'tempUnits': 'f'
+  'tempUnits': 'c'
 })
 
 .factory('Settings', function($rootScope, DEFAULT_SETTINGS) {
@@ -225,7 +225,7 @@ angular.module('ionic.weather.services', ['ngResource'])
   return {
     search: function(tags, lat, lng) {
       var q = $q.defer();
-  
+
       console.log('Searching flickr for tags', tags);
 
       flickrSearch.get({

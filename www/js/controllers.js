@@ -201,6 +201,7 @@ angular.module('ionic.weather.controllers',[])
       title: 'Cowbell',
       id: 6
     }];
+
   })
   .controller('BrowseCtrl', function($scope) {
     $scope.playlists = [{
@@ -224,44 +225,27 @@ angular.module('ionic.weather.controllers',[])
     }];
   })
 
-  .controller('SideMenuCtrl', function($scope) {
+  .controller('sideMenuCtrl', function($scope) {
 
     $scope.theme = 'ionic-sidemenu-stable';
 
     $scope.tree =
-      [{
+      [
+        {
         id: 1,
         level: 0,
-        name: 'Maps',
+        name: 'Home',
         icon: "ion-map",
-        items: [{
-          id: 10,
-          level: 1,
-          name: 'Marker',
-          icon: "ion-ios-location",
-          items: [{
-            id: 100,
-            name: 'Images',
-            level: 2,
-            icon: "ion-image",
-            state: 'app.search',
-            items: null
-          }, {
-            id: 101,
-            level: 2,
-            name: 'User',
-            icon: "ion-person",
-            state: 'app.browse',
-            items: null
-          }]
-        }]
-      }, {
-        id: 2,
-        name: "Buy",
-        icon: "ion-card",
-        level: 0,
-        state: 'app.playlists'
-      }];
+          state: 'app.home'
+      },
+        {
+          id: 2,
+          name: "Buy",
+          icon: "ion-card",
+          level: 0,
+          state: 'app.search'
+        }
+      ];
   })
 
 
