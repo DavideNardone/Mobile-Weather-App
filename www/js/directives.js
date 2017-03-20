@@ -74,7 +74,7 @@ angular.module('ionic.weather.directives', [])
             var forecast = $scope.forecast;
             var current = $scope.current;
 
-            if(units == 'f') {
+            if(units == 'c') {
               $scope.highTemp = forecast.forecastday[0].high.fahrenheit;
               $scope.lowTemp = forecast.forecastday[0].low.fahrenheit;
               $scope.currentTemp = Math.floor(current.temp_f);

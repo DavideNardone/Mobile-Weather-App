@@ -96,26 +96,12 @@ angular.module('ionic.weather.controllers',[])
           }
         })
           .success(function (data, status) {
-
-            // console.log(data);
-            console.log("here");
-
-            // $scope.modal = $ionicModal.fromTemplateUrl('../www/views/modals/info_announcement.html', {
-            //   scope: $scope,
-            //   animation: 'slide-in-up'
-            // }).then(function(modal) {
-            //   modal.info_candidates = data;
-            //   modal.info_announcement = obj;
-            //
-            //   modal.info_announcement.data_scadenza = $filter('date')(modal.info_announcement.data_scadenza,'dd-MM-yyyy');
-            //   $scope.modal = modal;
-            //
-            //   $scope.modal.show();
-            // });
-
-            // $scope.close=function () {
-            //   $scope.modal.hide();
-            // };
+            console.log(data.places[0].id);
+            var id_com = data.places[0].id;
+            console.log(data.places[0].long_name.it);
+            $scope.currentLocationString = data.places[0].long_name.it;
+            _this.getBackgroundImage(lat, lng, $scope.currentLocationString);
+            //_this.getCurrent(lat, lng); temperstura da ferecast.io
 
           })
           .error(function (data, status) {
