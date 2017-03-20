@@ -40,19 +40,6 @@ angular.module('ionic.weather', [
 
     $stateProvider
 
-    //INTRO
-    //   .state('tab', {
-    //     url: "/tab",
-    //     templateUrl: "templates/tabs.html",
-    //     abstract: true
-    //   })
-    //
-    //   .state('home', {
-    //     url: '/home',
-    //     templateUrl: "templates/home.html",
-    //     controller: 'WeatherCtrl'
-    //   })
-
       .state('app', {
         url: '/app',
         abstract: true,
@@ -60,25 +47,6 @@ angular.module('ionic.weather', [
         controller: 'sideMenuCtrl'
       })
 
-      .state('app.search', {
-        url: '/search',
-        views: {
-          'menuContent': {
-            templateUrl: 'templates/search.html',
-            controller: 'SearchCtrl'
-          }
-        }
-      })
-
-      .state('app.browse', {
-        url: '/browse',
-        views: {
-          'menuContent': {
-            templateUrl: 'templates/browse.html',
-            controller: 'BrowseCtrl'
-          }
-        }
-      })
       .state('app.home', {
         url: '/home',
         views: {
@@ -89,15 +57,36 @@ angular.module('ionic.weather', [
         }
       })
 
-      .state('app.single', {
-        url: '/playlists/:playlistId',
-        views: {
-          'menuContent': {
-            templateUrl: 'templates/playlist.html',
-            controller: 'PlaylistCtrl'
-          }
-        }
-      })
+      // .state('app.search', {
+      //   url: '/search',
+      //   views: {
+      //     'menuContent': {
+      //       templateUrl: 'templates/search.html',
+      //       controller: 'SearchCtrl'
+      //     }
+      //   }
+      // })
+
+      // .state('app.browse', {
+      //   url: '/browse',
+      //   views: {
+      //     'menuContent': {
+      //       templateUrl: 'templates/browse.html',
+      //       controller: 'BrowseCtrl'
+      //     }
+      //   }
+      // })
+
+
+      // .state('app.single', {
+      //   url: '/playlists/:playlistId',
+      //   views: {
+      //     'menuContent': {
+      //       templateUrl: 'templates/playlist.html',
+      //       controller: 'PlaylistCtrl'
+      //     }
+      //   }
+      // })
 
 
     ;
