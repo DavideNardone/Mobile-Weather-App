@@ -11,7 +11,7 @@ angular.module('ionic.weather.controllers',[])
   //   };
   // })
 
-  .controller('WeatherCtrl', function($scope, $timeout, $rootScope, Weather, Geo, Flickr, $ionicModal, $ionicPlatform) {
+  .controller('WeatherCtrl', function($scope, $timeout, $rootScope, Weather, Geo, Flickr, $ionicModal, $ionicPlatform, $ionicPopup,$http) {
     var _this = this;
 
     $ionicPlatform.ready(function() {
@@ -69,6 +69,7 @@ angular.module('ionic.weather.controllers',[])
     };
 
     this.cycleBgImages = function() {
+
       $timeout(function cycle() {
         if($scope.bgImages) {
           $scope.activeBgImage = $scope.bgImages[$scope.activeBgImageIndex++ % $scope.bgImages.length];
@@ -82,11 +83,61 @@ angular.module('ionic.weather.controllers',[])
         var lat = position.coords.latitude;
         var lng = position.coords.longitude;
 
-        Geo.reverseGeocode(lat, lng).then(function(locString) {
-          $scope.currentLocationString = locString;
-          _this.getBackgroundImage(lat, lng, locString.replace(', ', ','));
-        });
-        _this.getCurrent(lat, lng);
+        var q_url = 'http://192.167.9.103:5050/places/search/bycoords/'+lat+'/'+lng+'?filter=com';
+        console.log(lat);
+        console.log(lng);
+        console.log(q_url);
+
+        $http({
+          method :'GET',
+          url: q_url,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+          .success(function (data, status) {
+
+            // console.log(data);
+            console.log("here");
+
+            // $scope.modal = $ionicModal.fromTemplateUrl('../www/views/modals/info_announcement.html', {
+            //   scope: $scope,
+            //   animation: 'slide-in-up'
+            // }).then(function(modal) {
+            //   modal.info_candidates = data;
+            //   modal.info_announcement = obj;
+            //
+            //   modal.info_announcement.data_scadenza = $filter('date')(modal.info_announcement.data_scadenza,'dd-MM-yyyy');
+            //   $scope.modal = modal;
+            //
+            //   $scope.modal.show();
+            // });
+
+            // $scope.close=function () {
+            //   $scope.modal.hide();
+            // };
+
+          })
+          .error(function (data, status) {
+
+            var alertPopup = $ionicPopup.alert({
+              title: 'Errore connessione!',
+              template: 'Si prega di controllare la connessione ad internet!'
+            });
+
+          })
+          .finally(function ($ionicLoading) {
+            // $scope.hide($ionicLoading);
+          });
+
+
+
+
+        // Geo.reverseGeocode(lat, lng).then(function(locString) {
+        //   $scope.currentLocationString = locString;
+        //   _this.getBackgroundImage(lat, lng, locString.replace(', ', ','));
+        // });
+        // _this.getCurrent(lat, lng);
       }, function(error) {
         alert('Unable to get current location: ' + error);
       });
@@ -182,6 +233,7 @@ angular.module('ionic.weather.controllers',[])
   .controller('PlaylistCtrl', function($scope, $stateParams) {})
 
   .controller('SearchCtrl', function($scope) {
+
     $scope.playlists = [{
       title: 'Reggae',
       id: 1
@@ -236,7 +288,7 @@ angular.module('ionic.weather.controllers',[])
         level: 0,
         name: 'Home',
         icon: "ion-map",
-          state: 'app.home'
+        state: 'app.home'
       },
         {
           id: 2,

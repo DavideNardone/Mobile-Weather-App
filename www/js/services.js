@@ -183,7 +183,7 @@ angular.module('ionic.weather.services', ['ngResource'])
           console.log('reverse fail', results, status);
           q.reject(results);
         }
-      })
+      });
 
       return q.promise;
     },
