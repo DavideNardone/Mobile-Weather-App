@@ -1,7 +1,7 @@
 angular.module('ionic.weather.controllers',[])
 
 
-  .controller('WeatherCtrl', function($scope, $timeout, $rootScope, Weather, Geo, Flickr, $ionicModal, $ionicLoading, $ionicPlatform, $ionicPopup, $http) {
+  .controller('WeatherCtrl', function($scope, $timeout, $rootScope, Weather, Geo, Flickr, $ionicModal, $ionicLoading, $ionicPlatform, $ionicPopup, $http, $filter) {
     var _this = this;
 
     // $ionicPlatform.ready(function() {
@@ -95,8 +95,7 @@ angular.module('ionic.weather.controllers',[])
 
           $scope.daily_forecast = [];
 
-
-          var info_day = {};
+          //TODO: add min and max temp for the current_day
 
           for (var i=init; i < (144 - hour); i=i+24) {
 
@@ -104,8 +103,15 @@ angular.module('ionic.weather.controllers',[])
 
             info_day.icon = data.timeseries.runs.time[i+12].icon;
 
-            //FIXME: convert to date with format YYYY-MM-DD, then convert to string again
-            info_day.date = (data.timeseries.runs.time[i+1].date).slice(0,8);
+            var dateString = (data.timeseries.runs.time[i+1].date).slice(0,8);
+
+            var year = dateString.substring(0,4);
+            var month = dateString.substring(4,6);
+            var day  = dateString.substring(6,8);
+
+            var curr_date = new Date(year, month-1, day);
+
+            info_day.date = $filter('date')(curr_date, 'yyyy-MM-dd');
 
 
             console.log(info_day.date);
@@ -135,6 +141,7 @@ angular.module('ionic.weather.controllers',[])
             // $scope.daily_forecast.max_arr.push(max);
 
           }
+
 
           console.log($scope.daily_forecast);
 
