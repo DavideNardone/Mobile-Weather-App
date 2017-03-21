@@ -96,7 +96,7 @@ h1,h2,h3,h4,h5 {
 .ionic-refresher-content i {
   margin-top: 360px;
 }
-/** 
+/**
  * Current weather
  */
 
@@ -192,7 +192,7 @@ h1,h2,h3,h4,h5 {
   margin: 10px 0px;
 }
 #hourly-forecast {
-  width: 2250px;
+  width: 920px;
   height: 70px;
 }
 .hourly-hour {

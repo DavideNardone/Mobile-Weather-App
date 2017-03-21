@@ -11,11 +11,11 @@ angular.module('ionic.weather.directives', [])
   'cloudy4.png':  'ion-ios-cloudy-outline',
   'cloudy5.png':  'ion-ios-cloud-outline',
 
-  'cloudy1_night,png':  "ion-ios-cloudy-night-outline",
-  'cloudy2_night,png':  "ion-ios-cloudy-night-outline",
-  'cloudy3_night,png':  "ion-ios-cloudy-night-outline",
-  'cloudy4_night,png':  "ion-ios-cloud-outline",
-  'cloudy5_night,png':  "ion-ios-cloud-outline",
+  'cloudy1_night.png':  "ion-ios-cloudy-night-outline",
+  'cloudy2_night.png':  "ion-ios-cloudy-night-outline",
+  'cloudy3_night.png':  "ion-ios-cloudy-night-outline",
+  'cloudy4_night.png':  "ion-ios-cloud-outline",
+  'cloudy5_night.png':  "ion-ios-cloud-outline",
 
   'shower1.png': "ion-ios-rainy-outline",
   'shower2.png': "ion-ios-rainy-outline",

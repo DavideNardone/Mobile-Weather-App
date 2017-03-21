@@ -34,9 +34,9 @@ angular.module('ionic.weather.filters', ['ionic.weather.services'])
   }
 })
 
-app.filter('num', function() {
+.filter('num', function() {
   return function(input) {
-    return parseInt(input, 10);
+    return parseInt(input);
   }
 })
 
