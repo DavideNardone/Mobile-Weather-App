@@ -2,8 +2,8 @@
   <h4 class="title">Forecast</h4>
   <ion-scroll direction="x" id="forecast-scroll">
     <div id="hourly-forecast">
-      <div class="hourly-hour" ng-repeat="hour in current.hourly.data">
-        <div class="time" ng-bind="hour.time * 1000 | date:'h a'"></div>
+      <div class="hourly-hour" ng-repeat="hour in forecast.time">
+        <div class="time" >{{ (hour.date.slice(-2)) | num }}</div>
         <weather-icon icon="hour.icon"></weather-icon>
         <div class="temp">{{hour.temperature | tempInt}}&deg;</div>
       </div>

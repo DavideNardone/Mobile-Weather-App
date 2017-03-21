@@ -1,15 +1,29 @@
 angular.module('ionic.weather.directives', [])
 
 .constant('WEATHER_ICONS', {
-  'partlycloudy': 'ion-ios7-partlysunny-outline',
-  'mostlycloudy': 'ion-ios7-partlysunny-outline',
-  'cloudy': 'ion-ios7-cloudy-outline',
-  'rain': 'ion-ios7-rainy-outline',
-  'tstorms': 'ion-ios7-thunderstorm-outline',
-  'sunny': 'ion-ios7-sunny-outline',
-  'clear-day': 'ion-ios7-sunny-outline',
-  'nt_clear': 'ion-ios7-moon-outline',
-  'clear-night': 'ion-ios7-moon-outline'
+
+  'sunny.png':  'ion-ios-sunny-outline',
+  'sunny_night.png':  'ion-ios-moon',
+
+  'cloudy1.png': 'ion-ios-partlysunny-outline',
+  'cloudy2.png': 'ion-ios-partlysunny-outline',
+  'cloudy3.png':  'ion-ios-cloudy-outline',
+  'cloudy4.png':  'ion-ios-cloudy-outline',
+  'cloudy5.png':  'ion-ios-cloud-outline',
+
+  'cloudy1_night,png':  "ion-ios-cloudy-night-outline",
+  'cloudy2_night,png':  "ion-ios-cloudy-night-outline",
+  'cloudy3_night,png':  "ion-ios-cloudy-night-outline",
+  'cloudy4_night,png':  "ion-ios-cloud-outline",
+  'cloudy5_night,png':  "ion-ios-cloud-outline",
+
+  'shower1.png': "ion-ios-rainy-outline",
+  'shower2.png': "ion-ios-rainy-outline",
+  'shower3.png': "ion-ios-thunderstorm-outline",
+
+  'shower1_night.png': "ion-ios-rainy-outline",
+  'shower2_night.png': "ion-ios-rainy-outline",
+  'shower3_night.png': "ion-ios-thunderstorm-outline"
 })
 
 .directive('weatherIcon', function(WEATHER_ICONS) {

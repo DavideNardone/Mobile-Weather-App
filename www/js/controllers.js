@@ -86,6 +86,12 @@ angular.module('ionic.weather.controllers',[])
 
           console.log(data.timeseries.runs.time[0].t2c);
           $scope.currentTemp = data.timeseries.runs.time[0].t2c;
+          $scope.forecast = data.timeseries.runs;
+
+          // console.log($scope.current_hour);
+
+
+          console.log($scope.forecast);
 
 
         })
