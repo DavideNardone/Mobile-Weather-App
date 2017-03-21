@@ -84,8 +84,9 @@ angular.module('ionic.weather.controllers',[])
       })
         .success(function (data, status) {
 
-          console.log(data);
-          //TODO: format data to present to the home 'current-weather and/or forecast' view
+          console.log(data.timeseries.runs.time[0].t2c);
+          $scope.currentTemp = data.timeseries.runs.time[0].t2c;
+
 
         })
         .error(function (data, status) {
