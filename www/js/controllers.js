@@ -93,32 +93,51 @@ angular.module('ionic.weather.controllers',[])
 
           var init = 24 - hour;
 
-          $scope.daily_forecast = {};
+          $scope.daily_forecast = [];
 
 
-
-          $scope.min_arr = [];
-          $scope.max_arr = [];
+          var info_day = {};
 
           for (var i=init; i < (144 - hour); i=i+24) {
 
-         //   var cur_day = data.timeseries.runs.time[i];
+            var info_day = {};
 
-            for (var j = 0; j < 23; j++) {
-              var min = 99999999;
-              var max = -9999999;
-              if(data.timeseries.runs.time[i+j].t2c < min)
-                min = data.timeseries.runs.time[i+j].t2c;
+            info_day.icon = data.timeseries.runs.time[i+12].icon;
 
-              if (data.timeseries.runs.time[i+j].t2c > max)
-                max = data.timeseries.runs.time[i+j].t2c;
+            //FIXME: convert to date with format YYYY-MM-DD, then convert to string again
+            info_day.date = (data.timeseries.runs.time[i+1].date).slice(0,8);
+
+
+            console.log(info_day.date);
+
+            var min = 99999999;
+            var max = -9999999;
+
+            for (var j = 0; j < 24; j++) {
+              var val_temp =  parseFloat(data.timeseries.runs.time[i+j].t2c);
+
+
+              if(val_temp < min)
+                min = val_temp;
+
+              if (val_temp > max)
+                max = val_temp;
             }
-            $scope.min_arr.push(min);
-            $scope.max_arr.push(max);
+
+            info_day.min = min;
+            info_day.max = max;
+            // info_day.icon =
+            // console.log("min:"+min);
+            // console.log("max:"+max);
+
+            $scope.daily_forecast.push(info_day);
+            // $scope.daily_forecast.min_arr.push(min);
+            // $scope.daily_forecast.max_arr.push(max);
+
           }
 
-          console.log($scope.max_arr);
-          console.log($scope.min_arr);
+          console.log($scope.daily_forecast);
+
 
 
         })
