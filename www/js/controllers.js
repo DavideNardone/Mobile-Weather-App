@@ -86,12 +86,38 @@ angular.module('ionic.weather.controllers',[])
 
           console.log(data.timeseries.runs.time[0].t2c);
           $scope.currentTemp = data.timeseries.runs.time[0].t2c;
-          $scope.forecast = data.timeseries.runs;
+          $scope.hourly_forecast = data.timeseries.runs;
 
-          // console.log($scope.current_hour);
+          var day = new Date();
+          var hour = day.getHours();
 
+          var init = 24 - hour;
 
-          console.log($scope.forecast);
+          $scope.daily_forecast = {};
+
+          var min = 99999999;
+          var max = -9999999;
+
+          $scope.min_arr = [];
+          $scope.max_arr = {};
+
+          for (var i=init; i < (144 - hour); i=i+24) {
+
+            var cur_day = data.timeseries.runs.time[i];
+
+            for (var j = 0; j < 23; j++) {
+
+              if(cur_day.t2c < min)
+                min = cur_day.t2c;
+
+              if (cur_day.t2c > max)
+                max = cur_day.t2c;
+            }
+            $scope.min_arr.push(min);
+            $scope.max_arr.push(max);
+          }
+
+          // console.log();
 
 
         })

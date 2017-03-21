@@ -2,7 +2,7 @@
   <h4 class="title">Forecast</h4>
   <ion-scroll direction="x" id="forecast-scroll">
     <div id="hourly-forecast">
-      <div class="hourly-hour" ng-repeat="hour in forecast.time | limitTo:24">
+      <div class="hourly-hour" ng-repeat="hour in hourly_forecast.time | limitTo:24">
         <div class="time" >{{ (hour.date.slice(-2) | tempInt)+1 }}</div>
         <weather-icon icon="hour.icon"></weather-icon>
         <div class="temp">{{hour.time.t2c | tempInt}}&deg;</div>
