@@ -123,6 +123,7 @@ angular.module('ionic.weather.controllers',[])
     //   });
     // };
 
+
     this.cycleBgImages = function() {
 
       $timeout(function cycle() {
