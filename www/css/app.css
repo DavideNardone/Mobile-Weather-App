@@ -159,20 +159,25 @@ h1,h2,h3,h4,h5 {
 .weather-box .col {
   text-align: center;
 }
+
 .weather-box .col:first-child {
   text-align: left;
+  padding-top: 20px
 }
+
 .weather-box .col:last-child {
   text-align: right;
 }
 
 .weather-box span {
   vertical-align: middle;
+  padding-top: 15px;
 }
 
 .weather-box .icon {
   font-size: 42px;
   line-height: 24px;
+  padding: 3px;
   vertical-align: middle;
 }
 
@@ -197,7 +202,7 @@ h1,h2,h3,h4,h5 {
   margin: 10px 0px;
 }
 #hourly-forecast {
-  width: 910px;
+  width: 900px;
   height: 80px;
 }
 .hourly-hour {

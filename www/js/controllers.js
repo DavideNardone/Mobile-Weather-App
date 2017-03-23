@@ -4,6 +4,8 @@ angular.module('ionic.weather.controllers',[])
   .controller('WeatherCtrl', function($scope, $timeout, $rootScope, Weather, Geo, Flickr, $ionicModal, $ionicLoading, $ionicPlatform, $ionicPopup, $http, $filter) {
     var _this = this;
 
+    $scope._init = true;
+
     // $ionicPlatform.ready(function() {
     //   // Hide the status bar
     //   if(window.StatusBar) {
@@ -73,7 +75,7 @@ angular.module('ionic.weather.controllers',[])
     this.getDataModel = function(model,place){
 
       //retrieve forecast data from ww
-      var f_url = 'http://192.167.9.103:5050/products/'+model+'/timeseries/'+place
+      var f_url = 'http://192.167.9.103:5050/products/'+model+'/timeseries/'+place;
       console.log(f_url);
 
       $scope.show = function () {
@@ -88,7 +90,9 @@ angular.module('ionic.weather.controllers',[])
 
       console.log('before show');
 
-      $scope.show($ionicLoading);
+      if($scope._init==true)
+        $scope.show($ionicLoading);
+
       console.log('after show');
 
 
@@ -109,7 +113,7 @@ angular.module('ionic.weather.controllers',[])
           $scope.hourly_forecast = data.timeseries.runs;
 
           var day = new Date();
-          var hour = day.getHours();
+          var hour = day.getHours()-1;
 
           var init = 24 - hour;
 
@@ -120,7 +124,7 @@ angular.module('ionic.weather.controllers',[])
           $scope.lowTemp = 9999;
           $scope.currentCondition = data.timeseries.runs.time[0].icon;
 
-          for(var i=hour; i<24; i++){
+          for(var i=0; i<=init; i++){
             var val_temp =  parseInt(data.timeseries.runs.time[i].t2c);
 
             if(val_temp < $scope.lowTemp)
@@ -179,8 +183,6 @@ angular.module('ionic.weather.controllers',[])
 
           console.log($scope.daily_forecast);
           console.log("after ops");
-          // $scope.hide($ionicLoading);
-
 
 
         })
@@ -188,7 +190,11 @@ angular.module('ionic.weather.controllers',[])
           alert('Connection error: ' + status);
         })
         .finally(function ($IonicLoading) {
-          $scope.hide($IonicLoading);
+
+          if($scope._init==true) {
+            $scope.hide($IonicLoading);
+            $scope._init = false;
+          }
 
         });
 
@@ -271,25 +277,9 @@ angular.module('ionic.weather.controllers',[])
 
     $scope.refreshData = function() {
 
-      // $scope.show = function () {
-      //   $ionicLoading.show({
-      //     template: '<p>Caricamento...</p><ion-spinner icon="spiral"></ion-spinner>',
-      //     duration: 7000
-      //   });
-      // };
-      //
-      // $scope.hide = function () {
-      //   $ionicLoading.hide();
-      // };
-      //
-      //
-      // $scope.show($ionicLoading);
-
-
       Geo.getLocation().then(function(position) {
         var lat = position.coords.latitude;
         var lng = position.coords.longitude;
-
 
 
 
