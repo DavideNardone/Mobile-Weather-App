@@ -1,5 +1,31 @@
 angular.module('ionic.weather.controllers',[])
 
+// controllers.constant('WEATHER_BG', {
+//
+//     'sunny.png':  '/ionic-weather-ap/www/img/bg/sunny.jpg',
+//     'sunny_night.png':  '/ionic-weather-ap/www/img/bg/calm-night.jpg',
+//
+//     'cloudy1.png': '/ionic-weather-ap/www/img/bg/cloudy.jpg',
+//     'cloudy2.png': '/ionic-weather-ap/www/img/bg/cloudy.jpg',
+//     'cloudy3.png':  '/ionic-weather-ap/www/img/bg/cloudy.jpg',
+//     'cloudy4.png':  '/ionic-weather-ap/www/img/bg/cloudy.jpg',
+//     'cloudy5.png':  '/ionic-weather-ap/www/img/bg/cloudy.jpg',
+//
+//     'cloudy1_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
+//     'cloudy2_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
+//     'cloudy3_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
+//     'cloudy4_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
+//     'cloudy5_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
+//
+//     'shower1.png': "/ionic-weather-ap/www/img/bg/rain.jpg",
+//     'shower2.png': "/ionic-weather-ap/www/img/bg/rain.jpg",
+//     'shower3.png': "/ionic-weather-ap/www/img/bg/thunderstorm.jpg",
+//
+//     'shower1_night.png': "/ionic-weather-ap/www/img/bg/rain.jpg",
+//     'shower2_night.png': "/ionic-weather-ap/www/img/bg/rain.jpg",
+//     'shower3_night.png': "/ionic-weather-ap/www/img/bg/thunderstorm.jpg"
+//   })
+
 
   .controller('WeatherCtrl', function($scope, $timeout, $rootScope, Weather, Geo, Flickr, $ionicModal, $ionicLoading, $ionicPlatform, $ionicPopup, $http, $filter) {
     var _this = this;
@@ -54,6 +80,7 @@ angular.module('ionic.weather.controllers',[])
           $scope.currentLocationString = data.places[0].long_name.it;
 
           //retrieve bgd_image based on the current position
+          _this.getDataModel("wrf3",$scope.place_id);
           _this.getBackgroundImage(lat, lng, $scope.currentLocationString);
           //_this.getCurrent(lat, lng); temperatura da forecast.io
 
@@ -72,22 +99,22 @@ angular.module('ionic.weather.controllers',[])
     this.getDataModel = function(model,place){
 
       //retrieve forecast data from ww
-      var f_url = 'http://192.167.9.103:5050/products/'+model+'/timeseries/com63059';
+      var f_url = 'http://192.167.9.103:5050/products/'+model+'/timeseries/com63069';
       console.log(f_url);
 
-      // $scope.show = function () {
-      //   $ionicLoading.show({
-      //     template: '<p>Caricamento...</p><ion-spinner icon="spiral"></ion-spinner>'
-      //   });
-      // };
-      //
-      // $scope.hide = function () {
-      //   $ionicLoading.hide();
-      // };
+      $scope.show = function () {
+        $ionicLoading.show({
+          template: '<p>Caricamento...</p><ion-spinner icon="spiral"></ion-spinner>'
+        });
+      };
+
+      $scope.hide = function () {
+        $ionicLoading.hide();
+      };
 
       console.log('before show');
 
-      // $scope.show($ionicLoading);
+      $scope.show($ionicLoading);
       console.log('after show');
 
 
@@ -113,6 +140,22 @@ angular.module('ionic.weather.controllers',[])
           var init = 24 - hour;
 
           $scope.daily_forecast = [];
+
+          //TODO: add min and max temp for the curre
+          $scope.highTemp = -9999;
+          $scope.lowTemp = 9999;
+          $scope.currentCondition = data.timeseries.runs.time[0].icon;
+
+          for(var i=hour; i<24; i++){
+            var val_temp =  parseInt(data.timeseries.runs.time[i].t2c);
+
+            if(val_temp < $scope.lowTemp)
+              $scope.lowTemp = val_temp;
+
+            if (val_temp > $scope.highTemp)
+              $scope.highTemp = val_temp;
+
+          }
 
           for (var i=init; i < (144 - hour); i=i+24) {
 
@@ -162,24 +205,84 @@ angular.module('ionic.weather.controllers',[])
 
           console.log($scope.daily_forecast);
           console.log("after ops");
-          $scope.hide($ionicLoading);
+          // $scope.hide($ionicLoading);
 
 
 
         })
         .error(function (data, status) {
           alert('Connection error: ' + status);
+        })
+        .finally(function ($IonicLoading) {
+          $scope.hide($IonicLoading);
+
         });
 
 
     };
 
     this.getBackgroundImage = function(lat, lng, locString) {
-      Flickr.search(locString, lat, lng).then(function(resp) {
+
+      $scope.DfBgImage = {};
+      $scope.DfBgImage["sunny.png"] = "img/bg/sunny.jpg";
+      $scope.DfBgImage["sunny_night.png"] = "img/bg/calm-night.jpg";
+      $scope.DfBgImage["cloudy1.png"] = "img/bg/cloudy.jpg";
+      $scope.DfBgImage["cloudy1_night.png"] = "img/bg/cloudy-night.jpg";
+      $scope.DfBgImage["cloudy2.png"] = "img/bg/cloudy.jpg";
+      $scope.DfBgImage["cloudy2_night.png"] = "img/bg/cloudy-night.jpg";
+      $scope.DfBgImage["cloudy3.png"] = "img/bg/cloudy.jpg";
+      $scope.DfBgImage["cloudy3_night.png"] = "img/bg/cloudy-night.jpg";
+      $scope.DfBgImage["cloudy4.png"] = "img/bg/cloudy.jpg";
+      $scope.DfBgImage["cloudy4_night.png"] = "img/bg/cloudy-night.jpg";
+      $scope.DfBgImage["cloudy5.png"] = "img/bg/cloudy.jpg";
+      $scope.DfBgImage["cloudy5_night.png"] = "img/bg/cloudy-night.jpg";
+      $scope.DfBgImage["shower1.png"] = "img/bg/rain.jpg";
+      $scope.DfBgImage["shower1_night.png"] = "img/bg/rain.jpg";
+      $scope.DfBgImage["shower2.png"] = "img/bg/rain.jpg";
+      $scope.DfBgImage["shower2_night.png"] = "img/bg/rain.jpg";
+      $scope.DfBgImage["shower3.png"] = "img/bg/thunderstorm.jpg";
+      $scope.DfBgImage["shower3_night.png"] = "img/bg/thunderstorm.jpg";
+
+     // 'sunny.png':  '/ionic-weather-ap/www/img/bg/sunny.jpg',
+//     'sunny_night.png':  '/ionic-weather-ap/www/img/bg/calm-night.jpg',
+//
+//     'cloudy1.png': '/ionic-weather-ap/www/img/bg/cloudy.jpg',
+//     'cloudy2.png': '/ionic-weather-ap/www/img/bg/cloudy.jpg',
+//     'cloudy3.png':  '/ionic-weather-ap/www/img/bg/cloudy.jpg',
+//     'cloudy4.png':  '/ionic-weather-ap/www/img/bg/cloudy.jpg',
+//     'cloudy5.png':  '/ionic-weather-ap/www/img/bg/cloudy.jpg',
+//
+//     'cloudy1_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
+//     'cloudy2_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
+//     'cloudy3_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
+//     'cloudy4_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
+//     'cloudy5_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
+//
+//     'shower1.png': "/ionic-weather-ap/www/img/bg/rain.jpg",
+//     'shower2.png': "/ionic-weather-ap/www/img/bg/rain.jpg",
+//     'shower3.png': "/ionic-weather-ap/www/img/bg/thunderstorm.jpg",
+//
+//     'shower1_night.png': "/ionic-weather-ap/www/img/bg/rain.jpg",
+//     'shower2_night.png': "/ionic-weather-ap/www/img/bg/rain.jpg",
+//     'shower3_night.png': "/ionic-weather-ap/www/img/bg/thunderstorm.jpg"
+//   })
+
+      Flickr.search(locString).then(function(resp) {
         var photos = resp.photos;
         if(photos.photo.length) {
+          $scope.countIm = true;
           $scope.bgImages = photos.photo;
           _this.cycleBgImages();
+        }else{
+          $scope.countIm = false;
+          console.log('setting defualt photo');
+          var img = new Image();
+          console.log($scope.currentCondition);
+          $scope.pathIm  = $scope.DfBgImage[$scope.currentCondition];
+          //console.log(img.src);
+          //$scope.pathIm = img.src;
+          console.log($scope.pathIm);
+          //$scope.bgImages = img
         }
       }, function(error) {
         console.error('Unable to get Flickr images', error);

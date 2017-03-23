@@ -222,10 +222,24 @@ angular.module('ionic.weather.services', ['ngResource'])
     }
   });
 
+  var flickrSearchNoGis = $resource(baseUrl, {
+    method: 'flickr.photos.search',
+    group_id: '1463451@N25',
+    tags: '@tags',
+    safe_search: 1,
+    jsoncallback: 'JSON_CALLBACK',
+    api_key: FLICKR_API_KEY,
+    format: 'json'
+  }, {
+    get: {
+      method: 'JSONP'
+    }
+  });
+
   return {
     search: function(tags, lat, lng) {
       var q = $q.defer();
-
+      tags='Comune di San Giorgio a Cremano';
       console.log('Searching flickr for tags', tags);
 
       flickrSearch.get({
@@ -233,11 +247,32 @@ angular.module('ionic.weather.services', ['ngResource'])
         lat: lat,
         lng: lng
       }, function(val) {
+        console.log(val);
         q.resolve(val);
+        console.log('Photo found: '+val.photos.total);
       }, function(httpResponse) {
         q.reject(httpResponse);
       });
+      console.log(q);
+      return q.promise;
+    }
+  };
+  return {
+    search: function(tags) {
+      var q = $q.defer();
+      //tags='Comune di San Giorgio a Cremano';
+      console.log('Searching flickr for tags', tags);
 
+      flickrSearchNoGis.get({
+        tags: tags
+      }, function(val) {
+        console.log(val);
+        q.resolve(val);
+        console.log('Photo found: '+val.photos.total);
+      }, function(httpResponse) {
+        q.reject(httpResponse);
+      });
+      console.log(q);
       return q.promise;
     }
   };

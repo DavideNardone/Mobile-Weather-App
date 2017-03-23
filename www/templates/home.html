@@ -11,7 +11,10 @@
 
 <ion-view>
 <!--<body>-->
-<background-cycler class="bg-fade"></background-cycler>
+
+<background-cycler ng-if="countIm" class="bg-fade"></background-cycler>
+  <img ng-if="!countIm" ng-src="{{pathIm}}">
+
 
 <ion-content scroll-event-interval="20" >
 
