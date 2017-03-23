@@ -239,7 +239,7 @@ angular.module('ionic.weather.services', ['ngResource'])
   return {
     search: function(tags, lat, lng) {
       var q = $q.defer();
-      tags='Comune di San Giorgio a Cremano';
+      //tags='Comune di San Giorgio a Cremano';
       console.log('Searching flickr for tags', tags);
 
       flickrSearch.get({
