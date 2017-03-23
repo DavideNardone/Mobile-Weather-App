@@ -72,17 +72,36 @@ angular.module('ionic.weather.controllers',[])
     this.getDataModel = function(model,place){
 
       //retrieve forecast data from ww
-      var f_url = 'http://192.167.9.103:5050/products/'+model+'/timeseries/'+place;
+      var f_url = 'http://192.167.9.103:5050/products/'+model+'/timeseries/com63059';
       console.log(f_url);
+
+      // $scope.show = function () {
+      //   $ionicLoading.show({
+      //     template: '<p>Caricamento...</p><ion-spinner icon="spiral"></ion-spinner>'
+      //   });
+      // };
+      //
+      // $scope.hide = function () {
+      //   $ionicLoading.hide();
+      // };
+
+      console.log('before show');
+
+      // $scope.show($ionicLoading);
+      console.log('after show');
+
 
       $http({
         method :'GET',
         url: f_url,
+        timeout: 300000,
         headers: {
           'Content-Type': 'application/json'
         }
       })
         .success(function (data, status) {
+
+          console.log("success http API");
 
           console.log(data.timeseries.runs.time[0].t2c);
           $scope.currentTemp = data.timeseries.runs.time[0].t2c;
@@ -94,8 +113,6 @@ angular.module('ionic.weather.controllers',[])
           var init = 24 - hour;
 
           $scope.daily_forecast = [];
-
-          //TODO: add min and max temp for the current_day
 
           for (var i=init; i < (144 - hour); i=i+24) {
 
@@ -144,6 +161,8 @@ angular.module('ionic.weather.controllers',[])
 
 
           console.log($scope.daily_forecast);
+          console.log("after ops");
+          $scope.hide($ionicLoading);
 
 
 
@@ -151,6 +170,7 @@ angular.module('ionic.weather.controllers',[])
         .error(function (data, status) {
           alert('Connection error: ' + status);
         });
+
 
     };
 
@@ -197,14 +217,32 @@ angular.module('ionic.weather.controllers',[])
 
     $scope.refreshData = function() {
 
+      // $scope.show = function () {
+      //   $ionicLoading.show({
+      //     template: '<p>Caricamento...</p><ion-spinner icon="spiral"></ion-spinner>',
+      //     duration: 7000
+      //   });
+      // };
+      //
+      // $scope.hide = function () {
+      //   $ionicLoading.hide();
+      // };
+      //
+      //
+      // $scope.show($ionicLoading);
+
 
       Geo.getLocation().then(function(position) {
         var lat = position.coords.latitude;
         var lng = position.coords.longitude;
 
+
+
+
         _this.getInfoPlace(lat,lng);
 
         $rootScope.$broadcast('scroll.refreshComplete');
+        // $scope.hide($ionicLoading);
 
 
         // Geo.reverseGeocode(lat, lng).then(function(locString) {
@@ -302,30 +340,36 @@ angular.module('ionic.weather.controllers',[])
   // })
 
   // .controller('PlaylistCtrl', function($scope, $stateParams) {})
-  //
-  // .controller('SearchCtrl', function($scope) {
-  //
-  //   $scope.playlists = [{
-  //     title: 'Reggae',
-  //     id: 1
-  //   }, {
-  //     title: 'Chill',
-  //     id: 2
-  //   }, {
-  //     title: 'Dubstep',
-  //     id: 3
-  //   }, {
-  //     title: 'Indie',
-  //     id: 4
-  //   }, {
-  //     title: 'Rap',
-  //     id: 5
-  //   }, {
-  //     title: 'Cowbell',
-  //     id: 6
-  //   }];
-  //
-  // })
+
+  .controller('SearchCtrl', function($scope,$ionicLoading) {
+    console.log("search1");
+
+    $scope.playlists = [{
+      title: 'Reggae',
+      id: 1
+    }, {
+      title: 'Chill',
+      id: 2
+    }, {
+      title: 'Dubstep',
+      id: 3
+    }, {
+      title: 'Indie',
+      id: 4
+    }, {
+      title: 'Rap',
+      id: 5
+    }, {
+      title: 'Cowbell',
+      id: 6
+    }];
+
+    // $scope.hide($ionicLoading);
+    console.log("search2");
+
+  })
+
+
 
   // .controller('BrowseCtrl', function($scope) {
   //   $scope.playlists = [{
@@ -361,6 +405,13 @@ angular.module('ionic.weather.controllers',[])
           name: 'Home',
           icon: "ion-map",
           state: 'app.home'
+        },
+        {
+          id: 2,
+          level: 0,
+          name: 'Test',
+          icon: "ion-map",
+          state: 'app.search'
         }
       ];
   })

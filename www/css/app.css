@@ -2,9 +2,11 @@ body {
   text-shadow: 1px 1px 0px rgba(0,0,0,0.5);
   background-color: black;
 }
+
 #wrapper {
   background-color: black;
 }
+
 #scroller {
 }
 .bg-image {
@@ -88,11 +90,13 @@ h1,h2,h3,h4,h5 {
 .scroll-refresher {
   overflow: visible;
 }
-.ionic-refresher-content {
-  background-color: rgba(0,0,0,0.4);
-  height: 400px;
-  bottom: 0;
-}
+
+/*.ionic-refresher-content {*/
+  /*background-color: rgba(0,0,0,0.4);*/
+  /*height: 400px;*/
+  /*bottom: 0;*/
+/*}*/
+
 .ionic-refresher-content i {
   margin-top: 360px;
 }
@@ -104,6 +108,7 @@ h1,h2,h3,h4,h5 {
   height: 180px;
   box-sizing: content-box;
 }
+
 #current-weather > * {
   color: #fff;
 }

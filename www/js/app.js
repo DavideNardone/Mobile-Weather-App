@@ -30,11 +30,11 @@ angular.module('ionic.weather', [
   })
 
 
-  .config(function($stateProvider, $urlRouterProvider) {
+  .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
     // $ionicConfigProvider.tabs.position('bottom');
 
-    // $ionicConfigProvider.backButton.text('');
+    $ionicConfigProvider.backButton.text('');
 
     // $ionicConfigProvider.views.swipeBackEnabled(false);
 
@@ -57,15 +57,15 @@ angular.module('ionic.weather', [
         }
       })
 
-      // .state('app.search', {
-      //   url: '/search',
-      //   views: {
-      //     'menuContent': {
-      //       templateUrl: 'templates/search.html',
-      //       controller: 'SearchCtrl'
-      //     }
-      //   }
-      // })
+      .state('app.search', {
+        url: '/search',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/search.html',
+            controller: 'SearchCtrl'
+          }
+        }
+      })
 
       // .state('app.browse', {
       //   url: '/browse',
