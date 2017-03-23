@@ -1,31 +1,5 @@
 angular.module('ionic.weather.controllers',[])
 
-// controllers.constant('WEATHER_BG', {
-//
-//     'sunny.png':  '/ionic-weather-ap/www/img/bg/sunny.jpg',
-//     'sunny_night.png':  '/ionic-weather-ap/www/img/bg/calm-night.jpg',
-//
-//     'cloudy1.png': '/ionic-weather-ap/www/img/bg/cloudy.jpg',
-//     'cloudy2.png': '/ionic-weather-ap/www/img/bg/cloudy.jpg',
-//     'cloudy3.png':  '/ionic-weather-ap/www/img/bg/cloudy.jpg',
-//     'cloudy4.png':  '/ionic-weather-ap/www/img/bg/cloudy.jpg',
-//     'cloudy5.png':  '/ionic-weather-ap/www/img/bg/cloudy.jpg',
-//
-//     'cloudy1_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
-//     'cloudy2_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
-//     'cloudy3_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
-//     'cloudy4_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
-//     'cloudy5_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
-//
-//     'shower1.png': "/ionic-weather-ap/www/img/bg/rain.jpg",
-//     'shower2.png': "/ionic-weather-ap/www/img/bg/rain.jpg",
-//     'shower3.png': "/ionic-weather-ap/www/img/bg/thunderstorm.jpg",
-//
-//     'shower1_night.png': "/ionic-weather-ap/www/img/bg/rain.jpg",
-//     'shower2_night.png': "/ionic-weather-ap/www/img/bg/rain.jpg",
-//     'shower3_night.png': "/ionic-weather-ap/www/img/bg/thunderstorm.jpg"
-//   })
-
 
   .controller('WeatherCtrl', function($scope, $timeout, $rootScope, Weather, Geo, Flickr, $ionicModal, $ionicLoading, $ionicPlatform, $ionicPopup, $http, $filter) {
     var _this = this;
@@ -99,7 +73,7 @@ angular.module('ionic.weather.controllers',[])
     this.getDataModel = function(model,place){
 
       //retrieve forecast data from ww
-      var f_url = 'http://192.167.9.103:5050/products/'+model+'/timeseries/com63069';
+      var f_url = 'http://192.167.9.103:5050/products/'+model+'/timeseries/'+place
       console.log(f_url);
 
       $scope.show = function () {
@@ -243,29 +217,6 @@ angular.module('ionic.weather.controllers',[])
       $scope.DfBgImage["shower3.png"] = "img/bg/thunderstorm.jpg";
       $scope.DfBgImage["shower3_night.png"] = "img/bg/thunderstorm.jpg";
 
-     // 'sunny.png':  '/ionic-weather-ap/www/img/bg/sunny.jpg',
-//     'sunny_night.png':  '/ionic-weather-ap/www/img/bg/calm-night.jpg',
-//
-//     'cloudy1.png': '/ionic-weather-ap/www/img/bg/cloudy.jpg',
-//     'cloudy2.png': '/ionic-weather-ap/www/img/bg/cloudy.jpg',
-//     'cloudy3.png':  '/ionic-weather-ap/www/img/bg/cloudy.jpg',
-//     'cloudy4.png':  '/ionic-weather-ap/www/img/bg/cloudy.jpg',
-//     'cloudy5.png':  '/ionic-weather-ap/www/img/bg/cloudy.jpg',
-//
-//     'cloudy1_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
-//     'cloudy2_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
-//     'cloudy3_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
-//     'cloudy4_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
-//     'cloudy5_night.png':  "/ionic-weather-ap/www/img/bg/cloudy-night.jpg",
-//
-//     'shower1.png': "/ionic-weather-ap/www/img/bg/rain.jpg",
-//     'shower2.png': "/ionic-weather-ap/www/img/bg/rain.jpg",
-//     'shower3.png': "/ionic-weather-ap/www/img/bg/thunderstorm.jpg",
-//
-//     'shower1_night.png': "/ionic-weather-ap/www/img/bg/rain.jpg",
-//     'shower2_night.png': "/ionic-weather-ap/www/img/bg/rain.jpg",
-//     'shower3_night.png': "/ionic-weather-ap/www/img/bg/thunderstorm.jpg"
-//   })
 
       Flickr.search(locString).then(function(resp) {
         var photos = resp.photos;
