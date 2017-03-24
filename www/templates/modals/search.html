@@ -1,0 +1,76 @@
+<ion-modal-view>
+<div id="search-modal" class="modal" ng-controller="sideMenuCtrl">
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">Cerca</h1>
+    <button class="button button-clear button-primary" ng-click="closeSearch()">Esci</button>
+  </ion-header-bar>
+  <ion-content class="padding">
+  <div class="bar bar-header item-input-inset">
+    <label class="item-input-wrapper">
+      <i class="icon ion-ios-search placeholder-icon"></i>
+      <form ng-submit="searchForecast(field)">
+      <input type="search" placeholder="Search" name="field" ng-model="field">
+      </form>
+    </label>
+    <!--<button class="button button-clear" ng-click="searchForecast()" style="color: blue">Vai </button>-->
+  </div>
+  </div>
+</div>
+</ion-content>
+</ion-modal-view>
+
+<!--<ion-modal-view>-->
+  <!--<ion-header-bar class="bar bar-header bar-positive">-->
+    <!--<h1 class="title">Info Annuncio</h1>-->
+    <!--<button class="button button-clear button-primary" ng-click="close()">Esci</button>-->
+  <!--</ion-header-bar>-->
+  <!--<ion-content class="padding">-->
+
+    <!--<div class="list">-->
+      <!--<div class="item item-divider">-->
+        <!--<b>Info Annuncio</b>-->
+      <!--</div>-->
+
+      <!--<a class="item">-->
+        <!--<div style="padding: 0px 0px 5px 0px;">-->
+          <!--<b>Titolo: </b><h2 style="display: inline !important">{{modal.info_announcement.titolo}}</h2><br>-->
+        <!--</div>-->
+        <!--<div style="padding: 0px 0px 5px 0px;">-->
+          <!--<b>Categoria: </b><h2 style="display: inline !important">{{modal.info_announcement.categoria}}</h2><br>-->
+        <!--</div>-->
+        <!--<div style="padding: 0px 0px 5px 0px;">-->
+          <!--<b>Data Scadenza: </b><h2 style="display: inline !important">{{modal.info_announcement.data_scadenza}}</h2><br>-->
+        <!--</div>-->
+        <!--<div style="padding: 0px 0px 5px 0px;" ng-if="my_ann_bool===true">-->
+          <!--<b>Mail pubblicante: </b><h2 style="display: inline !important">{{modal.info_announcement.mail_pubblicante}}</h2><br>-->
+        <!--</div>-->
+        <!--<div style="padding: 0px 0px 5px 0px;">-->
+          <!--<b>Descrizione: </b>-->
+        <!--</div>-->
+        <!--<label class="item item-input item-text-wrap" style="border-style: dashed;">-->
+          <!--{{modal.info_announcement.descrizione}}-->
+        <!--</label>-->
+      <!--</a>-->
+
+
+      <!--<div class="item item-divider">-->
+        <!--<b>Numero di candidati: {{modal.info_announcement.num_cand}}</b>-->
+      <!--</div>-->
+      <!--<div ng-repeat="info in modal.info_candidates">-->
+
+        <!--<a class="item item-avatar" >-->
+          <!--<img ng-src="img/male.jpg" ng-if="info.sesso=='M'">-->
+          <!--<img ng-src="img/female.jpg" ng-if="info.sesso=='F'">-->
+          <!--<h2>{{info.nome}} {{info.cognome}}</h2>-->
+          <!--<h3>{{info.nome_uni}}</h3>-->
+          <!--<i class="icon ion-email"></i>-->
+          <!--<p style="display: inline !important; color: #0c63ee;">{{info.mail}}</p>-->
+          <!--<br>-->
+          <!--&lt;!&ndash;<a ng-href="tel:{{info.telefono}}" class="item item-icon-left">{{info.telefono}}</a>&ndash;&gt;-->
+          <!--<i class="icon ion-ios-telephone"></i>-->
+          <!--<p style="display: inline !important; color: red;">{{info.telefono}}</p>-->
+        <!--</a>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</ion-content>-->
+<!--</ion-modal-view>-->

@@ -15,20 +15,21 @@ angular.module('ionic.weather.controllers',[])
 
     $scope.activeBgImageIndex = 0;
 
-    $scope.showSettings = function() {
-      if(!$scope.settingsModal) {
-        // Load the modal from the given template URL
-        $ionicModal.fromTemplateUrl('settings.html', function(modal) {
-          $scope.settingsModal = modal;
-          $scope.settingsModal.show();
-        }, {
-          // The animation we want to use for the modal entrance
-          animation: 'slide-in-up'
-        });
-      } else {
-        $scope.settingsModal.show();
-      }
-    };
+    // $scope.showSettings = function() {
+    //   console.log('cerca cliccato');
+    //   if(!$scope.settingsModal) {
+    //     // Load the modal from the given template URL
+    //     $ionicModal.fromTemplateUrl('modals/search.html', function(modal) {
+    //       $scope.settingsModal = modal;
+    //       $scope.settingsModal.show();
+    //     }, {
+    //       // The animation we want to use for the modal entrance
+    //       animation: 'slide-in-up'
+    //     });
+    //   } else {
+    //     $scope.settingsModal.show();
+    //   }
+    // };
 
     this.getInfoPlace = function(lat,lng){
 
@@ -69,8 +70,12 @@ angular.module('ionic.weather.controllers',[])
         .error(function (data, status) {
           alert('Connection error: ' + status);
         });
-
     };
+
+    $rootScope.$on('CallInfoPlace', function(event, args){
+      console.log('event raised: '+ args.lat +' '+ args.lng);
+      _this.getInfoPlace(args.lat, args.lng);
+    });
 
     this.getDataModel = function(model,place){
 
@@ -118,8 +123,6 @@ angular.module('ionic.weather.controllers',[])
           var init = 24 - hour;
 
           $scope.daily_forecast = [];
-
-          //TODO: add min and max temp for the curre
           $scope.highTemp = -9999;
           $scope.lowTemp = 9999;
           $scope.currentCondition = data.timeseries.runs.time[0].icon;
@@ -200,7 +203,6 @@ angular.module('ionic.weather.controllers',[])
 
 
     };
-
     this.getBackgroundImage = function(lat, lng, locString) {
 
       $scope.DfBgImage = {};
@@ -278,16 +280,13 @@ angular.module('ionic.weather.controllers',[])
     $scope.refreshData = function() {
 
       Geo.getLocation().then(function(position) {
-        var lat = position.coords.latitude;
-        var lng = position.coords.longitude;
-
-
+        lat = position.coords.latitude;
+        lng = position.coords.longitude;
 
         _this.getInfoPlace(lat,lng);
 
         $rootScope.$broadcast('scroll.refreshComplete');
         // $scope.hide($ionicLoading);
-
 
         // Geo.reverseGeocode(lat, lng).then(function(locString) {
         //   $scope.currentLocationString = locString;
@@ -311,9 +310,9 @@ angular.module('ionic.weather.controllers',[])
       Settings.save();
     }, true);
 
-    $scope.closeSettings = function() {
-      $scope.modal.hide();
-    };
+    // $scope.closeSettings = function() {
+    //   $scope.modal.hide();
+    // };
 
   })
 
@@ -437,7 +436,59 @@ angular.module('ionic.weather.controllers',[])
   //   }];
   // })
 
-  .controller('sideMenuCtrl', function($scope) {
+  .controller('sideMenuCtrl', function($scope, $ionicModal, $http, $rootScope) {
+
+    $scope.showSearch = function() {
+      console.log('cerca aperto');
+      if(!$scope.settingsModal) {
+        // Load the modal from the given template URL
+        $ionicModal.fromTemplateUrl('templates/modals/search.html', function(modal) {
+          $scope.settingsModal = modal;
+          $scope.settingsModal.show();
+        }, {
+          // The animation we want to use for the modal entrance
+          animation: 'slide-in-up'
+        });
+      } else {
+        $scope.settingsModal.show();
+      }
+    };
+
+    $scope.closeSearch = function() {
+      console.log('cerca chiuso');
+      $scope.modal.hide();
+    };
+
+    $scope.searchForecast = function(field) {
+      $scope.query = field;
+      console.log('cerco '+ $scope.query);
+      $scope.modal.hide();
+      var s_url = 'http://192.167.9.103:5050/places/search/byname/'+$scope.query;
+
+      $http({
+        method :'GET',
+        url: s_url,
+        timeout: 300000,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .success(function (data, status) {
+
+          var cLat = data.places[0].cLat;
+          var cLon = data.places[0].cLon;
+          $rootScope.$emit('CallInfoPlace', {lat: cLat, lng: cLon});
+          console.log(cLat);
+          console.log(cLon);
+    })
+
+    .error(function (data, status) {
+      alert('Connection error: ' + status);
+    });
+
+
+
+    };
 
     $scope.theme = 'ionic-sidemenu-stable';
 
