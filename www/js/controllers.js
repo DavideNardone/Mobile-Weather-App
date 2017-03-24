@@ -1,7 +1,7 @@
 angular.module('ionic.weather.controllers',[])
 
 
-  .controller('WeatherCtrl', function($scope, $timeout, $rootScope, Weather, Geo, Flickr, $ionicModal, $ionicLoading, $ionicPlatform, $ionicPopup, $http, $filter) {
+  .controller('WeatherCtrl', function($scope, $state, $stateParams, $timeout, $rootScope, Weather, Geo, Flickr, $ionicModal, $ionicLoading, $ionicPlatform, $ionicPopup, $http, $filter) {
     var _this = this;
 
     $scope._init = true;
@@ -30,6 +30,14 @@ angular.module('ionic.weather.controllers',[])
     //     $scope.settingsModal.show();
     //   }
     // };
+
+    $scope.showDayForecast = function(index) {
+
+      console.log($scope.daily_forecast[index]);
+      var selected_forecast = $scope.daily_forecast[index];
+      $state.go('app.daily_forecast', {obj: selected_forecast} );
+
+    };
 
     this.getInfoPlace = function(lat,lng){
 
@@ -63,9 +71,6 @@ angular.module('ionic.weather.controllers',[])
 
           console.log($scope.place_id);
 
-          //wrf3, ww33, etc
-          _this.getDataModel("wrf3",$scope.place_id);
-
         })
         .error(function (data, status) {
           alert('Connection error: ' + status);
@@ -95,7 +100,7 @@ angular.module('ionic.weather.controllers',[])
 
       console.log('before show');
 
-      if($scope._init==true)
+      // if($scope._init==true)
         $scope.show($ionicLoading);
 
       console.log('after show');
@@ -122,7 +127,10 @@ angular.module('ionic.weather.controllers',[])
 
           var init = 24 - hour;
 
+          //TODO: CREATE TWO DIFFERENT OBJECTS: ONE FOR THE 'WEEKLY FORECAST' AND ANOTHER ONE FOR THE 'DAILY/SELECTED FORECAST'
+
           $scope.daily_forecast = [];
+
           $scope.highTemp = -9999;
           $scope.lowTemp = 9999;
           $scope.currentCondition = data.timeseries.runs.time[0].icon;
@@ -152,37 +160,43 @@ angular.module('ionic.weather.controllers',[])
 
             var curr_date = new Date(year, month-1, day);
 
-            info_day.date = $filter('date')(curr_date, 'yyyy-MM-dd');
-
-
-            console.log(info_day.date);
-
             var min = 99999999;
             var max = -9999999;
 
+            var info_day = {
+
+              'min':            min,
+              'max':            max,
+              'date':           $filter('date')(curr_date, 'yyyy-MM-dd'),
+              'icon':           data.timeseries.runs.time[i+12].icon,
+              't2c':            [],
+              'rh2':            []
+            };
+
+            //getting TS info data and min and max temperature for each day
             for (var j = 0; j < 24; j++) {
-              var val_temp =  parseFloat(data.timeseries.runs.time[i+j].t2c);
+              var t2c =  parseFloat(data.timeseries.runs.time[i+j].t2c);
+              var rh2 =  parseFloat(data.timeseries.runs.time[i+j].rh2);
+
+              // console.log(t2c);
+
+              info_day['t2c'].push(t2c);
+              info_day['rh2'].push(rh2);
 
 
-              if(val_temp < min)
-                min = val_temp;
+              if(t2c < min)
+                min = t2c;
 
-              if (val_temp > max)
-                max = val_temp;
+              if (t2c > max)
+                max = t2c;
             }
 
-            info_day.min = min;
-            info_day.max = max;
-            // info_day.icon =
-            // console.log("min:"+min);
-            // console.log("max:"+max);
+            info_day['min'] = min;
+            info_day['max'] = max;
 
             $scope.daily_forecast.push(info_day);
-            // $scope.daily_forecast.min_arr.push(min);
-            // $scope.daily_forecast.max_arr.push(max);
 
           }
-
 
           console.log($scope.daily_forecast);
           console.log("after ops");
@@ -194,15 +208,16 @@ angular.module('ionic.weather.controllers',[])
         })
         .finally(function ($IonicLoading) {
 
-          if($scope._init==true) {
+          // if($scope._init==true) {
             $scope.hide($IonicLoading);
             $scope._init = false;
-          }
+          // }
 
         });
 
 
     };
+
     this.getBackgroundImage = function(lat, lng, locString) {
 
       $scope.DfBgImage = {};
@@ -299,20 +314,13 @@ angular.module('ionic.weather.controllers',[])
     };
 
     $scope.refreshData();
+
   })
 
-  .controller('SettingsCtrl', function($scope, Settings) {
-    $scope.settings = Settings.getSettings();
 
-    // Watch deeply for settings changes, and save them
-    // if necessary
-    $scope.$watch('settings', function(v) {
-      Settings.save();
-    }, true);
+  .controller('DailyWeatherCtrl', function($scope, $state, $stateParams) {
 
-    // $scope.closeSettings = function() {
-    //   $scope.modal.hide();
-    // };
+    $scope.sel_forecast =  $stateParams.obj;
 
   })
 

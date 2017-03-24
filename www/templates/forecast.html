@@ -9,7 +9,7 @@
       </div>
     </div>
   </ion-scroll>
-  <div class="row" ng-repeat="day in daily_forecast">
+  <div class="row" ng-repeat="day in daily_forecast" ng-click="showDayForecast($index)">
     <div class="col"><span ng-bind="day.date | date:'EEEE'"></span></div>
     <div class="col"><weather-icon icon="day.icon"></weather-icon></div>
     <div class="col">

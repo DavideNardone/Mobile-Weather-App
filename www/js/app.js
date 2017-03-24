@@ -57,6 +57,17 @@ angular.module('ionic.weather', [
         }
       })
 
+      .state('app.daily_forecast', {
+        url: '/daily_forecast/{obj:json}',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/daily_forecast.html',
+            controller: 'DailyWeatherCtrl',
+            params: {obj: null}
+          }
+        }
+      })
+
       .state('app.search', {
         url: '/search',
         views: {
