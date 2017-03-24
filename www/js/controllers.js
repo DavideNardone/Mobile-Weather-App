@@ -226,7 +226,7 @@ angular.module('ionic.weather.controllers',[])
       $scope.DfBgImage["shower3_night.png"] = "img/bg/thunderstorm.jpg";
 
 
-      Flickr.search(locString).then(function(resp) {
+      Flickr.search(locString.slice(9 ,locString.length)).then(function(resp) {
         var photos = resp.photos;
         if(photos.photo.length) {
           $scope.countIm = true;
@@ -463,7 +463,7 @@ angular.module('ionic.weather.controllers',[])
       $scope.query = field;
       console.log('cerco '+ $scope.query);
       $scope.modal.hide();
-      var s_url = 'http://192.167.9.103:5050/places/search/byname/'+$scope.query;
+      var s_url = 'http://192.167.9.103:5050/places/search/byname/Comune%20di%20'+$scope.query;
 
       $http({
         method :'GET',
@@ -474,19 +474,20 @@ angular.module('ionic.weather.controllers',[])
         }
       })
         .success(function (data, status) {
-
-          var cLat = data.places[0].cLat;
-          var cLon = data.places[0].cLon;
-          $rootScope.$emit('CallInfoPlace', {lat: cLat, lng: cLon});
-          console.log(cLat);
-          console.log(cLon);
+          if (data.places[0].cLat) {
+            var cLat = data.places[0].cLat;
+            var cLon = data.places[0].cLon;
+            $rootScope.$emit('CallInfoPlace', {lat: cLat, lng: cLon});
+            console.log(cLat);
+            console.log(cLon);
+          }else{
+            alert('Comune non trovato');
+          }
     })
 
     .error(function (data, status) {
       alert('Connection error: ' + status);
     });
-
-
 
     };
 
