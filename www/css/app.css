@@ -181,11 +181,19 @@ h1,h2,h3,h4,h5 {
   vertical-align: middle;
 }
 
+.temp {
+  display: inline-block;
+  width: 30px;
+  text-align: right;
+  color: white;
+}
+
 .temp-high {
   display: inline-block;
   width: 30px;
   text-align: right;
 }
+
 .temp-low {
   display: inline-block;
   width: 30px;

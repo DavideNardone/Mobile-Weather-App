@@ -33,7 +33,6 @@ angular.module('ionic.weather.controllers',[])
 
     $scope.showDayForecast = function(index) {
 
-      console.log($scope.daily_forecast[index]);
       var selected_forecast = $scope.daily_forecast[index];
       $state.go('app.daily_forecast', {obj: selected_forecast} );
 
@@ -84,7 +83,7 @@ angular.module('ionic.weather.controllers',[])
 
     this.getDataModel = function(model,place){
 
-      //retrieve forecast data from ww
+      //retrieve forecast data from wrf3
       var f_url = 'http://192.167.9.103:5050/products/'+model+'/timeseries/'+place;
       console.log(f_url);
 
@@ -118,25 +117,45 @@ angular.module('ionic.weather.controllers',[])
 
           console.log("success http API");
 
-          console.log(data.timeseries.runs.time[0].t2c);
-          $scope.currentTemp = data.timeseries.runs.time[0].t2c;
-          $scope.hourly_forecast = data.timeseries.runs;
+          var runs = data.timeseries.runs;
+
+          var _data = [];
+
+          if (runs.length > 1){
+            _data.concat(runs[i]);
+            // push(runs[i]);
+          }
+          else
+            _data = runs;
+            //FIXME: handle forecast data when then runs is greater than 1
+
+
+          console.log(_data);
+
+          console.log(_data.time[0].t2c);
+
+          // get the current temperature and icon
+          $scope.currentTemp = _data.time[0].t2c;
+          $scope.currentCondition = _data.time[0].icon;
+          //get all the runs
+          $scope.hourly_forecast = _data;
 
           var day = new Date();
           var hour = day.getHours()-1;
 
+          // shift the forecast to the next day 23:00 UTC
           var init = 24 - hour;
 
           //TODO: CREATE TWO DIFFERENT OBJECTS: ONE FOR THE 'WEEKLY FORECAST' AND ANOTHER ONE FOR THE 'DAILY/SELECTED FORECAST'
-
           $scope.daily_forecast = [];
+          $scope.weekly_forecast = [];
 
           $scope.highTemp = -9999;
           $scope.lowTemp = 9999;
-          $scope.currentCondition = data.timeseries.runs.time[0].icon;
 
+          //get the min and max temperature for the current day
           for(var i=0; i<=init; i++){
-            var val_temp =  parseInt(data.timeseries.runs.time[i].t2c);
+            var val_temp =  parseInt(_data.time[i].t2c);
 
             if(val_temp < $scope.lowTemp)
               $scope.lowTemp = val_temp;
@@ -146,59 +165,72 @@ angular.module('ionic.weather.controllers',[])
 
           }
 
+
+
+          //get the min and max temperature and other info beginning from 'init' and then storing in the weekly structure
           for (var i=init; i < (144 - hour); i=i+24) {
 
-            var info_day = {};
-
-            info_day.icon = data.timeseries.runs.time[i+12].icon;
-
-            var dateString = (data.timeseries.runs.time[i+1].date).slice(0,8);
+            var dateString = (_data.time[i+1].date).slice(0,11);
 
             var year = dateString.substring(0,4);
             var month = dateString.substring(4,6);
             var day  = dateString.substring(6,8);
+
+            console.log(dateString);
 
             var curr_date = new Date(year, month-1, day);
 
             var min = 99999999;
             var max = -9999999;
 
-            var info_day = {
+            var day_summary = {
 
               'min':            min,
               'max':            max,
               'date':           $filter('date')(curr_date, 'yyyy-MM-dd'),
-              'icon':           data.timeseries.runs.time[i+12].icon,
-              't2c':            [],
-              'rh2':            []
+              'icon':           _data.time[i+12].icon
             };
+
+            var day = [];
+
 
             //getting TS info data and min and max temperature for each day
             for (var j = 0; j < 24; j++) {
-              var t2c =  parseFloat(data.timeseries.runs.time[i+j].t2c);
-              var rh2 =  parseFloat(data.timeseries.runs.time[i+j].rh2);
 
-              // console.log(t2c);
+              var time = (_data.time[i+j].date).slice(0,11).substr(9,11);
 
-              info_day['t2c'].push(t2c);
-              info_day['rh2'].push(rh2);
+              var t2c =  parseFloat(_data.time[i+j].t2c);
+              var crh =  parseFloat(_data.time[i+j].crh);
+              // var rh2 =  parseFloat(_data.time[i+j].rh2);
+              var icon = _data.time[i+j].icon;
 
+              var info_day = {
+
+                't2c':    t2c,
+                'crh':    crh,
+                'icon':   icon
+              };
+
+              day.push(info_day);
 
               if(t2c < min)
                 min = t2c;
 
               if (t2c > max)
                 max = t2c;
+
             }
 
-            info_day['min'] = min;
-            info_day['max'] = max;
+            day_summary['min'] = min;
+            day_summary['max'] = max;
 
-            $scope.daily_forecast.push(info_day);
+            $scope.weekly_forecast.push(day_summary);
+            $scope.daily_forecast.push(day);
 
           }
 
           console.log($scope.daily_forecast);
+          console.log($scope.weekly_forecast);
           console.log("after ops");
 
 
@@ -321,6 +353,8 @@ angular.module('ionic.weather.controllers',[])
   .controller('DailyWeatherCtrl', function($scope, $state, $stateParams) {
 
     $scope.sel_forecast =  $stateParams.obj;
+
+    console.log($scope.sel_forecast);
 
   })
 
