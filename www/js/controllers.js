@@ -39,9 +39,13 @@ angular.module('ionic.weather.controllers',[])
     };
 
     this.getInfoPlace = function(lat,lng){
-
       //retrieve the closest places based on the lat and lng coords
-      var q_url = 'http://192.167.9.103:5050/places/search/bycoords/'+lat+'/'+lng+'?filter=com';
+      if ($scope.firstTime == 0){
+        $scope.firstTime = 1;
+        var q_url = 'http://192.167.9.103:5050/places/search/bycoords/'+lat+'/'+lng+'?filter=com';
+      }else{
+        var q_url = 'http://192.167.9.103:5050/places/search/bycoords/'+lat+'/'+lng;
+      }
       console.log(lat);
       console.log(lng);
       console.log(q_url);
@@ -272,8 +276,9 @@ angular.module('ionic.weather.controllers',[])
       $scope.DfBgImage["shower3.png"] = "img/bg/thunderstorm.jpg";
       $scope.DfBgImage["shower3_night.png"] = "img/bg/thunderstorm.jpg";
 
-
-      Flickr.search(locString.slice(9 ,locString.length)).then(function(resp) {
+      if (locString.startsWith('Comune di'))
+        locString = locString.slice(9 ,locString.length);
+      Flickr.search(locString).then(function(resp) {
         var photos = resp.photos;
         if(photos.photo.length) {
           $scope.countIm = true;
@@ -325,7 +330,7 @@ angular.module('ionic.weather.controllers',[])
 
 
     $scope.refreshData = function() {
-
+      $scope.firstTime = 0;
       Geo.getLocation().then(function(position) {
         lat = position.coords.latitude;
         lng = position.coords.longitude;
@@ -505,7 +510,8 @@ angular.module('ionic.weather.controllers',[])
       $scope.query = field;
       console.log('cerco '+ $scope.query);
       $scope.modal.hide();
-      var s_url = 'http://192.167.9.103:5050/places/search/byname/Comune%20di%20'+$scope.query;
+      $scope.query = $scope.query.substr(0,1).toUpperCase() + $scope.query.substr(1).toLowerCase();
+      var s_url = 'http://192.167.9.103:5050/places/search/byname/'+$scope.query;
 
       $http({
         method :'GET',
@@ -516,14 +522,31 @@ angular.module('ionic.weather.controllers',[])
         }
       })
         .success(function (data, status) {
-          if (data.places[0].cLat) {
-            var cLat = data.places[0].cLat;
-            var cLon = data.places[0].cLon;
+          if (data.places.length > 0) {
+            for (i=0; i<data.places.length; i++)
+            {
+              if (data.places[i].long_name.it == 'Comune di '+$scope.query) {
+                console.log('trovato Comune di ' + $scope.query);
+                var cLat = data.places[i].cLat;
+                var cLon = data.places[i].cLon;
+                break;
+              }else if (data.places[i].long_name.it == $scope.query){
+                console.log('trovato ' + $scope.query);
+                var cLat = data.places[i].cLat;
+                var cLon = data.places[i].cLon;
+                break;
+              }else{
+                console.log('Non trovato, ritorno primo elemento');
+                var cLat = data.places[0].cLat;
+                var cLon = data.places[0].cLon;
+              }
+            }
+
             $rootScope.$emit('CallInfoPlace', {lat: cLat, lng: cLon});
             console.log(cLat);
             console.log(cLon);
           }else{
-            alert('Comune non trovato');
+            alert('Luogo trovato');
           }
     })
 
