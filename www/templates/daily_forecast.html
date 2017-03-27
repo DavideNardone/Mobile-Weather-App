@@ -1,18 +1,19 @@
-<!--<ion-view>-->
-  <!--<ion-content>-->
+<ion-view>
+  <!--<background-cycler class="bg-fade"></background-cycler>-->
+  <!--//TODO: set the background image based on the overall weather condition -->
+  <img style="width:100%; height: 100%;" ng-src="img/bg/sunny.jpg">
+  <ion-content>
 
     <div id="forecast" class="weather-box">
-      <h4 class="title">Forecast</h4>
-      <div class="row" ng-repeat="day in sel_forecast">
-        <div class="col"><span ng-bind="day | date:'EEEE'"></span></div>
-        <div class="col"><span ng-bind="day.t2c"></span></div>
-        <span class="temp">{{day.t2c | tempInt}}&deg;</span>
-        <div class="col"><weather-icon icon="days.icon"></weather-icon></div>
-
-        <!--<div class="col">-->
-          <!--<span class="temp-high">{{day.max | tempInt}}&deg;</span>-->
-          <!--<span class="temp-low">{{day.min | tempInt}}&deg;</span>-->
-        <!--</div>-->
+      <h4 align="center" class="title">{{sel_forecast[1].time | date: "EEE d MMMM"}}  </h4>
+      <div class="row" ng-repeat="dd in sel_forecast" ng-if="$odd" >
+        <div class="col"><span ng-bind="dd.time | date:'HH'"></span></div>
+        <div class="col"><weather-icon icon="dd.icon"></weather-icon></div>
+        <div style="padding-right: 10px;" class="col"><span>{{dd.t2c}}&deg;</span></div>
+        <!--<span class="norm-temp">{{dd.t2c}}&deg;</span>-->
+        <div class="col" ng-if="dd.crh==0"><span>-assenti-</span></div>
+        <div class="col" ng-if="dd.crh!=0"><span>{{dd.chr}} mm</span></div>
+        <div class="col"><span>{{dd.wind}}</span></div>
       </div>
 
 
@@ -25,7 +26,6 @@
 
     </div>
 
-  <!--</ion-content>-->
-
-<!--</ion-view>-->
+  </ion-content>
+</ion-view>
 

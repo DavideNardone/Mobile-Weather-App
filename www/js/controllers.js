@@ -139,6 +139,7 @@ angular.module('ionic.weather.controllers',[])
           $scope.currentCondition = _data.time[0].icon;
           //get all the runs
           $scope.hourly_forecast = _data;
+          // console.log($scope.hourly_forecast);
 
           var day = new Date();
           var hour = day.getHours()-1;
@@ -165,8 +166,6 @@ angular.module('ionic.weather.controllers',[])
 
           }
 
-
-
           //get the min and max temperature and other info beginning from 'init' and then storing in the weekly structure
           for (var i=init; i < (144 - hour); i=i+24) {
 
@@ -176,7 +175,7 @@ angular.module('ionic.weather.controllers',[])
             var month = dateString.substring(4,6);
             var day  = dateString.substring(6,8);
 
-            console.log(dateString);
+            // console.log(dateString);
 
             var curr_date = new Date(year, month-1, day);
 
@@ -197,18 +196,30 @@ angular.module('ionic.weather.controllers',[])
             //getting TS info data and min and max temperature for each day
             for (var j = 0; j < 24; j++) {
 
-              var time = (_data.time[i+j].date).slice(0,11).substr(9,11);
+              var dateString = (_data.time[i+j].date).slice(0,11);
+
+              var y = dateString.substring(0,4);
+              var m = dateString.substring(4,6);
+              var d  = dateString.substring(6,8);
+              var t = dateString.substr(9,11);
+
+              var _date = new Date(y, m-1, d, t, 0);
+
+              console.log(_date.getHours()+1);
 
               var t2c =  parseFloat(_data.time[i+j].t2c);
               var crh =  parseFloat(_data.time[i+j].crh);
+              var wind = _data.time[i+j].winds;
               // var rh2 =  parseFloat(_data.time[i+j].rh2);
               var icon = _data.time[i+j].icon;
 
               var info_day = {
 
-                't2c':    t2c,
-                'crh':    crh,
-                'icon':   icon
+                't2c':      t2c,
+                'crh':      crh,
+                'wind':     wind,
+                'icon':     icon,
+                'time':     _date
               };
 
               day.push(info_day);
@@ -223,6 +234,8 @@ angular.module('ionic.weather.controllers',[])
 
             day_summary['min'] = min;
             day_summary['max'] = max;
+
+            console.log(day_summary);
 
             $scope.weekly_forecast.push(day_summary);
             $scope.daily_forecast.push(day);
@@ -249,6 +262,7 @@ angular.module('ionic.weather.controllers',[])
 
 
     };
+
 
     this.getBackgroundImage = function(lat, lng, locString) {
 
@@ -354,77 +368,12 @@ angular.module('ionic.weather.controllers',[])
 
     $scope.sel_forecast =  $stateParams.obj;
 
+
+
     console.log($scope.sel_forecast);
 
   })
 
-
-  // .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
-  //
-  //   // With the new view caching in Ionic, Controllers are only called
-  //   // when they are recreated or on app start, instead of every page change.
-  //   // To listen for when this page is active (for example, to refresh data),
-  //   // listen for the $ionicView.enter event:
-  //   //$scope.$on('$ionicView.enter', function(e) {
-  //   //});
-  //
-  //   // Form data for the login modal
-  //   $scope.loginData = {};
-  //
-  //   // Create the login modal that we will use later
-  //   $ionicModal.fromTemplateUrl('templates/login.html', {
-  //     scope: $scope
-  //   }).then(function(modal) {
-  //     $scope.modal = modal;
-  //   });
-  //
-  //   // Triggered in the login modal to close it
-  //   $scope.closeLogin = function() {
-  //     $scope.modal.hide();
-  //   };
-  //
-  //   // Open the login modal
-  //   $scope.login = function() {
-  //     $scope.modal.show();
-  //   };
-  //
-  //   // Perform the login action when the user submits the login form
-  //   $scope.doLogin = function() {
-  //     console.log('Doing login', $scope.loginData);
-  //
-  //     // Simulate a login delay. Remove this and replace with your login
-  //     // code if using a login system
-  //     $timeout(function() {
-  //       $scope.closeLogin();
-  //     }, 1000);
-  //   };
-  // })
-
-  // .controller('PlaylistsCtrl', function($scope) {
-  //
-  //   $scope.theme = 'ionic-sidemenu-blue';
-  //   $scope.playlists = [{
-  //     title: 'Reggae',
-  //     id: 1
-  //   }, {
-  //     title: 'Chill',
-  //     id: 2
-  //   }, {
-  //     title: 'Dubstep',
-  //     id: 3
-  //   }, {
-  //     title: 'Indie',
-  //     id: 4
-  //   }, {
-  //     title: 'Rap',
-  //     id: 5
-  //   }, {
-  //     title: 'Cowbell',
-  //     id: 6
-  //   }];
-  // })
-
-  // .controller('PlaylistCtrl', function($scope, $stateParams) {})
 
   .controller('SearchCtrl', function($scope,$ionicLoading) {
     console.log("search1");
@@ -455,28 +404,6 @@ angular.module('ionic.weather.controllers',[])
   })
 
 
-
-  // .controller('BrowseCtrl', function($scope) {
-  //   $scope.playlists = [{
-  //     title: 'Reggae',
-  //     id: 1
-  //   }, {
-  //     title: 'Chill',
-  //     id: 2
-  //   }, {
-  //     title: 'Dubstep',
-  //     id: 3
-  //   }, {
-  //     title: 'Indie',
-  //     id: 4
-  //   }, {
-  //     title: 'Rap',
-  //     id: 5
-  //   }, {
-  //     title: 'Cowbell',
-  //     id: 6
-  //   }];
-  // })
 
   .controller('sideMenuCtrl', function($scope, $ionicModal, $http, $rootScope) {
 

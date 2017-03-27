@@ -162,7 +162,7 @@ h1,h2,h3,h4,h5 {
 
 .weather-box .col:first-child {
   text-align: left;
-  padding-top: 20px
+  padding-top: 15px
 }
 
 .weather-box .col:last-child {
@@ -181,9 +181,10 @@ h1,h2,h3,h4,h5 {
   vertical-align: middle;
 }
 
-.temp {
+/*using*/
+.norm-temp {
   display: inline-block;
-  width: 30px;
+  width: 40px;
   text-align: right;
   color: white;
 }
