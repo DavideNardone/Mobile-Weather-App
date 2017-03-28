@@ -1,25 +1,26 @@
 <ion-view>
   <!--<background-cycler class="bg-fade"></background-cycler>-->
-  <!--//TODO: set the background image based on the overall weather condition -->
-  <img style="width:100%; height: 100%;" ng-src="img/bg/sunny.jpg">
+  <!--//TODO: set the background image based on the overall
+  weather condition -->
+  <img style="width:100%; height: 100%;" ng-src={{bg_img}}>
   <ion-content>
 
     <div id="forecast" class="weather-box">
       <h4 align="center" class="title">{{sel_forecast[1].time | date: "EEE d MMMM"}}  </h4>
-      <div class="row" ng-repeat="dd in sel_forecast" ng-if="$odd" >
+      <div class="row" ng-repeat="dd in sel_forecast" >
         <div class="col"><span ng-bind="dd.time | date:'HH'"></span></div>
         <div class="col"><weather-icon icon="dd.icon"></weather-icon></div>
-        <div style="padding-right: 10px;" class="col"><span>{{dd.t2c}}&deg;</span></div>
+        <div style="padding-top: 15px; padding-right: 10px;" class="col"><span>{{dd.t2c}}&deg;</span></div>
         <!--<span class="norm-temp">{{dd.t2c}}&deg;</span>-->
-        <div class="col" ng-if="dd.crh==0"><span>-assenti-</span></div>
+        <div style="padding-top: 15px;" class="col" ng-if="dd.crh==0"><span>-assenti-</span></div>
         <div class="col" ng-if="dd.crh!=0"><span>{{dd.chr}} mm</span></div>
-        <div class="col"><span>{{dd.wind}}</span></div>
+        <div style="padding-top: 15px;" class="col"><span>{{dd.wind}}</span></div>
       </div>
 
 
       <div class="clearfix">
         <div class="credit">
-          Powered by <a href="http://www.meteo.uniparthenope.it" target="_blank">meteo.uniparthenope</a>
+          Powered by <a ng-click="openInAppBrowser('http://meteo.uniparthenope.it/')">meteo.uniparthenope</a>
         </div>
       </div>
 

@@ -3,6 +3,7 @@ angular.module('ionic.weather', [
   'ionic.weather.services',
   'ionic.weather.filters',
   'ionic.weather.directives',
+  'ngCordova',
   'ionic.weather.controllers',
   'ionic-sidemenu'
 ])

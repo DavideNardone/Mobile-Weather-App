@@ -208,12 +208,15 @@ angular.module('ionic.weather.controllers',[])
               var t = dateString.substr(9,11);
 
               var _date = new Date(y, m-1, d, t, 0);
+              _date.setHours(_date.getHours()+1);
 
               console.log(_date.getHours()+1);
 
               var t2c =  parseFloat(_data.time[i+j].t2c);
               var crh =  parseFloat(_data.time[i+j].crh);
               var wind = _data.time[i+j].winds;
+              var ws10 = _data.time[i+j].ws10;
+              var wc_text = _data.time[i+j].text;
               // var rh2 =  parseFloat(_data.time[i+j].rh2);
               var icon = _data.time[i+j].icon;
 
@@ -222,8 +225,10 @@ angular.module('ionic.weather.controllers',[])
                 't2c':      t2c,
                 'crh':      crh,
                 'wind':     wind,
+                'ws10':     ws10,
                 'icon':     icon,
-                'time':     _date
+                'time':     _date,
+                'wc_text':  wc_text
               };
 
               day.push(info_day);
@@ -369,11 +374,64 @@ angular.module('ionic.weather.controllers',[])
   })
 
 
-  .controller('DailyWeatherCtrl', function($scope, $state, $stateParams) {
+  .controller('DailyWeatherCtrl', function($scope, WC, WCI, $state, $stateParams, $cordovaInAppBrowser) {
 
-    $scope.sel_forecast =  $stateParams.obj;
+    var options = {
+      location: 'yes',
+      clearcache: 'yes',
+      toolbar: 'yes'
+    };
 
+    $scope.openInAppBrowser = function(link) {
+      $cordovaInAppBrowser.open(link, '_blank', options)
 
+        .then(function(event) {
+
+        })
+
+        .catch(function(event) {
+
+        });
+    };
+
+    var _daily_forecast =  $stateParams.obj;
+    $scope.sel_forecast = [];
+    var step = 3;
+    var _count = new Array(WC.length).fill(0);
+
+    console.log(_daily_forecast);
+
+    //skipping midnight
+    for (var i = 1; i < _daily_forecast.length; i=i+step) {
+
+      var _step_data = _daily_forecast[i];
+      $scope.sel_forecast.push(_step_data);
+
+      var wc = _step_data.wc_text;
+
+      var i_wc = WC.indexOf(wc);
+
+      _count[i_wc]++;
+
+    }
+    console.log(_count);
+
+    var max = -9999;
+    var k;
+
+    // retrieving condition weather based on max value
+    for(var i = 0; i < _count.length; i++){
+      if(_count[i] > max){
+        max = _count[i];
+        k = i;
+      }
+    }
+
+    console.log(k);
+    console.log(_count[k]);
+
+    $scope.bg_img = WCI[k].toString();
+    console.log($scope.bg_img);
 
     console.log($scope.sel_forecast);
 
@@ -503,7 +561,6 @@ angular.module('ionic.weather.controllers',[])
         }
       ];
   })
-
 
 
 

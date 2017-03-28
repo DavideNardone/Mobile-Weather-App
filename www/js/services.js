@@ -103,6 +103,12 @@ angular.module('ionic.weather.services', ['ngResource'])
   'tempUnits': 'c'
 })
 
+
+.constant('WC', ['Sereno', 'Nuvoloso','Rovesci'])
+.constant('WCI', ['img/bg/sunny.gif', 'img/bg/cloudy.gif','img/bg/rainy.gif'])
+
+
+
 .factory('Settings', function($rootScope, DEFAULT_SETTINGS) {
   var _settings = {};
   try {
