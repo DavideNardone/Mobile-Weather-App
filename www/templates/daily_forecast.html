@@ -17,6 +17,19 @@
         <div style="padding-top: 15px;" class="col"><span>{{dd.wind}}</span></div>
       </div>
 
+      <h4 class="title">Sea Condition</h4>
+      <div class="row" ng-repeat="day in sel_forecast">
+        <div class="col"><span ng-bind="day | date:'EEEE'"></span></div>
+        <div class="col"><span ng-bind="day.t2c"></span></div>
+        <span class="temp">{{day.t2c | tempInt}}&deg;</span>
+        <div class="col"><weather-icon icon="days.icon"></weather-icon></div>
+
+        <!--<div class="col">-->
+        <!--<span class="temp-high">{{day.max | tempInt}}&deg;</span>-->
+        <!--<span class="temp-low">{{day.min | tempInt}}&deg;</span>-->
+        <!--</div>-->
+      </div>
+
 
       <div class="clearfix">
         <div class="credit">
