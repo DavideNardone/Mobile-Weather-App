@@ -7,7 +7,7 @@
 
     <div id="forecast" class="weather-box">
       <h4 align="center" class="title">{{sel_forecast[1].time | date: "EEE d MMMM"}}  </h4>
-      <div class="row" ng-repeat="dd in sel_forecast" >
+      <div class="row" ng-repeat="dd in sel_forecast" ng-click="showModal('fadeIn', $index)">
         <div class="col"><span ng-bind="dd.time | date:'HH'"></span></div>
         <div class="col"><weather-icon icon="dd.icon"></weather-icon></div>
         <div style="padding-top: 15px; padding-right: 10px;" class="col"><span>{{dd.t2c}}&deg;</span></div>
@@ -17,7 +17,9 @@
         <div style="padding-top: 15px;" class="col" ng-if="dd.crh!=0">
           <span>{{dd.crh}} mm</span>
         </div>
-        <div style="padding-top: 15px;" class="col"><span>{{dd.wind}}</span></div>
+        <div style="padding-top: 15px;" class="col">
+          <span>{{dd.wind}}</span>
+        </div>
         <!--<i ng-class="dd.wind_dir"></i>-->
         <weather-icon style="padding-top: 15px;" icon="dd.wind_dir"></weather-icon>
       </div>

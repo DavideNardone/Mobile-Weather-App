@@ -166,7 +166,6 @@ angular.module('ionic.weather.controllers',[])
               // shift the forecast to the next day 23:00 UTC
               var init = 24 - hour;
 
-              //TODO: CREATE TWO DIFFERENT OBJECTS: ONE FOR THE 'WEEKLY FORECAST' AND ANOTHER ONE FOR THE 'DAILY/SELECTED FORECAST'
               $scope.daily_forecast = [];
               $scope.weekly_forecast = [];
 
@@ -186,8 +185,8 @@ angular.module('ionic.weather.controllers',[])
               }
 
           //get the min and max temperature and other info beginning from 'init' and then storing in the weekly structure
-          var day_shift = Math.floor( (_data.time.length - tz-1 + hour)/24 ) * 24;
-          for (var i = (init+1); i < (144 - hour); i=i+24) {
+          var day_shift = Math.floor( (_data.time.length - tz-1)/24 ) * 24;
+          for (var i = (init+1); i < day_shift; i=i+24) {
 
                   var dateString = (_data.time[i + 1].date).slice(0, 11);
 
@@ -231,7 +230,8 @@ angular.module('ionic.weather.controllers',[])
               console.log(_data.time[i+j].winds===null);
               var t2c =  parseFloat(_data.time[i+j].t2c);
               var crh =  parseFloat(_data.time[i+j].crh);
-              var wind = _data.time[i+j].winds === null ? '-' : _data.time[i+j].winds;
+              var wind = _data.time[i+j].winds === null ? 'N/A' : _data.time[i+j].winds;
+              var wind_dir = wind === 'N/A' ? 'wi wi-na' : 'wi wi-wind wi-from-' + wind.toLowerCase()
               var ws10 = _data.time[i+j].ws10;
               var wc_text = _data.time[i+j].text;
               // var rh2 =  parseFloat(_data.time[i+j].rh2);
@@ -261,7 +261,7 @@ angular.module('ionic.weather.controllers',[])
                       'b_scale': b_scale,
                       'hs': hs,
                       'peakd': peakd,
-                      'wind_dir': 'wi wi-wind wi-towards-' + wind.toLowerCase(),
+                      'wind_dir': wind_dir,
                       'b_scale_icon': 'wi wi-wind-beaufort-' + parseInt(b_scale)
                     };
 
@@ -408,7 +408,7 @@ angular.module('ionic.weather.controllers',[])
   })
 
 
-  .controller('DailyWeatherCtrl', function($scope, WC, WCI, $state, $stateParams, $cordovaInAppBrowser) {
+  .controller('DailyWeatherCtrl', function($scope, WC, WCI, $state, $stateParams, $cordovaInAppBrowser,$ionicModal) {
 
     var options = {
       location: 'yes',
@@ -426,6 +426,27 @@ angular.module('ionic.weather.controllers',[])
         .catch(function(event) {
 
         });
+    };
+
+
+    $scope.showModal = function(animation,index) {
+      console.log(animation);
+      console.log(index);
+      $scope.sel_hour_forecast = $scope.sel_forecast[index];
+      $ionicModal.fromTemplateUrl('templates/modals/hourly_forecast.html', {
+        scope: $scope,
+        animation: 'animated ' + animation,
+        hideDelay: 120
+      }).then(function(modal) {
+        $scope.modal = modal;
+        $scope.modal.show();
+        $scope.hideModal = function(){
+          $scope.modal.hide();
+          // Note that $scope.$on('destroy') isn't called in new ionic builds where cache is used
+          // It is important to remove the modal to avoid memory leaks
+          $scope.modal.remove();
+        }
+      });
     };
 
     var _daily_forecast =  $stateParams.obj;

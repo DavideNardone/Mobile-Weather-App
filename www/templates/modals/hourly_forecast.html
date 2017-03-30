@@ -1,0 +1,11 @@
+<ion-modal-view class="image-modal transparent" >
+  <img style="width:100%; height: 100%;" ng-src={{bg_img}}>
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">{{sel_hour_forecast.time |  date:'H'}}</h1>
+    <button class="button button-clear button-primary" ng-click="hideModal()">Esci</button>
+  </ion-header-bar>
+
+  <ion-content>
+
+  </ion-content>
+</ion-modal-view>
