@@ -209,10 +209,10 @@ angular.module('ionic.weather.controllers',[])
               _date.setHours(_date.getHours()+tz);
 
               // console.log(_date.getHours());
-              // console.log(_data.time[i+j].winds);
+              console.log(_data.time[i+j].winds===null);
               var t2c =  parseFloat(_data.time[i+j].t2c);
               var crh =  parseFloat(_data.time[i+j].crh);
-              var wind = _data.time[i+j].winds != angular.isObject(_data.time[i+j].winds)  ? '-' : _data.time[i+j].winds;
+              var wind = _data.time[i+j].winds === null ? '-' : _data.time[i+j].winds;
               var ws10 = _data.time[i+j].ws10;
               var wc_text = _data.time[i+j].text;
               // var rh2 =  parseFloat(_data.time[i+j].rh2);
