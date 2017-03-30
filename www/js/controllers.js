@@ -89,6 +89,7 @@ angular.module('ionic.weather.controllers',[])
 
       //retrieve forecast data from wrf3
       var f_url = 'http://192.167.9.103:5050/products/'+model+'/timeseries/'+place;
+      var s_url = 'http://192.167.9.103:5050/products/ww33/timeseries/'+place;
       console.log(f_url);
 
       $scope.show = function () {
@@ -104,7 +105,7 @@ angular.module('ionic.weather.controllers',[])
       console.log('before show');
 
       // if($scope._init==true)
-        $scope.show($ionicLoading);
+      $scope.show($ionicLoading);
 
       console.log('after show');
 
@@ -119,21 +120,38 @@ angular.module('ionic.weather.controllers',[])
       })
         .success(function (data, status) {
 
-          console.log("success http API");
+          $http({
+            method :'GET',
+            url: s_url,
+            timeout: 300000,
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+            .success(function (data_s, status) {
+              console.log("success http API");
 
-          //timezone (+2:00)
-          var tz = 2;
-          var runs = data.timeseries.runs;
+              var runs = data.timeseries.runs;
+              var runs_s = data_s.timeseries.runs;
+              //timezone (+2:00)
+              var tz = 2;
 
-          var _data = [];
+              var _data = [];
+              var _data_s = [];
 
-          if (runs.length > 1){
-            _data.concat(runs[i]);
-            // push(runs[i]);
-          }
-          else
-            _data = runs;
-            //FIXME: handle forecast data when then runs is greater than 1
+              if (runs.length > 1){
+                _data.concat(runs[i]);
+                // push(runs[i]);
+              }
+              else
+                _data = runs;
+              if (runs_s.length > 1){
+                _data_s.concat(runs_s[i]);
+                // push(runs[i]);
+              }
+              else
+                _data_s = runs_s;
+              //FIXME: handle forecast data when then runs is greater than 1
 
           // get the current temperature and icon
           $scope.currentTemp = _data.time[0].t2c;
@@ -145,65 +163,66 @@ angular.module('ionic.weather.controllers',[])
           var day = new Date();
           var hour = day.getHours();
 
-          // shift the forecast to the next day 22:00 UTC (+1:00 )
-          var init = 24 - hour;
+              // shift the forecast to the next day 23:00 UTC
+              var init = 24 - hour;
 
-          $scope.daily_forecast = [];
-          $scope.weekly_forecast = [];
+              //TODO: CREATE TWO DIFFERENT OBJECTS: ONE FOR THE 'WEEKLY FORECAST' AND ANOTHER ONE FOR THE 'DAILY/SELECTED FORECAST'
+              $scope.daily_forecast = [];
+              $scope.weekly_forecast = [];
 
-          $scope.highTemp = -9999;
-          $scope.lowTemp = 9999;
+              $scope.highTemp = -9999;
+              $scope.lowTemp = 9999;
 
-          //get the min and max temperature for the current day
-          for(var i=0; i<=init; i++){
-            var val_temp =  parseInt(_data.time[i].t2c);
+              //get the min and max temperature for the current day
+              for(var i=0; i<=init; i++){
+                var val_temp =  parseInt(_data.time[i].t2c);
 
-            if(val_temp < $scope.lowTemp)
-              $scope.lowTemp = val_temp;
+                if(val_temp < $scope.lowTemp)
+                  $scope.lowTemp = val_temp;
 
-            if (val_temp > $scope.highTemp)
-              $scope.highTemp = val_temp;
+                if (val_temp > $scope.highTemp)
+                  $scope.highTemp = val_temp;
 
-          }
+              }
 
           //get the min and max temperature and other info beginning from 'init' and then storing in the weekly structure
           var day_shift = Math.floor( (_data.time.length - tz-1 + hour)/24 ) * 24;
           for (var i = (init+1); i < (144 - hour); i=i+24) {
 
-            var dateString = (_data.time[i+1].date).slice(0,11);
+                  var dateString = (_data.time[i + 1].date).slice(0, 11);
 
-            var year = dateString.substring(0,4);
-            var month = dateString.substring(4,6);
-            var day  = dateString.substring(6,8);
-            var hh = dateString.substr(9,11);
+                  var year = dateString.substring(0, 4);
+                  var month = dateString.substring(4, 6);
+                  var day = dateString.substring(6, 8);
+                  var hh = dateString.substr(9, 11);
 
             console.log(hh);
 
             var curr_date = new Date(year, month-1, day);
 
-            var min = 99999999;
-            var max = -9999999;
+                  var min = 99999999;
+                  var max = -9999999;
 
-            var day_summary = {
+                  var day_summary = {
 
-              'min':            min,
-              'max':            max,
-              'date':           $filter('date')(curr_date, 'yyyy-MM-dd'),
-              'icon':           _data.time[i+12].icon
-            };
+                    'min': min,
+                    'max': max,
+                    'date': $filter('date')(curr_date, 'yyyy-MM-dd'),
+                    'icon': _data.time[i + 12].icon
+                  };
 
-            var day = [];
+                  var day = [];
 
 
-            //getting TS info data and min and max temperature for each day
-            for (var j = 0; j < 24; j++) {
+                  //getting TS info data and min and max temperature for each day
+                  for (var j = 0; j < 24; j++) {
 
-              var dateString = (_data.time[i+j].date).slice(0,11);
+                    var dateString = (_data.time[i + j].date).slice(0, 11);
 
-              var y = dateString.substring(0,4);
-              var m = dateString.substring(4,6);
-              var d  = dateString.substring(6,8);
-              var t = dateString.substr(9,11);
+                    var y = dateString.substring(0, 4);
+                    var m = dateString.substring(4, 6);
+                    var d = dateString.substring(6, 8);
+                    var t = dateString.substr(9, 11);
 
               var _date = new Date(y, m-1, d, t, 0);
               _date.setHours(_date.getHours()+tz);
@@ -218,57 +237,71 @@ angular.module('ionic.weather.controllers',[])
               // var rh2 =  parseFloat(_data.time[i+j].rh2);
               var icon = _data.time[i+j].icon;
 
-              var info_day = {
+                    //console.log('lunghezza sea: ' + runs_s.time.length + 'i=' + i);
+                    if (i < runs_s.time.length - 2) {
+                      var b_scale = _data_s.time[i + j].w10b;
+                      var hs = _data_s.time[i + j].hs;
+                      var peakd = _data_s.time[i + j].peakd;
+                    }
+                    else {
+                      var b_scale = -9999;
+                      var hs = -9999;
+                      var peakd = -9999;
+                    }
 
-                't2c':      t2c,
-                'crh':      crh,
-                'wind':     wind,
-                'ws10':     ws10,
-                'wind_dir': 'wi wi-wind wi-towards-' + wind.toLowerCase(),
-                'icon':     icon,
-                'time':     _date,
-                'wc_text':  wc_text
-              };
+                    var info_day = {
 
-              day.push(info_day);
+                      't2c': t2c,
+                      'crh': crh,
+                      'wind': wind,
+                      'ws10': ws10,
+                      'icon': icon,
+                      'time': _date,
+                      'wc_text': wc_text,
+                      'b_scale': b_scale,
+                      'hs': hs,
+                      'peakd': peakd,
+                      'wind_dir': 'wi wi-wind wi-towards-' + wind.toLowerCase(),
+                      'b_scale_icon': 'wi wi-wind-beaufort-' + parseInt(b_scale)
+                    };
 
-              console.log(info_day);
+                    day.push(info_day);
 
-              if(t2c < min)
-                min = t2c;
+                    if (t2c < min)
+                      min = t2c;
 
-              if (t2c > max)
-                max = t2c;
+                    if (t2c > max)
+                      max = t2c;
 
-            }
+                  }
 
-            day_summary['min'] = min;
-            day_summary['max'] = max;
+                  day_summary['min'] = min;
+                  day_summary['max'] = max;
 
-            console.log(day_summary);
+                  console.log(day_summary);
 
-            $scope.weekly_forecast.push(day_summary);
-            $scope.daily_forecast.push(day);
+                  $scope.weekly_forecast.push(day_summary);
+                  $scope.daily_forecast.push(day);
 
-          }
+                }
 
-          console.log($scope.daily_forecast);
-          console.log($scope.weekly_forecast);
-          console.log("after ops");
+                console.log($scope.daily_forecast);
+                console.log($scope.weekly_forecast);
+                console.log("after ops");
 
+            })
+            .error(function (data, status) {
+              alert('Connection error: ' + status);
+            })
+            .finally(function ($IonicLoading) {
 
+              // if($scope._init==true) {
+              $scope.hide($IonicLoading);
+              $scope._init = false;
+              // }
+
+            })
         })
-        .error(function (data, status) {
-          alert('Connection error: ' + status);
-        })
-        .finally(function ($IonicLoading) {
-
-          // if($scope._init==true) {
-            $scope.hide($IonicLoading);
-            $scope._init = false;
-          // }
-
-        });
 
 
     };
