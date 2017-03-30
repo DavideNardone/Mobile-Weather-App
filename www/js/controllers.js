@@ -135,11 +135,6 @@ angular.module('ionic.weather.controllers',[])
             _data = runs;
             //FIXME: handle forecast data when then runs is greater than 1
 
-
-          console.log(_data);
-
-          console.log(_data.time[0].t2c);
-
           // get the current temperature and icon
           $scope.currentTemp = _data.time[0].t2c;
           $scope.currentCondition = _data.time[0].icon;
@@ -149,7 +144,6 @@ angular.module('ionic.weather.controllers',[])
 
           var day = new Date();
           var hour = day.getHours();
-          console.log(hour);
 
           // shift the forecast to the next day 22:00 UTC (+1:00 )
           var init = 24 - hour;
@@ -173,8 +167,8 @@ angular.module('ionic.weather.controllers',[])
           }
 
           //get the min and max temperature and other info beginning from 'init' and then storing in the weekly structure
-          var day_shift = Math.floor( (_data.time.length - tz-1)/24 ) * 24;
-          for (var i = (init+1); i < day_shift; i=i+24) {
+          var day_shift = Math.floor( (_data.time.length - tz-1 + hour)/24 ) * 24;
+          for (var i = (init+1); i < (144 - hour); i=i+24) {
 
             var dateString = (_data.time[i+1].date).slice(0,11);
 
@@ -183,9 +177,7 @@ angular.module('ionic.weather.controllers',[])
             var day  = dateString.substring(6,8);
             var hh = dateString.substr(9,11);
 
-            console.log(hour);
             console.log(hh);
-
 
             var curr_date = new Date(year, month-1, day);
 
@@ -214,13 +206,13 @@ angular.module('ionic.weather.controllers',[])
               var t = dateString.substr(9,11);
 
               var _date = new Date(y, m-1, d, t, 0);
-              _date.setHours(_date.getHours()+1);
+              _date.setHours(_date.getHours()+tz);
 
-              console.log(_date.getHours()+1);
-
+              // console.log(_date.getHours());
+              // console.log(_data.time[i+j].winds);
               var t2c =  parseFloat(_data.time[i+j].t2c);
               var crh =  parseFloat(_data.time[i+j].crh);
-              var wind = _data.time[i+j].winds;
+              var wind = _data.time[i+j].winds != angular.isObject(_data.time[i+j].winds)  ? '-' : _data.time[i+j].winds;
               var ws10 = _data.time[i+j].ws10;
               var wc_text = _data.time[i+j].text;
               // var rh2 =  parseFloat(_data.time[i+j].rh2);
