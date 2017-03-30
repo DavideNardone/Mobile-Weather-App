@@ -248,7 +248,7 @@ angular.module('ionic.weather.controllers',[])
                       var hs = -9999;
                       var peakd = -9999;
                     }
-
+              $scope.sea_length = runs_s.time.length;
                     var info_day = {
 
                       't2c': t2c,
