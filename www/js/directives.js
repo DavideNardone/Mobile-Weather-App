@@ -2,29 +2,30 @@ angular.module('ionic.weather.directives', [])
 
 .constant('WEATHER_ICONS', {
 
-  'sunny.png':  'ion-ios-sunny-outline',
-  'sunny_night.png':  'ion-ios-moon',
+  'sunny.png':            'wi wi-day-sunny',
+  'sunny_night.png':      'wi wi-night-clear',
 
-  'cloudy1.png': 'ion-ios-partlysunny-outline',
-  'cloudy2.png': 'ion-ios-partlysunny-outline',
-  'cloudy3.png':  'ion-ios-cloudy-outline',
-  'cloudy4.png':  'ion-ios-cloudy-outline',
-  'cloudy5.png':  'ion-ios-cloud-outline',
+  'cloudy1.png':          'wi wi-day-cloudy',
+  'cloudy2.png':          'wi wi-day-cloudy',
+  'cloudy3.png':          'wi wi-day-cloudy-high',
+  'cloudy4.png':          'wi wi-cloudy',
+  'cloudy5.png':          'wi wi-cloud',
 
-  'cloudy1_night.png':  "ion-ios-cloudy-night-outline",
-  'cloudy2_night.png':  "ion-ios-cloudy-night-outline",
-  'cloudy3_night.png':  "ion-ios-cloudy-night-outline",
-  'cloudy4_night.png':  "ion-ios-cloud-outline",
-  'cloudy5_night.png':  "ion-ios-cloud-outline",
+  'cloudy1_night.png':    "wi wi-night-alt-partly-cloudy",
+  'cloudy2_night.png':    "wi wi-night-alt-partly-cloudy",
+  'cloudy3_night.png':    "wi wi-night-alt-cloudy",
+  'cloudy4_night.png':    "wi wi-night-alt-cloudy",
+  'cloudy5_night.png':    "wi wi-night-alt-cloudy",
 
-  'shower1.png': "ion-ios-rainy-outline",
-  'shower2.png': "ion-ios-rainy-outline",
-  'shower3.png': "ion-ios-thunderstorm-outline",
+  'shower1.png':          "wi wi-day-showers",
+  'shower2.png':          "wi wi-hail",
+  'shower3.png':          "wi wi-storm-showers",
 
-  'shower1_night.png': "ion-ios-rainy-outline",
-  'shower2_night.png': "ion-ios-rainy-outline",
-  'shower3_night.png': "ion-ios-thunderstorm-outline"
+  'shower1_night.png':    "wi wi-night-alt-showers",
+  'shower2_night.png':    "wi wi-night-alt-rain",
+  'shower3_night.png':    "wi wi-night-alt-thunderstorm"
 })
+
 
 .directive('weatherIcon', function(WEATHER_ICONS) {
   return {
@@ -44,7 +45,8 @@ angular.module('ionic.weather.directives', [])
         if(icon in WEATHER_ICONS) {
           $scope.weatherIcon = WEATHER_ICONS[icon];
         } else {
-          $scope.weatherIcon = WEATHER_ICONS['cloudy'];
+          $scope.weatherIcon = icon;
+          // $scope.weatherIcon = WEATHER_ICONS['cloudy'];
         }
       });
     }

@@ -10,3 +10,5 @@ platforms/^.*
 .idea
 
 config.xml
+
+*.xml

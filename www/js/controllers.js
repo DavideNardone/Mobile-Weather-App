@@ -121,6 +121,8 @@ angular.module('ionic.weather.controllers',[])
 
           console.log("success http API");
 
+          //timezone (+2:00)
+          var tz = 2;
           var runs = data.timeseries.runs;
 
           var _data = [];
@@ -146,12 +148,12 @@ angular.module('ionic.weather.controllers',[])
           // console.log($scope.hourly_forecast);
 
           var day = new Date();
-          var hour = day.getHours()-1;
+          var hour = day.getHours();
+          console.log(hour);
 
-          // shift the forecast to the next day 23:00 UTC
+          // shift the forecast to the next day 22:00 UTC (+1:00 )
           var init = 24 - hour;
 
-          //TODO: CREATE TWO DIFFERENT OBJECTS: ONE FOR THE 'WEEKLY FORECAST' AND ANOTHER ONE FOR THE 'DAILY/SELECTED FORECAST'
           $scope.daily_forecast = [];
           $scope.weekly_forecast = [];
 
@@ -171,15 +173,19 @@ angular.module('ionic.weather.controllers',[])
           }
 
           //get the min and max temperature and other info beginning from 'init' and then storing in the weekly structure
-          for (var i=init; i < (144 - hour); i=i+24) {
+          var day_shift = Math.floor( (_data.time.length - tz-1)/24 ) * 24;
+          for (var i = (init+1); i < day_shift; i=i+24) {
 
             var dateString = (_data.time[i+1].date).slice(0,11);
 
             var year = dateString.substring(0,4);
             var month = dateString.substring(4,6);
             var day  = dateString.substring(6,8);
+            var hh = dateString.substr(9,11);
 
-            // console.log(dateString);
+            console.log(hour);
+            console.log(hh);
+
 
             var curr_date = new Date(year, month-1, day);
 
@@ -226,12 +232,15 @@ angular.module('ionic.weather.controllers',[])
                 'crh':      crh,
                 'wind':     wind,
                 'ws10':     ws10,
+                'wind_dir': 'wi wi-wind wi-towards-' + wind.toLowerCase(),
                 'icon':     icon,
                 'time':     _date,
                 'wc_text':  wc_text
               };
 
               day.push(info_day);
+
+              console.log(info_day);
 
               if(t2c < min)
                 min = t2c;

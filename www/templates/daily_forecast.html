@@ -11,10 +11,15 @@
         <div class="col"><span ng-bind="dd.time | date:'HH'"></span></div>
         <div class="col"><weather-icon icon="dd.icon"></weather-icon></div>
         <div style="padding-top: 15px; padding-right: 10px;" class="col"><span>{{dd.t2c}}&deg;</span></div>
-        <!--<span class="norm-temp">{{dd.t2c}}&deg;</span>-->
-        <div style="padding-top: 15px;" class="col" ng-if="dd.crh==0"><span>-assenti-</span></div>
-        <div class="col" ng-if="dd.crh!=0"><span>{{dd.chr}} mm</span></div>
+        <div style="padding-top: 15px;" class="col" ng-if="dd.crh==0">
+          <span>assenti</span>
+        </div>
+        <div style="padding-top: 15px;" class="col" ng-if="dd.crh!=0">
+          <span>{{dd.crh}} mm</span>
+        </div>
         <div style="padding-top: 15px;" class="col"><span>{{dd.wind}}</span></div>
+        <!--<i ng-class="dd.wind_dir"></i>-->
+        <weather-icon style="padding-top: 15px;" icon="dd.wind_dir"></weather-icon>
       </div>
 
       <h4 class="title">Sea Condition</h4>

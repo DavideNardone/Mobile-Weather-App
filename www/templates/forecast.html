@@ -5,14 +5,15 @@
       <div class="hourly-hour" ng-repeat="hour in hourly_forecast.time | limitTo:24">
         <div class="time" >{{ (hour.date.slice(-2) | tempInt)+1 }}</div>
         <weather-icon icon="hour.icon"></weather-icon>
+        <!--<i class="wi wi-day-sunny"></i>-->
         <div class="temp">{{hour.t2c | tempInt}}&deg;</div>
       </div>
     </div>
   </ion-scroll>
   <div class="row" ng-repeat="day in weekly_forecast" ng-click="showDayForecast($index)">
     <div class="col"><span ng-bind="day.date | date:'EEEE'"></span></div>
-    <div class="col"><weather-icon icon="day.icon"></weather-icon></div>
-    <div class="col">
+    <div style="margin-top: 3px;" class="col"><weather-icon icon="day.icon"></weather-icon></div>
+    <div style="margin-top: -3px;" class="col">
       <span class="temp-high">{{day.max | tempInt}}&deg;</span>
       <span class="temp-low">{{day.min | tempInt}}&deg;</span>
     </div>

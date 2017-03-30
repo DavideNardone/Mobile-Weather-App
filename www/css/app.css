@@ -175,9 +175,9 @@ h1,h2,h3,h4,h5 {
 }
 
 .weather-box .icon {
-  font-size: 42px;
-  line-height: 24px;
-  padding: 3px;
+  font-size: 25px;
+  line-height: 25px;
+  padding: 7px;
   vertical-align: middle;
 }
 
@@ -211,7 +211,7 @@ h1,h2,h3,h4,h5 {
   margin: 10px 0px;
 }
 #hourly-forecast {
-  width: 900px;
+  width: 950px;
   height: 80px;
 }
 .hourly-hour {
@@ -242,6 +242,7 @@ h1,h2,h3,h4,h5 {
   border: none;
   color: #fff;
 }
+
 #settings-modal .input-label {
   color: #fff;
 }
