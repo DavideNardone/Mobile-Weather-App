@@ -1,11 +1,57 @@
 <ion-modal-view class="image-modal transparent" >
   <img style="width:100%; height: 100%;" ng-src={{bg_img}}>
   <ion-header-bar class="bar bar-header bar-positive">
-    <h1 class="title">{{sel_hour_forecast.time |  date:'H'}}</h1>
-    <button class="button button-clear button-primary" ng-click="hideModal()">Esci</button>
+    <button class="button button-clear button-primary" ng-click="hideModal()">Close</button>
   </ion-header-bar>
 
-  <ion-content>
+  <ion-content scroll="false">
+
+    <div style="  height: 5%; margin-top: 20px; background-color: rgb(205, 236, 245);" class="bar bar-header">
+      <h1 style="margin-top: -10px;" class="title">Hour {{sel_hour_forecast.time |  date:'H'}} - </h1>
+
+
+      <!--{{sel_hour_forecast.icon}} {{sel_hour_forecast.wc_text}}-->
+    </div>
+
+    <div class="Aligner">
+
+      <div class="row">
+        <div class="col"><span class="l_span">Cloud fraction</span></div>
+        <div class="col"><span class="r_span">{{sel_hour_forecast.clf}} %</span></div>
+      </div>
+
+      <!--<div ng-if="sel_hour_forecast.crh != 0" class="row">-->
+        <!--<div class="col"><span class="l_span">Precipitations</span></div>-->
+        <!--<div class="col"><span class="r_span">{{sel_hour_forecast.crh}} mm</span></div>-->
+      <!--</div>-->
+      <div class="row">
+        <div class="col"><span class="l_span">Precipitations</span></div>
+        <div class="col"><span class="r_span">absent</span></div>
+      </div>
+
+      <div class="row">
+        <div class="col"><span class="l_span">Relative Umidity</span></div>
+        <div class="col"><span class="r_span" style="color: white;">{{sel_hour_forecast.rh2}} %</span></div>
+      </div>
+
+      <div class="row">
+        <div class="col"><span class="l_span">Temperature</span></div>
+        <div class="col"><span class="r_span" style="color: white;">{{sel_hour_forecast.t2c}}&deg;</span></div>
+      </div>
+
+      <div class="row">
+        <div class="col"><span class="l_span">Wind</span></div>
+        <div class="col"><span class="r_span" class="l_span">{{sel_hour_forecast.wind}} {{sel_hour_forecast.ws10}} Km/h</span></div>
+      </div>
+
+      <div class="row">
+        <div class="col"><span class="l_span">Pressure</span></div>
+        <div class="col"><span class="r_span" class="l_span">{{sel_hour_forecast.slp}} hPa</span></div>
+      </div>
+
+
+    </div>
+
 
   </ion-content>
 </ion-modal-view>

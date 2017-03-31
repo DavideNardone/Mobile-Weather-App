@@ -230,11 +230,13 @@ angular.module('ionic.weather.controllers',[])
               console.log(_data.time[i+j].winds===null);
               var t2c =  parseFloat(_data.time[i+j].t2c);
               var crh =  parseFloat(_data.time[i+j].crh);
+              var clf = parseFloat(_data.time[i+j].clf);
               var wind = _data.time[i+j].winds === null ? 'N/A' : _data.time[i+j].winds;
               var wind_dir = wind === 'N/A' ? 'wi wi-na' : 'wi wi-wind wi-from-' + wind.toLowerCase()
               var ws10 = _data.time[i+j].ws10;
+              var slp = _data.time[i+j].slp;
               var wc_text = _data.time[i+j].text;
-              // var rh2 =  parseFloat(_data.time[i+j].rh2);
+              var rh2 =  parseFloat(_data.time[i+j].rh2);
               var icon = _data.time[i+j].icon;
 
                     //console.log('lunghezza sea: ' + runs_s.time.length + 'i=' + i);
@@ -274,8 +276,11 @@ angular.module('ionic.weather.controllers',[])
 
                       't2c': t2c,
                       'crh': crh,
+                      'rh2': rh2,
+                      'clf': clf,
                       'wind': wind,
                       'ws10': ws10,
+                      'slp':  slp,
                       'icon': icon,
                       'time': _date,
                       'wc_text': wc_text,
