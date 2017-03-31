@@ -24,18 +24,26 @@
         <weather-icon style="padding-top: 15px;" icon="dd.wind_dir"></weather-icon>
       </div>
 
-      <h4 align="center" class="title">Sea Condition</h4>
-      <div class="row" ng-repeat="sea in sel_forecast">
-        <div class="col"><span ng-bind="sea.time | date:'HH'"></span></div>
-        <weather-icon style="padding-top: 15px;" icon="sea.b_scale_icon"></weather-icon>
-        <div class="col"><span>{{sea.peakd}}&deg;</span></div>
-        <div class="col"><span>{{(sea.hs*100).toFixed(1)}} cm</span></div>
+
+    <h4 align="center" class="title">Sea Condition</h4>
+    <div class="row" ng-repeat="sea in sel_forecast" ng-if="sea.peakd>=0">
+      <div class="col"><span ng-bind="sea.time | date:'HH'"></span></div>
+      <weather-icon style="padding-top: 15px;" icon="sea.b_scale_icon"></weather-icon>
+      <div class="col" style="padding-top: 15px;"><span>{{sea.peakd}}&deg;</span></div>
+      <div style="padding-top: 15px;" class="col">
+        <span>{{sea.d_scale}}</span>
       </div>
+      <div class="col" style="padding-top: 15px;"><span>{{(sea.hs*100).toFixed(1)}} cm</span></div>
+    </div>
+      <!--<weather-icon style="padding-top: 15px;" icon="sea.sea_dir"></weather-icon>-->
+    <div ng-if="sel_forecast[0].peakd <0 ">
+      <span>Dati mare non disponibili per questa localitá e/o data</span>
+    </div>
 
 
-      <div class="clearfix">
+    <div class="clearfix">
         <div class="credit">
-          Powered by <a ng-click="openInAppBrowser('http://meteo.uniparthenope.it/')">meteo.uniparthenope</a>
+          Powered by <a ng-click="openInAppBrowser('http://meteo.uniparthenope.it/')">CCMMMA</a>
         </div>
       </div>
 

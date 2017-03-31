@@ -242,6 +242,27 @@ angular.module('ionic.weather.controllers',[])
                       var b_scale = _data_s.time[i + j].w10b;
                       var hs = _data_s.time[i + j].hs;
                       var peakd = _data_s.time[i + j].peakd;
+                      var d_scale;
+                      if (hs == 0)
+                        d_scale='Calmo'
+                      else if(hs < 0,1)
+                        d_scale='Quasi calmo'
+                      else if(hs >= 0,1 && hs < 0,5)
+                        d_scale='Poco mosso'
+                      else if(hs >= 0,5 && hs < 1,25)
+                        d_scale='Mosso'
+                      else if(hs >= 1,25 && hs < 2,5)
+                        d_scale='Molto mosso'
+                      else if(hs >= 2,5 && hs < 4)
+                        d_scale='Agitato'
+                      else if(hs >= 4 && hs < 6)
+                        d_scale='Molto agitato'
+                      else if(hs >= 6 && hs < 9)
+                        d_scale='Gross'
+                      else if(hs >= 9 && hs < 14)
+                        d_scale='Molto grosso'
+                      else if(hs >= 14)
+                        d_scale='Tempestoso'
                     }
                     else {
                       var b_scale = -9999;
@@ -262,7 +283,8 @@ angular.module('ionic.weather.controllers',[])
                       'hs': hs,
                       'peakd': peakd,
                       'wind_dir': wind_dir,
-                      'b_scale_icon': 'wi wi-wind-beaufort-' + parseInt(b_scale)
+                      'b_scale_icon': 'wi wi-wind-beaufort-' + parseInt(b_scale),
+                      'd_scale' : d_scale
                     };
 
                     day.push(info_day);
