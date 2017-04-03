@@ -601,7 +601,6 @@ angular.module('ionic.weather.controllers',[])
                 console.log('trovato ' + $scope.query);
                 var cLat = data.places[i].cLat;
                 var cLon = data.places[i].cLon;
-                break;
               }else{
                 console.log('Non trovato, ritorno primo elemento');
                 var cLat = data.places[0].cLat;
