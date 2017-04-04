@@ -131,6 +131,8 @@ angular.module('ionic.weather.controllers',[])
             .success(function (data_s, status) {
               console.log("success http API");
 
+              console.log(data);
+
               var runs = data.timeseries.runs;
               var runs_s = data_s.timeseries.runs;
               //timezone (+2:00)
@@ -139,29 +141,44 @@ angular.module('ionic.weather.controllers',[])
               var _data = [];
               var _data_s = [];
 
-              if (runs.length > 1){
-                _data.concat(runs[i]);
-                // push(runs[i]);
+              console.log(runs.length);
+
+              if (runs.length > 1) {
+                // for(i = 0; i < runs.length; i++) {
+                // console.log(runs[0]);
+                // console.log(runs[1]);
+                //merging the two runs
+                _data = {
+                  "time": runs[0].time.concat(runs[1].time)
+                };
+
+                console.log(_data);
               }
               else
                 _data = runs;
-              if (runs_s.length > 1){
-                _data_s.concat(runs_s[i]);
-                // push(runs[i]);
+
+              if (runs_s.length > 1) {
+
+                _data_s = {
+                  "time": runs_s[0].time.concat(runs_s[1].time)
+                };
               }
               else
                 _data_s = runs_s;
-              //FIXME: handle forecast data when then runs is greater than 1
 
-          // get the current temperature and icon
-          $scope.currentTemp = _data.time[0].t2c;
-          $scope.currentCondition = _data.time[0].icon;
-          //get all the runs
-          $scope.hourly_forecast = _data;
-          // console.log($scope.hourly_forecast);
+              console.log(_data);
 
-          var day = new Date();
-          var hour = day.getHours();
+              //TODO: PRE-PROCESSING ON THE DATA OBTAINED
+
+              // get the current temperature and icon
+              $scope.currentTemp = _data.time[0].t2c;
+              $scope.currentCondition = _data.time[0].icon;
+              //get all the runs
+              $scope.hourly_forecast = _data;
+              // console.log($scope.hourly_forecast);
+
+              var day = new Date();
+              var hour = day.getHours();
 
               // shift the forecast to the next day 23:00 UTC
               var init = 24 - hour;
@@ -184,137 +201,140 @@ angular.module('ionic.weather.controllers',[])
 
               }
 
-          //get the min and max temperature and other info beginning from 'init' and then storing in the weekly structure
-          var day_shift = Math.floor( (_data.time.length - tz-1)/24 ) * 24;
-          for (var i = (init+1); i < day_shift; i=i+24) {
+              //get the min and max temperature and other info beginning from 'init' and then storing in the weekly structure
+              var day_shift = Math.floor( (_data.time.length - tz-1)/24 ) * 24;
+              console.log(day_shift);
+              for (var i = (init+1); i < day_shift; i=i+24) {
 
-                  var dateString = (_data.time[i + 1].date).slice(0, 11);
+                var dateString = (_data.time[i + 1].date).slice(0, 11);
 
-                  var year = dateString.substring(0, 4);
-                  var month = dateString.substring(4, 6);
-                  var day = dateString.substring(6, 8);
-                  var hh = dateString.substr(9, 11);
+                var year = dateString.substring(0, 4);
+                var month = dateString.substring(4, 6);
+                var day = dateString.substring(6, 8);
+                var hh = dateString.substr(9, 11);
 
-            console.log(hh);
+                console.log(hh);
 
-            var curr_date = new Date(year, month-1, day);
+                var curr_date = new Date(year, month-1, day);
 
-                  var min = 99999999;
-                  var max = -9999999;
+                var min = 99999999;
+                var max = -9999999;
 
-                  var day_summary = {
+                var day_summary = {
 
-                    'min': min,
-                    'max': max,
-                    'date': $filter('date')(curr_date, 'yyyy-MM-dd'),
-                    'icon': _data.time[i + 12].icon
+                  'min': min,
+                  'max': max,
+                  'date': $filter('date')(curr_date, 'yyyy-MM-dd'),
+                  'icon': !_data.time[i + 12].icon ? 'N/A' : _data.time[i + 12].icon
+                };
+
+                var day = [];
+
+
+                //getting TS info data and min and max temperature for each day
+                for (var j = 0; j < 24; j++) {
+
+                  var dateString = (_data.time[i + j].date).slice(0, 11);
+
+                  var y = dateString.substring(0, 4);
+                  var m = dateString.substring(4, 6);
+                  var d = dateString.substring(6, 8);
+                  var t = dateString.substr(9, 11);
+
+                  var _date = new Date(y, m-1, d, t, 0);
+                  _date.setHours(_date.getHours()+tz);
+
+                  // console.log(_date.getHours());
+                  console.log(_data.time[i+j].winds===null);
+                  var t2c =  parseFloat(_data.time[i+j].t2c);
+                  var crh =  parseFloat(_data.time[i+j].crh);
+                  var clf = parseFloat(_data.time[i+j].clf);
+                  // if(!_data.time[i+j].winds) // if 'value' is negative,undefined,null,empty value then...
+                  var wind = !_data.time[i+j].winds ? 'N/A' : _data.time[i+j].winds;
+                  console.log(wind);
+                  var wind_dir = wind === 'N/A' ? 'wi wi-na' : 'wi wi-wind wi-from-' + wind.toLowerCase();
+                  var ws10 = _data.time[i+j].ws10;
+                  var slp = _data.time[i+j].slp;
+                  var wc_text = _data.time[i+j].text;
+                  var rh2 =  parseFloat(_data.time[i+j].rh2);
+                  var icon = _data.time[i+j].icon;
+
+                  //console.log('lunghezza sea: ' + runs_s.time.length + 'i=' + i);
+                  if (i < runs_s.time.length - 2) {
+                    var b_scale = _data_s.time[i + j].w10b;
+                    var hs = _data_s.time[i + j].hs;
+                    var peakd = _data_s.time[i + j].peakd;
+                    var d_scale;
+                    if (hs == 0)
+                      d_scale='Calmo'
+                    else if(hs < 0,1)
+                      d_scale='Quasi calmo'
+                    else if(hs >= 0,1 && hs < 0,5)
+                      d_scale='Poco mosso'
+                    else if(hs >= 0,5 && hs < 1,25)
+                      d_scale='Mosso'
+                    else if(hs >= 1,25 && hs < 2,5)
+                      d_scale='Molto mosso'
+                    else if(hs >= 2,5 && hs < 4)
+                      d_scale='Agitato'
+                    else if(hs >= 4 && hs < 6)
+                      d_scale='Molto agitato'
+                    else if(hs >= 6 && hs < 9)
+                      d_scale='Gross'
+                    else if(hs >= 9 && hs < 14)
+                      d_scale='Molto grosso'
+                    else if(hs >= 14)
+                      d_scale='Tempestoso'
+                  }
+                  else {
+                    var b_scale = -9999;
+                    var hs = -9999;
+                    var peakd = -9999;
+                  }
+                  $scope.sea_length = runs_s.time.length;
+                  var info_day = {
+
+                    't2c': t2c,
+                    'crh': crh,
+                    'rh2': rh2,
+                    'clf': clf,
+                    'wind': wind,
+                    'ws10': ws10,
+                    'slp':  slp,
+                    'icon': icon,
+                    'time': _date,
+                    'wc_text': wc_text,
+                    'b_scale': b_scale,
+                    'hs': hs,
+                    'peakd': peakd,
+                    'wind_dir': wind_dir,
+                    'b_scale_icon': 'wi wi-wind-beaufort-' + parseInt(b_scale),
+                    'd_scale' : d_scale
                   };
 
-                  var day = [];
+                  day.push(info_day);
 
+                  if (t2c < min)
+                    min = t2c;
 
-                  //getting TS info data and min and max temperature for each day
-                  for (var j = 0; j < 24; j++) {
-
-                    var dateString = (_data.time[i + j].date).slice(0, 11);
-
-                    var y = dateString.substring(0, 4);
-                    var m = dateString.substring(4, 6);
-                    var d = dateString.substring(6, 8);
-                    var t = dateString.substr(9, 11);
-
-              var _date = new Date(y, m-1, d, t, 0);
-              _date.setHours(_date.getHours()+tz);
-
-              // console.log(_date.getHours());
-              console.log(_data.time[i+j].winds===null);
-              var t2c =  parseFloat(_data.time[i+j].t2c);
-              var crh =  parseFloat(_data.time[i+j].crh);
-              var clf = parseFloat(_data.time[i+j].clf);
-              var wind = _data.time[i+j].winds === null ? 'N/A' : _data.time[i+j].winds;
-              var wind_dir = wind === 'N/A' ? 'wi wi-na' : 'wi wi-wind wi-from-' + wind.toLowerCase()
-              var ws10 = _data.time[i+j].ws10;
-              var slp = _data.time[i+j].slp;
-              var wc_text = _data.time[i+j].text;
-              var rh2 =  parseFloat(_data.time[i+j].rh2);
-              var icon = _data.time[i+j].icon;
-
-                    //console.log('lunghezza sea: ' + runs_s.time.length + 'i=' + i);
-                    if (i < runs_s.time.length - 2) {
-                      var b_scale = _data_s.time[i + j].w10b;
-                      var hs = _data_s.time[i + j].hs;
-                      var peakd = _data_s.time[i + j].peakd;
-                      var d_scale;
-                      if (hs == 0)
-                        d_scale='Calmo'
-                      else if(hs < 0,1)
-                        d_scale='Quasi calmo'
-                      else if(hs >= 0,1 && hs < 0,5)
-                        d_scale='Poco mosso'
-                      else if(hs >= 0,5 && hs < 1,25)
-                        d_scale='Mosso'
-                      else if(hs >= 1,25 && hs < 2,5)
-                        d_scale='Molto mosso'
-                      else if(hs >= 2,5 && hs < 4)
-                        d_scale='Agitato'
-                      else if(hs >= 4 && hs < 6)
-                        d_scale='Molto agitato'
-                      else if(hs >= 6 && hs < 9)
-                        d_scale='Gross'
-                      else if(hs >= 9 && hs < 14)
-                        d_scale='Molto grosso'
-                      else if(hs >= 14)
-                        d_scale='Tempestoso'
-                    }
-                    else {
-                      var b_scale = -9999;
-                      var hs = -9999;
-                      var peakd = -9999;
-                    }
-              $scope.sea_length = runs_s.time.length;
-                    var info_day = {
-
-                      't2c': t2c,
-                      'crh': crh,
-                      'rh2': rh2,
-                      'clf': clf,
-                      'wind': wind,
-                      'ws10': ws10,
-                      'slp':  slp,
-                      'icon': icon,
-                      'time': _date,
-                      'wc_text': wc_text,
-                      'b_scale': b_scale,
-                      'hs': hs,
-                      'peakd': peakd,
-                      'wind_dir': wind_dir,
-                      'b_scale_icon': 'wi wi-wind-beaufort-' + parseInt(b_scale),
-                      'd_scale' : d_scale
-                    };
-
-                    day.push(info_day);
-
-                    if (t2c < min)
-                      min = t2c;
-
-                    if (t2c > max)
-                      max = t2c;
-
-                  }
-
-                  day_summary['min'] = min;
-                  day_summary['max'] = max;
-
-                  console.log(day_summary);
-
-                  $scope.weekly_forecast.push(day_summary);
-                  $scope.daily_forecast.push(day);
+                  if (t2c > max)
+                    max = t2c;
 
                 }
 
-                console.log($scope.daily_forecast);
-                console.log($scope.weekly_forecast);
-                console.log("after ops");
+                day_summary['min'] = min;
+                day_summary['max'] = max;
+
+                console.log(day_summary);
+
+                $scope.weekly_forecast.push(day_summary);
+                $scope.daily_forecast.push(day);
+
+              }
+
+              console.log($scope.daily_forecast);
+              console.log($scope.weekly_forecast);
+              console.log("after ops");
 
             })
             .error(function (data, status) {
@@ -614,11 +634,11 @@ angular.module('ionic.weather.controllers',[])
           }else{
             alert('Luogo trovato');
           }
-    })
+        })
 
-    .error(function (data, status) {
-      alert('Connection error: ' + status);
-    });
+        .error(function (data, status) {
+          alert('Connection error: ' + status);
+        });
 
     };
 

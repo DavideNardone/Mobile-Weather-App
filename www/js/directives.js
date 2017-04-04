@@ -23,7 +23,9 @@ angular.module('ionic.weather.directives', [])
 
   'shower1_night.png':    "wi wi-night-alt-showers",
   'shower2_night.png':    "wi wi-night-alt-rain",
-  'shower3_night.png':    "wi wi-night-alt-thunderstorm"
+  'shower3_night.png':    "wi wi-night-alt-thunderstorm",
+
+  'N/A':                  "wi wi-na"
 })
 
 
