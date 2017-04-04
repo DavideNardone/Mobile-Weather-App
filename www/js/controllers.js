@@ -257,7 +257,7 @@ angular.module('ionic.weather.controllers',[])
                   var slp = _data.time[i+j].slp;
                   var wc_text = _data.time[i+j].text;
                   var rh2 =  parseFloat(_data.time[i+j].rh2);
-                  var icon = _data.time[i+j].icon;
+                  var icon = !_data.time[i+j].icon ? 'N/A' : _data.time[i+j].icon;
 
                   //console.log('lunghezza sea: ' + runs_s.time.length + 'i=' + i);
                   if (i < runs_s.time.length - 2) {
@@ -639,26 +639,46 @@ angular.module('ionic.weather.controllers',[])
           id: 1,
           level: 0,
           name: 'Home',
-          icon: "ion-map",
+          icon: "ion-home",
           state: 'app.home'
         },
         {
           id: 2,
+          name: "Credits",
+          icon: "ion-ionic",
           level: 0,
-          name: 'Test',
-          icon: "ion-map",
-          state: 'app.search'
+          state: 'app.credits'
         },
         {
           id: 3,
           level: 0,
-          name: 'Ricerca',
+          name: 'Search',
           icon: "ion-search",
           state: 'app.search'
         }
       ];
   })
 
+  .controller('CreditsCtrl', function($filter,$scope,$cordovaInAppBrowser) {
 
+    var options = {
+      location: 'no',
+      clearcache: 'yes',
+      toolbar: 'yes'
+    };
+
+    $scope.openBrowser = function(link) {
+      $cordovaInAppBrowser.open(link, '_blank', options)
+
+        .then(function(event) {
+
+        })
+
+        .catch(function(event) {
+
+        });
+    };
+
+  })
 
 ;

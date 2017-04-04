@@ -79,6 +79,17 @@ angular.module('ionic.weather', [
         }
       })
 
+
+      .state('app.credits', {
+        url: "/credits",
+        views: {
+          'menuContent': {
+            templateUrl: "templates/credits.html",
+            controller: 'CreditsCtrl'
+          }
+        }
+      })
+
       // .state('app.browse', {
       //   url: '/browse',
       //   views: {
