@@ -1,11 +1,11 @@
 angular.module('ionic.weather.controllers',[])
 
 
-  .controller('WeatherCtrl', function($scope, $state, $stateParams, $timeout, $rootScope, Weather, Geo, Flickr, $ionicModal, $ionicLoading, $ionicPlatform, $ionicPopup, $http, $filter) {
+  .controller('WeatherCtrl', function($scope, $state, $stateParams, $timeout, $rootScope, Weather, Geo, Flickr, $ionicModal, $ionicLoading, $ionicPlatform, $ionicPopup, $http, $filter, $ionicHistory) {
+
+    $rootScope.flag = 1;
     var _this = this;
-
     $scope._init = true;
-
     // $ionicPlatform.ready(function() {
     //   // Hide the status bar
     //   if(window.StatusBar) {
@@ -40,7 +40,7 @@ angular.module('ionic.weather.controllers',[])
 
     this.getInfoPlace = function(lat,lng){
       //retrieve the closest places based on the lat and lng coords
-      if ($scope.firstTime == 0){
+      if ($scope.firstTime == 0 && $rootScope.flag == 1){
         $scope.firstTime = 1;
         var q_url = 'http://192.167.9.103:5050/places/search/bycoords/'+lat+'/'+lng+'?filter=com';
       }else{
@@ -245,13 +245,13 @@ angular.module('ionic.weather.controllers',[])
                   _date.setHours(_date.getHours()+tz);
 
                   // console.log(_date.getHours());
-                  console.log(_data.time[i+j].winds===null);
+                 // console.log(_data.time[i+j].winds===null);
                   var t2c =  parseFloat(_data.time[i+j].t2c);
                   var crh =  parseFloat(_data.time[i+j].crh);
                   var clf = parseFloat(_data.time[i+j].clf);
                   // if(!_data.time[i+j].winds) // if 'value' is negative,undefined,null,empty value then...
                   var wind = !_data.time[i+j].winds ? 'N/A' : _data.time[i+j].winds;
-                  console.log(wind);
+               //   console.log(wind);
                   var wind_dir = wind === 'N/A' ? 'wi wi-na' : 'wi wi-wind wi-from-' + wind.toLowerCase();
                   var ws10 = _data.time[i+j].ws10;
                   var slp = _data.time[i+j].slp;
@@ -384,12 +384,14 @@ angular.module('ionic.weather.controllers',[])
           $scope.countIm = true;
           $scope.bgImages = photos.photo;
           _this.cycleBgImages();
+          $rootScope.rootBg = $scope.activeBgImage;
         }else{
           $scope.countIm = false;
           console.log('setting defualt photo');
           var img = new Image();
           console.log($scope.currentCondition);
-          $scope.pathIm  = $scope.DfBgImage[$scope.currentCondition];
+          $scope.pathIm = $scope.DfBgImage[$scope.currentCondition];
+          $rootScope.rootBg = $scope.pathIm
           //console.log(img.src);
           //$scope.pathIm = img.src;
           console.log($scope.pathIm);
@@ -430,6 +432,7 @@ angular.module('ionic.weather.controllers',[])
 
 
     $scope.refreshData = function() {
+      $rootScope.flag = 1;
       $scope.firstTime = 0;
       Geo.getLocation().then(function(position) {
         lat = position.coords.latitude;
@@ -450,7 +453,8 @@ angular.module('ionic.weather.controllers',[])
       });
     };
 
-    $scope.refreshData();
+    if($rootScope.flag)
+      $scope.refreshData();
 
   })
 
@@ -540,63 +544,12 @@ angular.module('ionic.weather.controllers',[])
   })
 
 
-  .controller('SearchCtrl', function($scope,$ionicLoading) {
-    console.log("search1");
-
-    $scope.playlists = [{
-      title: 'Reggae',
-      id: 1
-    }, {
-      title: 'Chill',
-      id: 2
-    }, {
-      title: 'Dubstep',
-      id: 3
-    }, {
-      title: 'Indie',
-      id: 4
-    }, {
-      title: 'Rap',
-      id: 5
-    }, {
-      title: 'Cowbell',
-      id: 6
-    }];
-
-    // $scope.hide($ionicLoading);
-    console.log("search2");
-
-  })
-
-
-
-  .controller('sideMenuCtrl', function($scope, $ionicModal, $http, $rootScope) {
-
-    $scope.showSearch = function() {
-      console.log('cerca aperto');
-      if(!$scope.settingsModal) {
-        // Load the modal from the given template URL
-        $ionicModal.fromTemplateUrl('templates/modals/search.html', function(modal) {
-          $scope.settingsModal = modal;
-          $scope.settingsModal.show();
-        }, {
-          // The animation we want to use for the modal entrance
-          animation: 'slide-in-up'
-        });
-      } else {
-        $scope.settingsModal.show();
-      }
-    };
-
-    $scope.closeSearch = function() {
-      console.log('cerca chiuso');
-      $scope.modal.hide();
-    };
+  .controller('SearchCtrl', function($http, $state, $rootScope, $scope,$ionicLoading,$ionicHistory) {
 
     $scope.searchForecast = function(field) {
       $scope.query = field;
       console.log('cerco '+ $scope.query);
-      $scope.modal.hide();
+     // $scope.modal.hide();
       $scope.query = $scope.query.substr(0,1).toUpperCase() + $scope.query.substr(1).toLowerCase();
       var s_url = 'http://192.167.9.103:5050/places/search/byname/'+$scope.query;
 
@@ -631,6 +584,12 @@ angular.module('ionic.weather.controllers',[])
             $rootScope.$emit('CallInfoPlace', {lat: cLat, lng: cLon});
             console.log(cLat);
             console.log(cLon);
+            $rootScope.flag = 0;
+            $ionicHistory.nextViewOptions({
+              disableAnimate: true,
+              disableBack: true
+            });
+            $state.go("app.home");
           }else{
             alert('Luogo trovato');
           }
@@ -642,11 +601,41 @@ angular.module('ionic.weather.controllers',[])
 
     };
 
+  })
+
+
+
+  .controller('sideMenuCtrl', function($scope, $ionicModal, $http, $rootScope) {
+
+    // $scope.showSearch = function() {
+    //   console.log('cerca aperto');
+    //   if(!$scope.settingsModal) {
+    //     // Load the modal from the given template URL
+    //     $ionicModal.fromTemplateUrl('templates/modals/search.html', function(modal) {
+    //       $scope.settingsModal = modal;
+    //       $scope.settingsModal.show();
+    //     }, {
+    //       // The animation we want to use for the modal entrance
+    //       animation: 'fadeIn'
+    //     });
+    //   } else {
+    //     $scope.settingsModal.show();
+    //   }
+    // };
+
+    // $scope.closeSearch = function() {
+    //   console.log('cerca chiuso');
+    //   $scope.modal.hide();
+    // };
+
+
+
     $scope.theme = 'ionic-sidemenu-stable';
 
     $scope.tree =
       [
         {
+
           id: 1,
           level: 0,
           name: 'Home',
@@ -658,6 +647,13 @@ angular.module('ionic.weather.controllers',[])
           level: 0,
           name: 'Test',
           icon: "ion-map",
+          state: 'app.search'
+        },
+        {
+          id: 3,
+          level: 0,
+          name: 'Ricerca',
+          icon: "ion-search",
           state: 'app.search'
         }
       ];
