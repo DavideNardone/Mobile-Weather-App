@@ -1,7 +1,7 @@
 angular.module('ionic.weather.controllers',[])
 
 
-  .controller('WeatherCtrl', function($scope, $state, $stateParams, $timeout, $rootScope, Weather, Geo, Flickr, $ionicModal, $ionicLoading, $ionicPlatform, $ionicPopup, $http, $filter, $ionicHistory) {
+  .controller('WeatherCtrl', function($scope, $cordovaInAppBrowser, $state, $stateParams, $timeout, $rootScope, Weather, Geo, Flickr, $ionicModal, $ionicLoading, $ionicPlatform, $ionicPopup, $http, $filter, $ionicHistory) {
 
     $rootScope.flag = 1;
     var _this = this;
@@ -30,6 +30,25 @@ angular.module('ionic.weather.controllers',[])
     //     $scope.settingsModal.show();
     //   }
     // };
+
+
+    $scope.exturl = function() {
+      var options = {
+        location: 'no',
+        clearcache: 'yes',
+        toolbar: 'yes'
+      };
+      console.log('click');
+      cordova.InAppBrowser.open('http://meteo.uniparthenope.it', "_blank", "location=yes", "clearcache: yes", "toolbar: yes")
+
+        .then(function(event) {
+          console.log('opened');
+        })
+
+        .catch(function(event) {
+          console.log('nope');
+        });
+    };
 
     $scope.showDayForecast = function(index) {
 
@@ -668,8 +687,9 @@ angular.module('ionic.weather.controllers',[])
     };
 
     $scope.openBrowser = function(link) {
-      $cordovaInAppBrowser.open(link, '_blank', options)
-
+      console.log('click credits');
+      cordova.InAppBrowser.open(link, "_blank", "location=yes", "clearcache: yes", "toolbar: yes")
+     // $cordovaInAppBrowser.open(link, '_blank', options)
         .then(function(event) {
 
         })
