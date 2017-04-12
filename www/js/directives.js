@@ -149,6 +149,18 @@ angular.module('ionic.weather.directives', [])
   }
 })
 
+  .directive('menuBar', function($timeout) {
+    return {
+      restrict: 'E',
+      replace: true,
+      templateUrl: 'templates/menu.html',
+      link: function($scope, $element, $attr) {
+      }
+    }
+  })
+
+
+
 .directive('weatherBox', function($timeout) {
   return {
     restrict: 'E',

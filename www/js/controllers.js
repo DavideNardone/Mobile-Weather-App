@@ -4,6 +4,7 @@ angular.module('ionic.weather.controllers',[])
   .controller('WeatherCtrl', function($scope, $cordovaInAppBrowser, $state, $stateParams, $timeout, $rootScope, Weather, Geo, Flickr, $ionicModal, $ionicLoading, $ionicPlatform, $ionicPopup, $http, $filter, $ionicHistory) {
 
     $rootScope.flag = 1;
+    $rootScope.flagFav = 0;
     var _this = this;
     $scope._init = true;
     // $ionicPlatform.ready(function() {
@@ -80,6 +81,7 @@ angular.module('ionic.weather.controllers',[])
 
           $scope.place_id = data.places[0].id;
           $scope.place_name = data.places[0].long_name.it;
+          $rootScope.rootPlace = $scope.place_name;
           console.log($scope.place_id);
           console.log($scope.place_name);
           // console.log(data.places[0].long_name.it);
@@ -450,6 +452,9 @@ angular.module('ionic.weather.controllers',[])
     };
 
 
+
+
+
     $scope.refreshData = function() {
       $rootScope.flag = 1;
       $scope.firstTime = 0;
@@ -624,7 +629,7 @@ angular.module('ionic.weather.controllers',[])
 
 
 
-  .controller('sideMenuCtrl', function($scope, $ionicModal, $http, $rootScope) {
+  .controller('sideMenuCtrl', function($scope, $ionicModal, $cordovaFile, $http, $rootScope) {
 
     // $scope.showSearch = function() {
     //   console.log('cerca aperto');
@@ -646,6 +651,36 @@ angular.module('ionic.weather.controllers',[])
     //   console.log('cerca chiuso');
     //   $scope.modal.hide();
     // };
+
+    $scope.setFav = function () {
+      console.log('fav: ' + $rootScope.rootPlace);
+      $scope.fav = $rootScope.rootPlace;
+      $rootScope.flagFav = 1;
+      var json = {"fav": $scope.fav};
+      $cordovaFile.writeFile("json", "fav.json", JSON.stringify(json), true)
+        .then(function (success) {
+
+          console.log('fav: setted');
+        }, function (error) {
+          // error
+          console.log(error);
+          console.log('fav: failed'); //error mappings are listed in the documentation
+        });
+    }
+
+      $scope.removeFav = function () {
+        $scope.fav = null;
+        $rootScope.flagFav = 0;
+        var json = {"fav": $scope.fav};
+        $cordovaFile.writeFile("json", "fav.json", JSON.stringify(json), true)
+          .then(function (success) {
+
+            console.log('fav: removed');
+          }, function (error) {
+            // error
+            console.log('fav: failed'); //error mappings are listed in the documentation
+          });
+    }
 
 
 
@@ -700,5 +735,7 @@ angular.module('ionic.weather.controllers',[])
     };
 
   })
+
+
 
 ;

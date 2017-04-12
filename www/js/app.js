@@ -90,6 +90,7 @@ angular.module('ionic.weather', [
         }
       })
 
+
       // .state('app.browse', {
       //   url: '/browse',
       //   views: {
