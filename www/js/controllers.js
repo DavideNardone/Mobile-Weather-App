@@ -64,7 +64,7 @@ angular.module('ionic.weather.controllers',[])
         $scope.firstTime = 1;
         var q_url = 'http://192.167.9.103:5050/places/search/bycoords/'+lat+'/'+lng+'?filter=com';
       }else{
-        var q_url = 'http://192.167.9.103:5050/places/search/bycoords/'+lat+'/'+lng;
+        var q_url = 'http://192.167.9.103:5050/places/search/bycoords/'+lat+'/'+lng+'?filter=com';
       }
       console.log(lat);
       console.log(lng);
