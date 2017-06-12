@@ -1,7 +1,7 @@
 # CCMMMA WEATHER APP 
 
-CMMMA WEATHER APP (Centro Campano per il Monitoraggio e la Modellistica Marina e Atmosferica) is a cross-platform mobile application for the displaying of atmospheric and marine forecast.
-It's been developed using the well known Framework Ionic. It exploits the RESTful Web Service (API) of the University of Naples, Parthenope.
+CMMMA WEATHER APP (Centro Campano per il Monitoraggio e la Modellistica Marina e Atmosferica) is a cross-platform mobile application for the displaying of atmospheric and marine forecasts.
+It's been developed using the well known Framework *Ionic*. It exploits the RESTful Web Service (API) of the University of Naples, Parthenope.
 
 # DOWNLOAD AND BUILD
 
