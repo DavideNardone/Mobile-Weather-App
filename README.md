@@ -24,11 +24,11 @@ It's been developed using the well known Framework Ionic. It exploits the RESTfu
 
 # DOWNLOAD AND BUILD
 
-  1. **CLONE THIS PROJECT:**
+1. **CLONE THIS PROJECT:**
+
+  `git clone https://github.com/DavideNardone/CCMMA-weather-app`
  
- `git clone https://github.com/DavideNardone/CCMMA-weather-app`
- 
- 2. **BUILD AND RUN THE PROJECT:**
+2. **BUILD AND RUN THE PROJECT:**
  
   `cd to project directory`
   
