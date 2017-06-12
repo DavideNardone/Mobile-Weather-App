@@ -13,14 +13,17 @@ THANKS
   Prof. Raffaele Montella, University of Naples Parthenope, Science and Techonlogies Departement
   
 CONTACTS
+
   if you have problems, questions, ideas or suggestions, please contact us to:
   gianluca.paolocci@studenti.uniparthenope.it or davide.nardone@studenti.uniparthenope.it
 
-DOWNLOAD AND BUILD:
+DOWNLOAD AND BUILD
+
   1. CLONE THIS PROJECT: git clone https://github.com/DavideNardone/CCMMA-weather-app
   2. BUILD PROJECT: cd to project directory, ionic build {android|ios|windows}, ionic run|emulate {android|ios|windows}
 
-VISIT THE CCMMMA WEB PAGE FOR MORE INFO:
-  http://meteo.uniparthenope.it/
+WEBSITE
+
+  VISIT THE CCMMMA WEB PAGE FOR MORE INFO: http://meteo.uniparthenope.it/
 
 
