@@ -19,20 +19,28 @@ It's been developed using the well known Framework Ionic. It exploits the RESTfu
 # CONTACTS
 
   if you have problems, questions, ideas or suggestions, please contact us to:
-  gianluca.paolocci@studenti.uniparthenope.it or davide.nardone@studenti.uniparthenope.it
+  - **gianluca.paolocci@studenti.uniparthenope.it**
+  - **davide.nardone@studenti.uniparthenope.it**
 
 # DOWNLOAD AND BUILD
 
-  1. CLONE THIS PROJECT:
-  `git clone https://github.com/DavideNardone/CCMMA-weather-app`
-  2. BUILD PROJECT: 
+  1. **CLONE THIS PROJECT:**
+ 
+ `git clone https://github.com/DavideNardone/CCMMA-weather-app`
+ 
+ 2. **BUILD AND RUN THE PROJECT:**
+ 
   `cd to project directory`
+  
+  `ionic add {android|ios|windows}`
+  
   `ionic build {android|ios|windows}`
+  
   `ionic run|emulate {android|ios|windows}`
   
 
-WEBSITE
+# WEBSITE
 
-  VISIT THE CCMMMA WEB PAGE FOR MORE INFO: http://meteo.uniparthenope.it/
+  Visit the CCMMMA Web page for more info: http://meteo.uniparthenope.it/
 
 
