@@ -27,18 +27,16 @@ It's been developed using the well known Framework Ionic. It exploits the RESTfu
   Gianluca Paolocci, University of Naples Parthenope, Science and Techonlogies Departement, Ms.c Applied Computer Science
   https://www.linkedin.com/in/gianluca-paolocci-a19678b6/
   
-# CREDITS
-
-  Prof. Raffaele Montella, University of Naples Parthenope, Science and Techonlogies Departement
-  
 # CONTACTS
 
   if you have problems, questions, ideas or suggestions, please contact us to:
   - **gianluca.paolocci@studenti.uniparthenope.it**
   - **davide.nardone@studenti.uniparthenope.it**
 
+# CREDITS
+
+  Prof. Raffaele Montella, University of Naples Parthenope, Science and Techonlogies Departement
+
 # WEBSITE
 
   Visit the CCMMMA Web page for more info: http://meteo.uniparthenope.it/
-
-
