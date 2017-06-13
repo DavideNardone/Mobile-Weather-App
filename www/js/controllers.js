@@ -308,9 +308,17 @@ angular.module('ionic.weather.controllers',[])
 
                       //console.log('lunghezza sea: ' + runs_s.time.length + 'i=' + i);
                       if (i < runs_s.time.length - 2) {
-                        var b_scale = _data_s.time[i + j].w10b;
-                        var hs = _data_s.time[i + j].hs;
-                        var peakd = _data_s.time[i + j].peakd;
+                        var b_scale = [];
+                        var hs = [];
+                        var peakd = [];
+                        try {
+                           b_scale = _data_s.time[i + j + 48].w10b;
+                           hs = _data_s.time[i + j + 48].hs;
+                           peakd = _data_s.time[i + j + 48].peakd;
+                        }catch(err){
+                          console.log("No sea data for this date");
+                          peakd=-1;
+                        }
                         var d_scale;
                         if (hs == 0)
                           d_scale='Calmo'
