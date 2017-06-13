@@ -1,0 +1,45 @@
+<ion-modal-view class="image-modal transparent" >
+  <img style="width:100%; height: 100%;" ng-src={{bg_img}}>
+  <ion-header-bar class="bar bar-header bar-positive">
+    <button class="button button-clear button-primary" ng-click="hideModalrms()">Close</button>
+  </ion-header-bar>
+
+  <ion-content scroll="false">
+
+    <div style="  height: 5%; margin-top: 20px; background-color: rgb(205, 236, 245);" class="bar bar-header">
+      <h1 style="margin-top: -10px;" class="title">Hour {{sel_hour_forecast.time |  date:'H'}} - {{sel_hour_forecast.wc_text}} </h1>
+
+
+      <!--{{sel_hour_forecast.icon}} {{sel_hour_forecast.wc_text}}-->
+    </div>
+
+    <div class="Aligner">
+
+      <div class="row">
+        <div class="col"><span class="l_span">Salinity</span></div>
+        <div class="col"><span class="r_span">{{sel_hour_forecast.salt}} %</span></div>
+      </div>
+
+      <!--<div ng-if="sel_hour_forecast.crh != 0" class="row">-->
+        <!--<div class="col"><span class="l_span">Precipitations</span></div>-->
+        <!--<div class="col"><span class="r_span">{{sel_hour_forecast.crh}} mm</span></div>-->
+      <!--</div>-->
+
+      <div class="row">
+        <div class="col"><span class="l_span">0m temp</span></div>
+        <div class="col"><span class="r_span" style="color: white;">{{sel_hour_forecast.sup_temp}} &deg;</span></div>
+      </div>
+
+      <div class="row">
+        <div class="col"><span class="l_span">Free surface rise</span></div>
+        <div class="col"><span class="r_span" style="color: white;">{{sel_hour_forecast.sup_lib}};</span></div>
+      </div>
+
+
+
+
+    </div>
+
+
+  </ion-content>
+</ion-modal-view>

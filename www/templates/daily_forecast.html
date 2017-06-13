@@ -25,7 +25,7 @@
 
       <br>
     <h4 align="center" class="title">Sea Condition</h4>
-    <div class="row" ng-repeat="sea in sel_forecast" ng-if="sea.peakd>=0">
+    <div class="row" ng-repeat="sea in sel_forecast" ng-if="sea.peakd>=0" ng-click="showModalrms('fadeIn', $index)">
       <div class="col"><span ng-bind="sea.time | date:'HH'"></span></div>
       <weather-icon style="padding-top: 15px;" icon="sea.b_scale_icon"></weather-icon>
       <div class="col" style="padding-top: 15px;"><span>{{sea.peakd}}&deg;</span></div>
