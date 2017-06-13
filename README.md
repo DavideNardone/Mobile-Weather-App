@@ -7,7 +7,7 @@ It's been developed using the well known *Ionic* Framework. It exploits the REST
 
 1. **CLONE THIS PROJECT:**
 
-  `git clone https://github.com/DavideNardone/CCMMA-weather-app`
+  `git clone https://github.com/DavideNardone/CCMMMA-weather-app`
  
 2. **BUILD AND RUN THE PROJECT:**
  
