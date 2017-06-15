@@ -16,6 +16,11 @@ angular.module('ionic.weather', [
 
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
+
+      //Check the position with $cordovaGeolocation. This one is just a function
+      cordova.navigator.geolocation.getCurrentPosition()
+
+
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if (window.cordova && window.cordova.plugins.Keyboard) {
