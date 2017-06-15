@@ -132,7 +132,7 @@ angular.module('ionic.weather.controllers',[])
 
       console.log('after show');
       var runs_r = [];
-      var _data_r = [];
+      $scope._data_r = [];
       var _data = [];
       var _data_s = [];
 
@@ -165,25 +165,24 @@ angular.module('ionic.weather.controllers',[])
                 }
               })
 
-
-
                 .success(function (data_r, status) {
                   console.log("RMS DEFINED FOR THIS LOCATION");
                   runs_r = data_r.timeseries.runs;
                   if (runs_r.length > 1) {
 
-                    _data_r = {
+                    $scope._data_r = {
                       "time": runs_r[0].time.concat(runs_r[1].time)
                     };
                   }
                   else
-                    _data_r = runs_r;
+                    $scope._data_r = runs_r;
 
                 })
                 .error(function (data_r, status) {
 
                   //alert('Connection error: ' + status);
                 });
+              //TODO VHIAMATA ARIA
 
               console.log("success http API");
 
@@ -224,7 +223,7 @@ angular.module('ionic.weather.controllers',[])
 
 
 
-
+              console.log($scope._data_r);
 
               console.log(_data);
 
@@ -370,17 +369,18 @@ angular.module('ionic.weather.controllers',[])
                   var wind_dir_trig_to_degrees = 'n/d';
 
                   try{
-                    salt = _data_r.time[i+j].salt0m;
-                    sup_temp = _data_r.time[i+j].temp0m;
-                    fumo = _data_r.time[i+j].zeta;
-                    ucomp = _data_r.time[i+j].u0m;
-                    vcomp = _data_r.time[i+j].v0m;
+
+                    salt = $scope._data_r.time[i+j].salt0m;
+                    sup_temp = $scope._data_r.time[i+j].temp0m;
+                    fumo = $scope._data_r.time[i+j].zeta;
+                    ucomp = $scope._data_r.time[i+j].u0m;
+                    vcomp = $scope._data_r.time[i+j].v0m;
                     var wind_abs = Math.sqrt(ucomp^2 + vcomp^2)
                     var wind_dir_trig_to = Math.atan2(ucomp/wind_abs, vcomp/wind_abs)
                     wind_dir_trig_to_degrees = wind_dir_trig_to * 180/Math.PI
                   }
                   catch (err) {
-                     console.log(err);
+
                   }
 
 
