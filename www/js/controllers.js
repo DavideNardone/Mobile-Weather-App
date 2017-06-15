@@ -370,7 +370,30 @@ angular.module('ionic.weather.controllers',[])
 
 
                           //TODO: handle air quality data
-                          // print(_data_c[i+j].)
+                          if(!angular.isUndefined(_data_c.time[i+j])){ //get only defined date value (IMP)
+                            // console.log(_data_c.time[i+j]);
+
+                            var caqi = _data_c.time[i+j].caqi["#text"];
+                            var co = _data_c.time[i+j].co["#text"];
+                            var no2 = _data_c.time[i+j].no2["#text"];
+                            var o3 = _data_c.time[i+j].o3["#text"];
+                            var pm10 = _data_c.time[i+j].pm10["#text"];
+                            var pm25 = _data_c.time[i+j].pm25["#text"];
+                            var so2 = _data_c.time[i+j].so2["#text"];
+
+                          }
+                          else {
+                            // console.log(_date);
+
+                            var caqi = 'N/A';
+                            var co = 'N/A';
+                            var no2 = 'N/A';
+                            var o3 = 'N/A';
+                            var pm10 = 'N/A';
+                            var pm25 = 'N/A';
+                            var so2 = 'N/A';
+
+                          }
 
 
                           //console.log('lunghezza sea: ' + runs_s.time.length + 'i=' + i);
@@ -459,9 +482,16 @@ angular.module('ionic.weather.controllers',[])
                             'salt' : salt,
                             'sup_temp': sup_temp,
                             'sup_lib': fumo,
-                            'sup_corr_dir': wind_dir_trig_to_degrees
-
+                            'sup_corr_dir': wind_dir_trig_to_degrees,
+                            'caqi': caqi,
+                            'co': co,
+                            'no2':  no2,
+                            'o3': o3,
+                            'pm10': pm10,
+                            'pm25': pm25,
+                            'so2':  so2
                           };
+
 
                           day.push(info_day);
 
@@ -483,7 +513,7 @@ angular.module('ionic.weather.controllers',[])
 
                       }
 
-                      //console.log($scope.daily_forecast);
+                      console.log($scope.daily_forecast);
                       //console.log($scope.weekly_forecast);
                       //console.log("after ops");
                     })
