@@ -350,11 +350,18 @@ angular.module('ionic.weather.controllers',[])
                       var salt = 'n/d';
                       var sup_temp = 'n/d';
                       var fumo = 'n/d';
+                      var ucomp = 'n/d';
+                      var vcomp = 'n/d';
 
                       try{
                         salt = _data_r.time[i+j].salt0m;
                         sup_temp = _data_r.time[i+j].temp0m;
                         fumo = _data_r.time[i+j].zeta;
+                        ucomp = _data_r.time[i+j].u0m;
+                        vcomp = _data_r.time[i+j].v0m;
+                        var wind_abs = Math.sqrt(ucomp^2 + vcomp^2)
+                        var wind_dir_trig_to = Math.atan2(ucomp/wind_abs, vcomp/wind_abs)
+                        var wind_dir_trig_to_degrees = wind_dir_trig_to * 180/Math.PI
                       }
                       catch (err) {
                         console.log(err);
@@ -382,7 +389,8 @@ angular.module('ionic.weather.controllers',[])
                         'd_scale' : d_scale,
                         'salt' : salt,
                         'sup_temp': sup_temp,
-                        'sup_lib': fumo
+                        'sup_lib': fumo,
+                        'sup_corr_dir': wind_dir_trig_to_degrees
 
                       };
 
