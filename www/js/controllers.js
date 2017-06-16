@@ -207,7 +207,7 @@ angular.module('ionic.weather.controllers',[])
 
 
                       //console.log("RMS DEFINED FOR THIS LOCATION")
-                      runs_r = data_r;
+                      runs_r = data_r.timeseries.runs;;
 
                       console.log('Success API r_url');
                       console.log(runs_r);
