@@ -134,12 +134,12 @@ angular.module('ionic.weather.controllers',[])
 
       console.log('START');
       // var runs = [];
-      $rootScope.runs_r = [];
+      var runs_r = [];
       var runs_c = [];
       var _data = [];
       var _data_s = [];
       var _data_c = [];
-      $rootScope._data_r = [];
+      var _data_r = [];
 
       $http({
         method :'GET',
@@ -206,25 +206,24 @@ angular.module('ionic.weather.controllers',[])
                     .success(function (data_r, status) {
 
 
-                      //console.log("RMS DEFINED FOR THIS LOCATION");
-                      var tmp = data_r;
-                      $rootScope.runs_r = tmp;
+                      //console.log("RMS DEFINED FOR THIS LOCATION")
+                      runs_r = data_r;
 
                       console.log('Success API r_url');
-                      console.log($rootScope.runs_r);
+                      console.log(runs_r);
 
-                      if ($rootScope.runs_r.length > 1) {
-                        for (i = 0; i < $rootScope.runs_r.length - 1; i++) {
+                      if (runs_r.length > 1) {
+                        for (i = 0; i < runs_r.length - 1; i++) {
 
-                          $rootScope.runs_r[0].time = $rootScope.runs_r[0].time.concat($rootScope.runs_r[i + 1].time)
+                          runs_r[0].time = runs_r[0].time.concat(runs_r[i + 1].time)
 
                         }
-                        $rootScope._data_r = {
-                          "time": $rootScope.runs_r[0].time
+                        _data_r = {
+                          "time": runs_r[0].time
                         };
                       }
                       else
-                        $rootScope._data_r = $rootScope.runs_r
+                        _data_r = runs_r
 
 
                       //console.log("success http API");
@@ -276,7 +275,7 @@ angular.module('ionic.weather.controllers',[])
                       console.log(_data);
                       console.log(_data_s);
                       console.log(_data_c);
-                      console.log($rootScope._data_r);
+                      console.log(_data_r);
 
                       //TODO: PRE-PROCESSING ON THE DATA OBTAINED
                       // get the current temperature and icon
@@ -446,13 +445,13 @@ angular.module('ionic.weather.controllers',[])
                           var vcomp = 'n/d';
                           var wind_dir_trig_to_degrees = 'n/d';
                           try {
-                            if (!angular.isUndefined($rootScope._data_r.time[i + j])) {
+                            if (!angular.isUndefined(_data_r.time[i + j])) {
 
-                              salt = $rootScope._data_r.time[i + j].salt0m;
-                              sup_temp = $rootScope._data_r.time[i + j].temp0m;
-                              fumo = $rootScope._data_r.time[i + j].zeta;
-                              ucomp = $rootScope._data_r.time[i + j].u0m;
-                              vcomp = $rootScope._data_r.time[i + j].v0m;
+                              salt = _data_r.time[i + j].salt0m;
+                              sup_temp = _data_r.time[i + j].temp0m;
+                              fumo = _data_r.time[i + j].zeta;
+                              ucomp = _data_r.time[i + j].u0m;
+                              vcomp = _data_r.time[i + j].v0m;
                               var wind_abs = Math.sqrt(ucomp ^ 2 + vcomp ^ 2)
                               var wind_dir_trig_to = Math.atan2(ucomp / wind_abs, vcomp / wind_abs)
                               wind_dir_trig_to_degrees = wind_dir_trig_to * 180 / Math.PI
