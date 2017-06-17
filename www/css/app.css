@@ -157,7 +157,7 @@ h1,h2,h3,h4,h5 {
   padding: 0;
 }
 .weather-box .col {
-  text-align: center;
+  /*text-align: center;*/
 }
 
 .weather-box .col:first-child {
@@ -303,3 +303,16 @@ h1,h2,h3,h4,h5 {
   float: left;
 }
 
+
+div.col-10-headerPage2 {
+
+  padding-top: 0px;
+  padding-right: 10px;
+  /*font-size: 80%;*/
+  text-align: center;
+}
+
+.circle:before {
+  content: ' \25CF';
+  font-size: 20px;
+}
