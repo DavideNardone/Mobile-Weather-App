@@ -42,25 +42,37 @@
       </div>
 
       <br>
+
+
       <!--TODO: make header-->
     <h4 align="center" class="title" style="font-weight: bold">Sea Condition</h4>
+      <div class="row" style="padding-top: 5px; padding-bottom: 5px; font-size: 80%;">
+        <div class="col col-20" style=" padding: 5px;"><span>Hour</span></div>
+        <div class="col col-30"><span>Wind speed</span></div>
+        <div class="col col-30"><span>Sea state</span></div>
+        <div class="col col-30"><span>Wave height</span></div>
+      </div>
     <div class="row" ng-repeat="sea in sel_forecast" ng-if="sea.peakd>=0" ng-click="showModalrms('fadeIn', $index)">
       <div class="col col-20">
         <span ng-bind="sea.time | date:'HH'"></span>
       </div>
-      <div class="col col-20">
+      <div class="col col-30">
         <weather-icon style="padding-top: 15px;" icon="sea.b_scale_icon"></weather-icon>
       </div>
       <!-- <div class="col" style="padding-top: 15px;"><span>{{sea.peakd}}&deg;</span></div> -->
-      <div style="font-size: 12px; padding-top: 22px;" class="col">
-        <span>{{sea.d_scale}}</span>
+      <div class="col col-30">
+        <div style="font-size: 11px; text-align: left;" class="col">
+          <span>{{sea.d_scale}}</span>
+        </div>
       </div>
-      <div class="col" style="padding-top: 22px;"><span>{{(sea.hs*100).toFixed(1)}} cm</span></div>
+      <div class="col col-30" style="padding-top: 22px; text-align: center;">
+        <span>{{(sea.hs*100).toFixed(1)}} cm</span>
+      </div>
     </div>
       <!--<weather-icon style="padding-top: 15px;" icon="sea.sea_dir"></weather-icon>-->
-    <div ng-if="sel_forecast[0].peakd <0 ">
-      <span>Dati mare non disponibili per questa localitá e/o data</span>
-    </div>
+    <!--<div ng-if="sel_forecast[0].peakd < 0 ">-->
+      <!--<span>Sea data not available for this location or date</span>-->
+    <!--</div>-->
 
 
     <div class="clearfix">

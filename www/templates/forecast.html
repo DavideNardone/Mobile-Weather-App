@@ -11,7 +11,7 @@
     </div>
   </ion-scroll>
   <div class="row" ng-repeat="day in weekly_forecast" ng-click="showDayForecast($index)">
-    <div class="col"><span ng-bind="day.date | date:'EEEE'"></span></div>
+    <div class="col col-40"><span ng-bind="day.date | date:'EEEE'"></span></div>
     <div style="margin-top: 3px;" class="col"><weather-icon icon="day.icon"></weather-icon></div>
     <div style="margin-top: -3px;" class="col">
       <span class="temp-high">{{day.max | tempInt}}&deg;</span>

@@ -422,9 +422,9 @@ angular.module('ionic.weather.controllers',[])
                             }
                             var d_scale;
                             if (hs == 0)
-                              d_scale = 'Calm (Glassy)';
+                              d_scale = 'Calm-Glassy';
                             else if (hs >0 && hs <=0.1)
-                              d_scale = 'Calm (Rippled)';
+                              d_scale = 'Calm-Rippled';
                             else if (hs >= 0.1 && hs < 0.5)
                               d_scale = 'Smooth';
                             else if (hs >= 0.5 && hs < 1.25)

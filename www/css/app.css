@@ -308,6 +308,13 @@ div.col-10-headerPage2 {
 
   padding-top: 0px;
   padding-right: 10px;
+  text-align: center;
+}
+
+div.col-20-headerPage2 {
+
+  padding-top: 0px;
+  padding-right: 10px;
   /*font-size: 80%;*/
   text-align: center;
 }
