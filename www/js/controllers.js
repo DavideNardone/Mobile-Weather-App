@@ -80,14 +80,29 @@ angular.module('ionic.weather.controllers',[])
       })
         .success(function (data, status) {
 
-          $scope.place_id = data.places[0].id;
-          $scope.place_name = data.places[0].long_name.it;
+          if (data.places.length > 0) {
+            for (i = 0; i < data.places.length; i++) {
+              if (data.places[i].long_name.it.startsWith('Comune di ')) {
+                //console.log('trovato Comune di ' + $scope.query);
+                $scope.place_id = data.places[i].id;
+                $scope.place_name = data.places[i].long_name.it;
+                break;
+              } else {
+                //console.log('Non trovato, ritorno primo elemento');
+                $scope.place_id = data.places[0].id;
+                $scope.place_name = data.places[0].long_name.it;
+              }
+            }
+          }
+
+          //$scope.place_id = data.places[0].id;
+          //$scope.place_name = data.places[0].long_name.it;
           $rootScope.rootPlace = $scope.place_name;
           //console.log($scope.place_id);
           //console.log($scope.place_name);
           // console.log(data.places[0].long_name.it);
 
-          $scope.currentLocationString = data.places[0].long_name.it;
+          $scope.currentLocationString = $scope.place_name;;
 
           //retrieve bgd_image based on the current position
           _this.getDataModel("wrf3",$scope.place_id);
@@ -110,10 +125,10 @@ angular.module('ionic.weather.controllers',[])
     this.getDataModel = function(model,place){
 
       //retrieve forecast data from models
-      var f_url = 'http://192.167.9.103:5050/products/'+model+'/timeseries/'+place;
-      var s_url = 'http://192.167.9.103:5050/products/ww33/timeseries/'+place;
-      var r_url = 'http://192.167.9.103:5050/products/rms3/timeseries/'+place;
-      var c_url = 'http://192.167.9.103:5050/products/chm3/timeseries/'+place
+      var f_url = 'http://192.167.9.103:5050/products/'+model+'/timeseries/'+$scope.place_id;
+      var s_url = 'http://192.167.9.103:5050/products/ww33/timeseries/'+$scope.place_id;
+      var r_url = 'http://192.167.9.103:5050/products/rms3/timeseries/'+$scope.place_id;
+      var c_url = 'http://192.167.9.103:5050/products/chm3/timeseries/'+$scope.place_id
 
       //console.log(f_url);
 
