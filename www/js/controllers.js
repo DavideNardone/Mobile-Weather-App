@@ -223,7 +223,7 @@ angular.module('ionic.weather.controllers',[])
                         };
                       }
                       else
-                        _data_r = runs_r
+                        _data_r = runs_r;
 
 
                       //console.log("success http API");
@@ -375,6 +375,19 @@ angular.module('ionic.weather.controllers',[])
                             // console.log(_data_c.time[i+j]);
 
                             var caqi = _data_c.time[i + j].caqi["#text"];
+                            if (caqi >=0 && caqi <=50)
+                              caqi = 'green';
+                            else if(caqi >=51 && caqi <=10)
+                              caqi = 'yellow';
+                            else if(caqi >=101 && caqi <=150)
+                              caqi = 'orange';
+                            else if(caqi >=151 && caqi <=200)
+                              caqi = 'red';
+                            else if(caqi >=201 && caqi <=300)
+                              caqi = 'purple';
+                            else
+                              caqi = 'N/A';
+
                             var co = _data_c.time[i + j].co["#text"];
                             var no2 = _data_c.time[i + j].no2["#text"];
                             var o3 = _data_c.time[i + j].o3["#text"];
@@ -384,8 +397,6 @@ angular.module('ionic.weather.controllers',[])
 
                           }
                           else {
-                            // console.log(_date);
-
                             var caqi = 'N/A';
                             var co = 'N/A';
                             var no2 = 'N/A';
@@ -393,7 +404,6 @@ angular.module('ionic.weather.controllers',[])
                             var pm10 = 'N/A';
                             var pm25 = 'N/A';
                             var so2 = 'N/A';
-
                           }
 
 
@@ -412,25 +422,25 @@ angular.module('ionic.weather.controllers',[])
                             }
                             var d_scale;
                             if (hs == 0)
-                              d_scale = 'Calmo';
-                            else if (hs < 0.1)
-                              d_scale = 'Quasi calmo';
+                              d_scale = 'Calm-Glassy';
+                            else if (hs >0 && hs <=0.1)
+                              d_scale = 'Calm-Rippled';
                             else if (hs >= 0.1 && hs < 0.5)
-                              d_scale = 'Poco mosso';
+                              d_scale = 'Smooth';
                             else if (hs >= 0.5 && hs < 1.25)
-                              d_scale = 'Mosso';
+                              d_scale = 'Slight';
                             else if (hs >= 1.25 && hs < 2.5)
-                              d_scale = 'Molto mosso';
+                              d_scale = 'Moderate';
                             else if (hs >= 2.5 && hs < 4)
-                              d_scale = 'Agitato';
+                              d_scale = 'Rough';
                             else if (hs >= 4 && hs < 6)
-                              d_scale = 'Molto agitato';
+                              d_scale = 'Very Rough';
                             else if (hs >= 6 && hs < 9)
-                              d_scale = 'Gross';
+                              d_scale = 'High';
                             else if (hs >= 9 && hs < 14)
-                              d_scale = 'Molto grosso';
+                              d_scale = 'Very High';
                             else if (hs >= 14)
-                              d_scale = 'Tempestoso'
+                              d_scale = 'Phenomenal';
                           }
                           else {
                             var b_scale = -9999;
