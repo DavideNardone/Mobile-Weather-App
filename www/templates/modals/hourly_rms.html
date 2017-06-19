@@ -6,49 +6,48 @@
 
   <ion-content scroll="false">
 
-    <div style="  height: 5%; margin-top: 20px; background-color: rgb(205, 236, 245);" class="bar bar-header">
-      <h1 style="margin-top: -10px;" class="title">Hour {{sel_hour_forecast.time |  date:'H'}} - {{sel_hour_forecast.wc_text}} </h1>
-
-
-      <!--{{sel_hour_forecast.icon}} {{sel_hour_forecast.wc_text}}-->
-    </div>
-
-    <div class="Aligner">
-
-      <div class="row" ng-if="sel_hour_forecast.salt != 'N/A'">
-        <div class="col"><span class="l_span">Salinity</span></div>
-        <div class="col"><span class="r_span">{{sel_hour_forecast.salt}} %</span></div>
+    <div class="wrapper_modal_3">
+      <div class="header_modal">
+        <h4 style="padding: 5px 0px 5px 0px;" class="title">Hour {{sel_hour_forecast.time |  date:'H'}} - {{sel_hour_forecast.d_scale}} </h4>
       </div>
 
-      <!--<div ng-if="sel_hour_forecast.crh != 0" class="row">-->
+      <div class="Aligner">
+
+        <div class="row" ng-if="sel_hour_forecast.salt != 'N/A'">
+          <div class="col"><span class="l_span">Salinity</span></div>
+          <div class="col"><span class="r_span">{{sel_hour_forecast.salt}} %</span></div>
+        </div>
+
+        <!--<div ng-if="sel_hour_forecast.crh != 0" class="row">-->
         <!--<div class="col"><span class="l_span">Precipitations</span></div>-->
         <!--<div class="col"><span class="r_span">{{sel_hour_forecast.crh}} mm</span></div>-->
-      <!--</div>-->
+        <!--</div>-->
 
-      <div class="row" ng-if="sel_hour_forecast.salt != 'N/A'">
-        <div class="col"><span class="l_span">Surface Temp </span></div>
-        <div class="col"><span class="r_span" style="color: white;">{{sel_hour_forecast.sup_temp}} &deg;</span></div>
+        <div class="row" ng-if="sel_hour_forecast.salt != 'N/A'">
+          <div class="col"><span class="l_span">Surface Temp </span></div>
+          <div class="col"><span class="r_span" style="color: white;">{{sel_hour_forecast.sup_temp}} &deg;</span></div>
+        </div>
+
+        <div class="row" ng-if="sel_hour_forecast.salt != 'N/A'">
+          <div class="col"><span class="l_span">Surface direction </span></div>
+          <div class="col"><span class="r_span" style="color: white;">{{sel_hour_forecast.sup_corr_dir.toFixed(2)}} &deg;</span></div>
+        </div>
+
+        <div class="row" ng-if="sel_hour_forecast.salt != 'N/A'">
+          <div class="col"><span class="l_span">Free surface rise</span></div>
+          <div class="col"><span class="r_span" style="color: white;">{{sel_hour_forecast.sup_lib}}</span></div>
+        </div>
+
+        <div class="row" ng-if="sel_hour_forecast.salt == 'N/A'">
+          <div style="color: white;">RMS3 data not defined for this location or date</div>
+        </div>
+
       </div>
-
-      <div class="row" ng-if="sel_hour_forecast.salt != 'N/A'">
-        <div class="col"><span class="l_span">Surface direction </span></div>
-        <div class="col"><span class="r_span" style="color: white;">{{sel_hour_forecast.sup_corr_dir.toFixed(2)}} &deg;</span></div>
-      </div>
-
-      <div class="row" ng-if="sel_hour_forecast.salt != 'N/A'">
-        <div class="col"><span class="l_span">Free surface rise</span></div>
-        <div class="col"><span class="r_span" style="color: white;">{{sel_hour_forecast.sup_lib}}</span></div>
-      </div>
-
-    <div class="row" ng-if="sel_hour_forecast.salt == 'N/A'">
-        <div style="color: white;">RMS3 data not defined for this location or date</div>
     </div>
 
-
-
-
+    <div style="color: white;" class="credit">
+      Powered by <a style="color: white;" ng-click="exturl();"><b>CCMMMA</b></a>
     </div>
-
 
   </ion-content>
 </ion-modal-view>

@@ -220,7 +220,7 @@ h1,h2,h3,h4,h5 {
   text-align: center;
 }
 
-#forecast .credit {
+.credit {
   float: right;
   margin-top: 4px;
   margin-right: 4px;
@@ -285,7 +285,7 @@ h1,h2,h3,h4,h5 {
 }
 
 .Aligner {
-  padding-top: 64px;
+  /*padding-top: 64px;*/
   align-items: center;
   justify-content: center;
 }
@@ -322,4 +322,54 @@ div.col-20-headerPage2 {
 .circle:before {
   content: ' \25CF';
   font-size: 20px;
+}
+
+.wrapper_modal_1{
+
+  height: 40%;
+}
+
+.header_modal{
+
+  text-align: center;
+  color: white;
+  background-color: rgb(205, 236, 245);
+  margin-top: 20px;
+
+}
+
+.wrapper_modal_2{
+
+  height: 45%;
+  text-align: center;
+}
+
+.wrapper_modal_3{
+
+  height: 90%;
+}
+
+.outer_wrap{
+  color: white;
+  background-color: rgb(205, 236, 245);
+  margin-top: 20px;
+  text-align: center;
+}
+
+
+.header_modal_2 {
+  display: inline-block;
+  padding-right: 5px;
+
+}
+
+.header_modal_22{
+  display: inline-block;
+}
+
+.header_modal_23{
+  display: inline-block;
+  padding-right: 5px;
+  font-weight: bold;
+  font-size: 15px
 }

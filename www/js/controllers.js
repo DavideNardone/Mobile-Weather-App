@@ -134,7 +134,8 @@ angular.module('ionic.weather.controllers',[])
 
       $scope.show = function () {
         $ionicLoading.show({
-          template: '<p>Caricamento...</p><ion-spinner icon="spiral"></ion-spinner>'
+          template: '<p>Caricamento...</p><ion-spinner icon="spiral"></ion-spinner>',
+          duration: 5000
         });
       };
 
@@ -393,18 +394,34 @@ angular.module('ionic.weather.controllers',[])
                             // console.log(_data_c.time[i+j]);
 
                             var caqi = _data_c.time[i + j].caqi["#text"];
-                            if (caqi >=0 && caqi <=50)
+                            var caqi_text = [];
+                            if (caqi >=0 && caqi <=50) {
                               caqi = 'green';
-                            else if(caqi >=51 && caqi <=10)
+                              caqi_text = 'Good';
+                            }
+                            else if(caqi >=51 && caqi <=10) {
                               caqi = 'yellow';
-                            else if(caqi >=101 && caqi <=150)
+                              caqi_text = 'Moderate';
+                            }
+                            else if(caqi >=101 && caqi <=150) {
                               caqi = 'orange';
-                            else if(caqi >=151 && caqi <=200)
+                              caqi_text = 'Mediocre';
+                            }
+                            else if(caqi >=151 && caqi <=200) {
                               caqi = 'red';
-                            else if(caqi >=201 && caqi <=300)
+                              caqi_text = 'Unhealthy';
+                            }
+                            else if(caqi >=201 && caqi <=300) {
                               caqi = 'purple';
-                            else
+                              caqi_text = 'Very Unhealthy';
+                            }
+                            else if(caqi > 300) {
+                              caqi = 'maroon';
+                              caqi_text = 'Hazardous';
+                            }
+                            else {
                               caqi = 'N/A';
+                            }
 
                             var co = _data_c.time[i + j].co["#text"];
                             var no2 = _data_c.time[i + j].no2["#text"];
@@ -507,6 +524,7 @@ angular.module('ionic.weather.controllers',[])
                             'sup_lib': fumo,
                             'sup_corr_dir': wind_dir_trig_to_degrees,
                             'caqi': caqi,
+                            'caqi_text': caqi_text,
                             'co': co,
                             'no2': no2,
                             'o3': o3,
@@ -609,7 +627,7 @@ angular.module('ionic.weather.controllers',[])
           var img = new Image();
           //console.log($scope.currentCondition);
           $scope.pathIm = $scope.DfBgImage[$scope.currentCondition];
-          $rootScope.rootBg = $scope.pathIm
+          $rootScope.rootBg = $scope.pathIm;
           //console.log(img.src);
           //$scope.pathIm = img.src;
           console.log($scope.pathIm);
@@ -705,6 +723,7 @@ angular.module('ionic.weather.controllers',[])
       //console.log(animation);
       //console.log(index);
       $scope.sel_hour_forecast = $scope.sel_forecast[index];
+      console.log($scope.sel_hour_forecast);
       $ionicModal.fromTemplateUrl('templates/modals/hourly_forecast.html', {
         scope: $scope,
         animation: 'animated ' + animation,
@@ -742,6 +761,25 @@ angular.module('ionic.weather.controllers',[])
         }
       });
     };
+
+    $scope.exturl = function() {
+      var options = {
+        location: 'no',
+        clearcache: 'yes',
+        toolbar: 'yes'
+      };
+      console.log('click');
+      cordova.InAppBrowser.open('http://meteo.uniparthenope.it', "_blank", "location=yes", "clearcache: yes", "toolbar: yes")
+
+        .then(function(event) {
+          console.log('opened');
+        })
+
+        .catch(function(event) {
+          console.log('nope');
+        });
+    };
+
 
     var _daily_forecast =  $stateParams.obj;
     $scope.sel_forecast = [];

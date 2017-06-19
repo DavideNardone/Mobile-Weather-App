@@ -6,48 +6,108 @@
 
   <ion-content scroll="false">
 
-    <div style="  height: 5%; margin-top: 20px; background-color: rgb(205, 236, 245);" class="bar bar-header">
-      <h1 style="margin-top: -7px;" class="title">Hour {{sel_hour_forecast.time |  date:'H'}} - {{sel_hour_forecast.wc_text}} </h1>
-    </div>
-
-    <div class="Aligner">
-
-      <div class="row">
-        <div class="col"><span class="l_span">Cloud fraction</span></div>
-        <div class="col"><span class="r_span">{{sel_hour_forecast.clf}} %</span></div>
+    <div class="wrapper_modal_1">
+      <div class="header_modal">
+        <h4 style="padding: 5px 0px 5px 0px;" class="title">Hour {{sel_hour_forecast.time |  date:'H'}} - {{sel_hour_forecast.wc_text}} </h4>
       </div>
 
-      <!--<div ng-if="sel_hour_forecast.crh != 0" class="row">-->
+      <div class="Aligner">
+
+        <div class="row">
+          <div class="col"><span class="l_span">Cloud fraction</span></div>
+          <div class="col"><span class="r_span">{{sel_hour_forecast.clf}} %</span></div>
+        </div>
+
+        <!--<div ng-if="sel_hour_forecast.crh != 0" class="row">-->
         <!--<div class="col"><span class="l_span">Precipitations</span></div>-->
         <!--<div class="col"><span class="r_span">{{sel_hour_forecast.crh}} mm</span></div>-->
-      <!--</div>-->
-      <div class="row">
-        <div class="col"><span class="l_span">Precipitations</span></div>
-        <div class="col"><span class="r_span">{{sel_hour_forecast.crh}} mm</span></div>
+        <!--</div>-->
+        <div class="row">
+          <div class="col"><span class="l_span">Precipitations</span></div>
+          <div class="col"><span class="r_span">{{sel_hour_forecast.crh}} mm</span></div>
+        </div>
+
+        <div class="row">
+          <div class="col"><span class="l_span">Relative Umidity</span></div>
+          <div class="col"><span class="r_span" style="color: white;">{{sel_hour_forecast.rh2}} %</span></div>
+        </div>
+
+        <div class="row">
+          <div class="col"><span class="l_span">Temperature</span></div>
+          <div class="col"><span class="r_span" style="color: white;">{{sel_hour_forecast.t2c}}&deg;</span></div>
+        </div>
+
+        <div class="row">
+          <div class="col"><span class="l_span">Wind</span></div>
+          <div class="col"><span class="r_span" class="l_span">{{sel_hour_forecast.wind}} {{sel_hour_forecast.ws10}} Km/h</span></div>
+        </div>
+
+        <div class="row">
+          <div class="col"><span class="l_span">Pressure</span></div>
+          <div class="col"><span class="r_span" class="l_span">{{sel_hour_forecast.slp}} hPa</span></div>
+        </div>
+
+
       </div>
-
-      <div class="row">
-        <div class="col"><span class="l_span">Relative Umidity</span></div>
-        <div class="col"><span class="r_span" style="color: white;">{{sel_hour_forecast.rh2}} %</span></div>
-      </div>
-
-      <div class="row">
-        <div class="col"><span class="l_span">Temperature</span></div>
-        <div class="col"><span class="r_span" style="color: white;">{{sel_hour_forecast.t2c}}&deg;</span></div>
-      </div>
-
-      <div class="row">
-        <div class="col"><span class="l_span">Wind</span></div>
-        <div class="col"><span class="r_span" class="l_span">{{sel_hour_forecast.wind}} {{sel_hour_forecast.ws10}} Km/h</span></div>
-      </div>
-
-      <div class="row">
-        <div class="col"><span class="l_span">Pressure</span></div>
-        <div class="col"><span class="r_span" class="l_span">{{sel_hour_forecast.slp}} hPa</span></div>
-      </div>
-
-
     </div>
+    <div class="wrapper_modal_2">
+      <div class="outer_wrap">
+        <div class="header_modal_2">
+          <h4 style="margin: 5px 0px 5px 0px;" class="title">Air quality</h4>
+        </div>
+        <div class="header_modal_22" ng-if="sel_hour_forecast.caqi!='N/A'">
+          <span class="circle" style="color: {{sel_hour_forecast.caqi}};"></span>
+        </div>
+        <div class="header_modal_23" ng-if="sel_hour_forecast.caqi!='N/A'">
+          <span style="color: {{sel_hour_forecast.caqi}};">{{sel_hour_forecast.caqi_text}}</span>
+        </div>
+        <div class="header_modal_22" ng-if="sel_hour_forecast.caqi=='N/A'">
+          <h4>data not available</h4>
+        </div>
+      </div>
+
+      <div class="Aligner" ng-if="sel_hour_forecast.caqi!='N/A'">
+
+        <div class="row">
+          <div class="col"><span class="l_span" style="font-weight: normal;"><b>O<sub>3</sub></b> Ozone</span></div>
+          <div class="col"><span class="r_span" style="font-weight: normal;">{{sel_hour_forecast.o3}}</span></div>
+        </div>
+
+        <div class="row">
+          <div class="col"><span class="l_span" style="font-weight: normal;"><b>NO<sub>2</sub></b> Nitrogen Dioxide</span></div>
+          <div class="col"><span class="r_span" style="font-weight: normal;">{{sel_hour_forecast.no2}}</span></div>
+        </div>
+
+        <div class="row">
+          <div class="col"><span class="l_span" style="font-weight: normal;"><b>SO<sub>2</sub></b> Sulfur dioxide</span></div>
+          <div class="col"><span class="r_span" style="font-weight: normal;">{{sel_hour_forecast.so2}}</span></div>
+        </div>
+
+        <div class="row">
+          <div class="col"><span class="l_span" style="font-weight: normal;"><b>CO</b> Carbon monoxide</span></div>
+          <div class="col"><span class="r_span" style="font-weight: normal;">{{sel_hour_forecast.co}}</span></div>
+        </div>
+
+        <div class="row">
+          <div class="col"><span class="l_span" style="font-weight: normal;"><b>PM10</b> Fine particulates</span></div>
+          <div class="col"><span class="r_span" style="font-weight: normal;">{{sel_hour_forecast.pm10}}</span></div>
+        </div>
+
+        <div class="row">
+          <div class="col"><span class="l_span" style="font-weight: normal;"><b>PM25</b> Fine particulates</span></div>
+          <div class="col"><span class="r_span" style="font-weight: normal;">{{sel_hour_forecast.pm25}}</span></div>
+        </div>
+
+      </div>
+      <!--<div class="Aligner" ng-if="sel_hour_forecast.caqi=='N/A'">-->
+        <!--<span>Air quality data not available</span>-->
+      <!--</div>-->
+    </div>
+
+    <div style="color: white;" class="credit">
+      Powered by <a style="color: white;" ng-click="exturl();"><b>CCMMMA</b></a>
+    </div>
+
 
   </ion-content>
 </ion-modal-view>

@@ -42,7 +42,7 @@ angular.module('ionic.weather', [
 
     $ionicConfigProvider.backButton.text('');
 
-    // $ionicConfigProvider.views.swipeBackEnabled(false);
+    $ionicConfigProvider.views.swipeBackEnabled(true);
 
     $stateProvider
 
@@ -94,30 +94,6 @@ angular.module('ionic.weather', [
           }
         }
       })
-
-
-      // .state('app.browse', {
-      //   url: '/browse',
-      //   views: {
-      //     'menuContent': {
-      //       templateUrl: 'templates/browse.html',
-      //       controller: 'BrowseCtrl'
-      //     }
-      //   }
-      // })
-
-
-      // .state('app.single', {
-      //   url: '/playlists/:playlistId',
-      //   views: {
-      //     'menuContent': {
-      //       templateUrl: 'templates/playlist.html',
-      //       controller: 'PlaylistCtrl'
-      //     }
-      //   }
-      // })
-
-
     ;
 
     // if none of the above states are matched, use this as the fallback
