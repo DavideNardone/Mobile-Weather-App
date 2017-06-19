@@ -52,7 +52,7 @@
         <div class="col col-30"><span>Sea state</span></div>
         <div class="col col-30"><span>Wave height</span></div>
       </div>
-    <div class="row" ng-repeat="sea in sel_forecast" ng-if="sea.peakd>=0" ng-click="showModalrms('fadeIn', $index)">
+    <div class="row" ng-repeat="sea in sel_forecast" ng-if="sea.hs != -999000000.000000" ng-click="showModalrms('fadeIn', $index)">
       <div class="col col-20">
         <span ng-bind="sea.time | date:'HH'"></span>
       </div>

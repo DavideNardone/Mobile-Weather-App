@@ -207,23 +207,26 @@ angular.module('ionic.weather.controllers',[])
 
 
                       //console.log("RMS DEFINED FOR THIS LOCATION")
-                      runs_r = data_r.timeseries.runs;;
+                      runs_r = data_r.timeseries.runs;
 
                       console.log('Success API r_url');
                       console.log(runs_r);
+                      var rms_flag = false;
+                      if (!angular.isUndefined(runs_r)) {
+                        rms_flag = true;
+                        if (runs_r.length > 1) {
+                          for (i = 0; i < runs_r.length - 1; i++) {
 
-                      if (runs_r.length > 1) {
-                        for (i = 0; i < runs_r.length - 1; i++) {
+                            runs_r[0].time = runs_r[0].time.concat(runs_r[i + 1].time)
 
-                          runs_r[0].time = runs_r[0].time.concat(runs_r[i + 1].time)
-
+                          }
+                          _data_r = {
+                            "time": runs_r[0].time
+                          };
                         }
-                        _data_r = {
-                          "time": runs_r[0].time
-                        };
+                        else
+                          _data_r = runs_r;
                       }
-                      else
-                        _data_r = runs_r;
 
 
                       //console.log("success http API");
@@ -408,55 +411,51 @@ angular.module('ionic.weather.controllers',[])
 
 
                           //console.log('lunghezza sea: ' + runs_s.time.length + 'i=' + i);
-                          if (i < runs_s.time.length) {
+                          if (i < runs_s.time.length - 1) {
                             var b_scale = [];
                             var hs = [];
-                            var peakd = [];
+                            var peakd = -9999;
                             if (!angular.isUndefined(_data_s.time[i + j])) {
                               b_scale = _data_s.time[i + j].w10b;
                               hs = _data_s.time[i + j].hs;
                               peakd = _data_s.time[i + j].peakd;
-                            } else {
-                              //console.log("No sea data for this date");
-                              peakd = -1;
+
+                              var d_scale;
+                              if (hs == 0)
+                                d_scale = 'Calm-Glassy';
+                              else if (hs > 0 && hs <= 0.1)
+                                d_scale = 'Calm-Rippled';
+                              else if (hs >= 0.1 && hs < 0.5)
+                                d_scale = 'Smooth';
+                              else if (hs >= 0.5 && hs < 1.25)
+                                d_scale = 'Slight';
+                              else if (hs >= 1.25 && hs < 2.5)
+                                d_scale = 'Moderate';
+                              else if (hs >= 2.5 && hs < 4)
+                                d_scale = 'Rough';
+                              else if (hs >= 4 && hs < 6)
+                                d_scale = 'Very Rough';
+                              else if (hs >= 6 && hs < 9)
+                                d_scale = 'High';
+                              else if (hs >= 9 && hs < 14)
+                                d_scale = 'Very High';
+                              else if (hs >= 14)
+                                d_scale = 'Phenomenal';
                             }
-                            var d_scale;
-                            if (hs == 0)
-                              d_scale = 'Calm-Glassy';
-                            else if (hs >0 && hs <=0.1)
-                              d_scale = 'Calm-Rippled';
-                            else if (hs >= 0.1 && hs < 0.5)
-                              d_scale = 'Smooth';
-                            else if (hs >= 0.5 && hs < 1.25)
-                              d_scale = 'Slight';
-                            else if (hs >= 1.25 && hs < 2.5)
-                              d_scale = 'Moderate';
-                            else if (hs >= 2.5 && hs < 4)
-                              d_scale = 'Rough';
-                            else if (hs >= 4 && hs < 6)
-                              d_scale = 'Very Rough';
-                            else if (hs >= 6 && hs < 9)
-                              d_scale = 'High';
-                            else if (hs >= 9 && hs < 14)
-                              d_scale = 'Very High';
-                            else if (hs >= 14)
-                              d_scale = 'Phenomenal';
-                          }
-                          else {
-                            var b_scale = -9999;
-                            var hs = -9999;
-                            var peakd = -9999;
+                            else {
+                              hs = -999000000.000000;
+                            }
                           }
 
-                          var salt = 'n/d';
-                          var sup_temp = 'n/d';
-                          var fumo = 'n/d';
-                          var ucomp = 'n/d';
-                          var vcomp = 'n/d';
-                          var wind_dir_trig_to_degrees = 'n/d';
-                          try {
+                          var salt = 'N/A';
+                          var sup_temp = 'N/A';
+                          var fumo = 'N/A';
+                          var ucomp = 'N/A';
+                          var vcomp = 'N/A';
+                          var wind_dir_trig_to_degrees = 'N/A';
+
+                          if (rms_flag == true) {
                             if (!angular.isUndefined(_data_r.time[i + j])) {
-
                               salt = _data_r.time[i + j].salt0m;
                               sup_temp = _data_r.time[i + j].temp0m;
                               fumo = _data_r.time[i + j].zeta;
@@ -466,7 +465,6 @@ angular.module('ionic.weather.controllers',[])
                               var wind_dir_trig_to = Math.atan2(ucomp / wind_abs, vcomp / wind_abs)
                               wind_dir_trig_to_degrees = wind_dir_trig_to * 180 / Math.PI
                             }
-                          } catch (err) {
                           }
 
 
@@ -530,21 +528,21 @@ angular.module('ionic.weather.controllers',[])
 
 
                     .error(function (data_r, status) {
-                      //alert('Connection error: ' + status);
+                      alert('RMS3 API Connection error: ' + status);
 
                     });
                 })
                 .error(function (data_c, status) {
-                  //alert('Connection error: ' + status);
+                  alert('CHM3 API Connection error: ' + status);
                 });
             })
             .error(function (data_s, status) {
-              //alert('Connection error: ' + status);
+              alert('WW3 API Connection error: ' + status);
             });
         })
         //})
         .error(function (data, status) {
-          alert('Connection error: ' + status);
+          alert('WRF3 Connection error: ' + status);
         })
         .finally(function ($IonicLoading) {
 
