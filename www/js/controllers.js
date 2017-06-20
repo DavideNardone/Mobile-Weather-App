@@ -484,7 +484,7 @@ angular.module('ionic.weather.controllers',[])
                           var fumo = 'N/A';
                           var ucomp = 'N/A';
                           var vcomp = 'N/A';
-                          var wind_dir_trig_to_degrees = 'N/A';
+                          var wind_dir_card = 'N/A';
 
                           if (rms_flag == true) {
                             if (!angular.isUndefined(_data_r.time[i + j])) {
@@ -495,7 +495,28 @@ angular.module('ionic.weather.controllers',[])
                               vcomp = _data_r.time[i + j].v0m;
                               var wind_abs = Math.sqrt(ucomp ^ 2 + vcomp ^ 2)
                               var wind_dir_trig_to = Math.atan2(ucomp / wind_abs, vcomp / wind_abs)
-                              wind_dir_trig_to_degrees = wind_dir_trig_to * 180 / Math.PI
+                              var angle = ((wind_dir_trig_to * 180 / Math.PI)+180)
+
+                              var directions = 8;
+                              var degree = 360 / directions;
+                              angle = angle + degree/2;
+                              if (angle >= 0 * degree && angle < 1 * degree)
+                                wind_dir_card = "N";
+                              if (angle >= 1 * degree && angle < 2 * degree)
+                                wind_dir_card =  "NE";
+                              if (angle >= 2 * degree && angle < 3 * degree)
+                                wind_dir_card =  "E";
+                              if (angle >= 3 * degree && angle < 4 * degree)
+                                wind_dir_card =  "SE";
+                              if (angle >= 4 * degree && angle < 5 * degree)
+                                wind_dir_card =  "S";
+                              if (angle >= 5 * degree && angle < 6 * degree)
+                                wind_dir_card =  "SW";
+                              if (angle >= 6 * degree && angle < 7 * degree)
+                                wind_dir_card =  "W";
+                              if (angle >= 7 * degree && angle < 8 * degree)
+                                wind_dir_card =  "NW";
+
                             }
                           }
 
@@ -519,10 +540,10 @@ angular.module('ionic.weather.controllers',[])
                             'wind_dir': wind_dir,
                             'b_scale_icon': 'wi wi-wind-beaufort-' + parseInt(b_scale),
                             'd_scale': d_scale,
-                            'salt': salt,
-                            'sup_temp': sup_temp,
-                            'sup_lib': fumo,
-                            'sup_corr_dir': wind_dir_trig_to_degrees,
+                            'salt': parseFloat(salt).toFixed(2),
+                            'sup_temp': parseFloat(sup_temp).toFixed(2),
+                            'sup_lib': parseFloat(fumo).toFixed(2),
+                            'sup_corr_dir': wind_dir_card,
                             'caqi': caqi,
                             'caqi_text': caqi_text,
                             'co': co,
