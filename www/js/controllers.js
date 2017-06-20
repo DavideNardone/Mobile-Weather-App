@@ -540,7 +540,7 @@ angular.module('ionic.weather.controllers',[])
                             'wind_dir': wind_dir,
                             'b_scale_icon': 'wi wi-wind-beaufort-' + parseInt(b_scale),
                             'd_scale': d_scale,
-                            'salt': parseFloat(salt).toFixed(2),
+                            'salt': (parseFloat(salt).toFixed(2))/10,
                             'sup_temp': parseFloat(sup_temp).toFixed(2),
                             'sup_lib': parseFloat(fumo).toFixed(2),
                             'sup_corr_dir': wind_dir_card,
