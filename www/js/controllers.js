@@ -542,18 +542,18 @@ angular.module('ionic.weather.controllers',[])
                             'wind_dir': wind_dir,
                             'b_scale_icon': 'wi wi-wind-beaufort-' + parseInt(b_scale),
                             'd_scale': d_scale,
-                            'salt': (parseFloat(salt).toFixed(2))/10,
+                            'salt': ((parseFloat(salt).toFixed(2))/10).toFixed(1),
                             'sup_temp': parseFloat(sup_temp).toFixed(2),
                             'sup_lib': parseFloat(fumo).toFixed(2),
                             'sup_corr_dir': wind_dir_card,
                             'caqi': caqi,
                             'caqi_text': caqi_text,
-                            'co': co,
-                            'no2': no2,
-                            'o3': o3,
-                            'pm10': pm10,
-                            'pm25': pm25,
-                            'so2': so2
+                            'co': parseFloat(co).toFixed(2),
+                            'no2': parseFloat(no2).toFixed(2),
+                            'o3': parseFloat(o3).toFixed(2),
+                            'pm10': parseFloat(pm10).toFixed(2),
+                            'pm25': parseFloat(pm25).toFixed(2),
+                            'so2': parseFloat(so2).toFixed(2)
                           };
 
 
@@ -721,7 +721,7 @@ angular.module('ionic.weather.controllers',[])
   })
 
 
-  .controller('DailyWeatherCtrl', function($scope, WC, WCI, $state, $stateParams, $cordovaInAppBrowser,$ionicModal) {
+  .controller('DailyWeatherCtrl', function($scope, WC, WCI, RMS, RMSI, $state, $stateParams, $cordovaInAppBrowser,$ionicModal) {
 
     var options = {
       location: 'yes',
@@ -808,6 +808,7 @@ angular.module('ionic.weather.controllers',[])
     $scope.sel_forecast = [];
     var step = 3;
     var _count = new Array(WC.length).fill(0);
+    var _count_2 = new Array(RMS.length).fill(0);
 
     //console.log(_daily_forecast);
 
@@ -818,30 +819,45 @@ angular.module('ionic.weather.controllers',[])
       $scope.sel_forecast.push(_step_data);
 
       var wc = _step_data.wc_text;
+      var d_scale =  _step_data.d_scale_text;
 
       var i_wc = WC.indexOf(wc);
+      var i_d_scale = RMS.indexOf(d_scale);
 
       _count[i_wc]++;
+      _count_2[i_d_scale]++;
 
     }
     //console.log(_count);
 
     var max = -9999;
-    var k;
+    var k_wc;
 
     // retrieving condition weather based on max value
     for(var i = 0; i < _count.length; i++){
       if(_count[i] > max){
         max = _count[i];
-        k = i;
+        k_wc = i;
+      }
+    }
+
+
+    var max = -9999;
+    var k_s;
+
+    // retrieving condition weather based on max value
+    for(var i = 0; i < _count_2.length; i++){
+      if(_count_2[i] > max){
+        max = _count[i];
+        k_s = i;
       }
     }
 
     //console.log(k);
     //console.log(_count[k]);
 
-    $scope.bg_img = WCI[k].toString();
-    //console.log($scope.bg_img);
+    $scope.bg_img = WCI[k_wc].toString();
+    $scope.bg_img_sea = RMSI[k_wc].toString();
 
     //console.log($scope.sel_forecast);
 

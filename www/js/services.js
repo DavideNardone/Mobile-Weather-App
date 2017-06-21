@@ -105,7 +105,9 @@ angular.module('ionic.weather.services', ['ngResource'])
 
 
 .constant('WC', ['Sereno', 'Nuvoloso','Rovesci'])
+.constant('RMS', ['Calm-Glassy', 'Calm-Rippled','Smooth', 'Slight','Moderate', 'Rough', 'Very Rough', 'High', 'Very High', 'Phenomenal'])
 .constant('WCI', ['img/bg/sunny.gif', 'img/bg/cloudy.gif','img/bg/rainy.gif'])
+.constant('RMSI', ['img/bg/calm_2.gif', 'img/bg/calm_2.gif','img/bg/smooth.gif', 'img/bg/slight.gif','img/bg/moderate.gif','img/bg/rough.gif', 'img/bg/rough.gif', 'img/bg/rough.gif', 'img/bg/high.gif', 'img/bg/high.gif'])
 
 
 
