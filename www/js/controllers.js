@@ -135,7 +135,7 @@ angular.module('ionic.weather.controllers',[])
       $scope.show = function () {
         $ionicLoading.show({
           template: '<p>Caricamento...</p><ion-spinner icon="spiral"></ion-spinner>',
-          duration: 500000
+          //duration: 500000
         });
       };
 
