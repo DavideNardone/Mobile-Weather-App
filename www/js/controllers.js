@@ -83,12 +83,12 @@ angular.module('ionic.weather.controllers',[])
           if (data.places.length > 0) {
             for (i = 0; i < data.places.length; i++) {
               if (data.places[i].long_name.it.startsWith('Comune di ')) {
-                //console.log('trovato Comune di ' + $scope.query);
+                console.log('trovato Comune di ' + data.places[i].long_name.it);
                 $scope.place_id = data.places[i].id;
                 $scope.place_name = data.places[i].long_name.it;
                 break;
               } else {
-                //console.log('Non trovato, ritorno primo elemento');
+                console.log('Non trovato, ritorno primo elemento');
                 $scope.place_id = data.places[0].id;
                 $scope.place_name = data.places[0].long_name.it;
               }
@@ -135,7 +135,7 @@ angular.module('ionic.weather.controllers',[])
       $scope.show = function () {
         $ionicLoading.show({
           template: '<p>Caricamento...</p><ion-spinner icon="spiral"></ion-spinner>',
-          duration: 5000
+          duration: 500000
         });
       };
 
@@ -363,7 +363,9 @@ angular.module('ionic.weather.controllers',[])
                         //getting TS info data and min and max temperature for each day
                         for (var j = 0; j < 24; j++) {
 
-                          var dateString = (_data.time[i + j].date).slice(0, 11);
+                          var dateString = "";
+                          if (angular.isDefined(_data.time[i + j].date))
+                            dateString = (_data.time[i + j].date).slice(0, 11);
 
                           var y = dateString.substring(0, 4);
                           var m = dateString.substring(4, 6);
@@ -853,11 +855,11 @@ angular.module('ionic.weather.controllers',[])
       //console.log('cerco '+ $scope.query);
       // $scope.modal.hide();
       $scope.query = $scope.query.substr(0,1).toUpperCase() + $scope.query.substr(1).toLowerCase();
-      var s_url = 'http://192.167.9.103:5050/places/search/byname/'+$scope.query;
+      var p_url = 'http://192.167.9.103:5050/places/search/byname/'+$scope.query;
 
       $http({
         method :'GET',
-        url: s_url,
+        url: p_url,
         timeout: 300000,
         headers: {
           'Content-Type': 'application/json'
