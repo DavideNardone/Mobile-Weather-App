@@ -377,7 +377,7 @@ angular.module('ionic.weather.controllers',[])
 
                           // console.log(_date.getHours());
                           // console.log(_data.time[i+j].winds===null);
-                          var t2c = parseFloat(_data.time[i + j].t2c);
+                          var t2c = parseFloat(_data.time[i + j ].t2c);
                           var crh = parseFloat(_data.time[i + j].crh);
                           var clf = parseFloat(_data.time[i + j].clf);
                           // if(!_data.time[i+j].winds) // if 'value' is negative,undefined,null,empty value then...
@@ -445,7 +445,7 @@ angular.module('ionic.weather.controllers',[])
 
 
                           //console.log('lunghezza sea: ' + runs_s.time.length + 'i=' + i);
-                          if (i < runs_s.time.length - 1) {
+                          if (i < runs_s.time.length - 2) {
                             var b_scale = [];
                             var hs = [];
                             var peakd = -9999;
