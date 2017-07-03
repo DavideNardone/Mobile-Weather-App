@@ -13,7 +13,7 @@ It's been developed using the well known *Ionic* Framework. It exploits the REST
  
   `cd to project directory`
   
-  `ionic add {android|ios|windows}`
+  `ionic platfrom add {android|ios|windows}`
   
   `ionic build {android|ios|windows}`
   
