@@ -586,6 +586,13 @@ angular.module('ionic.weather.controllers',[])
                     .error(function (data_r, status) {
                       alert('RMS3 API Connection error: ' + status);
 
+                    })
+                    .finally(function ($IonicLoading) {
+
+                      // if($scope._init==true) {
+                      $scope.hide($IonicLoading);
+                      $scope._init = false;
+                      // }
                     });
                 })
                 .error(function (data_c, status) {
@@ -600,7 +607,7 @@ angular.module('ionic.weather.controllers',[])
         .error(function (data, status) {
           alert('WRF3 Connection error: ' + status);
         })
-        .finally(function ($IonicLoading) {
+        /*.finally(function ($IonicLoading) {
 
           // if($scope._init==true) {
           $scope.hide($IonicLoading);
@@ -608,7 +615,7 @@ angular.module('ionic.weather.controllers',[])
           // }
         });
       //  })
-
+*/
 
     };
 
@@ -639,6 +646,7 @@ angular.module('ionic.weather.controllers',[])
         locString = locString.slice(9 ,locString.length);
       Flickr.search(locString).then(function(resp) {
         var photos = resp.photos;
+        console.log(photos);
         if(photos.photo.length) {
           $scope.countIm = true;
           $scope.bgImages = photos.photo;
